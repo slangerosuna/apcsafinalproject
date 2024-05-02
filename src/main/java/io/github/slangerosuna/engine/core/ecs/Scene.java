@@ -34,10 +34,11 @@ public class Scene {
 
     public void deInit() {
         scheduler.execute(SystemType.DEINIT);
-        while(entities.size() > 0) {
-            entities.get(0).kill();
-            removeEntity(entities.get(0));
-        }
+        
+        while(entities.size() > 0)
+            entities.remove(0).kill();
+        while(resources.size() > 0)
+            resources.remove(0).kill();
     }
 
     public void removeDeadEntities() {

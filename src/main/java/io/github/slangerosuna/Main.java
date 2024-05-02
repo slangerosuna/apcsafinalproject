@@ -3,6 +3,7 @@ package io.github.slangerosuna;
 import io.github.slangerosuna.engine.core.ecs.*;
 import io.github.slangerosuna.engine.render.*;
 import io.github.slangerosuna.engine.io.*;
+import io.github.slangerosuna.engine.math.vector.Vector3;
 
 public class Main {
     private static final String windowTitle = "Hello, World!";
@@ -18,9 +19,8 @@ public class Main {
 
     public static void main(String[] args) {
         var scene = new Scene(workerThreads);
-        var entity = new Entity(scene, new Transform());
-        scene.addEntity(entity);
-
+        var entity = new Entity(scene, new Transform(new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(10, 10, 10)));
+        var camera = new Entity(scene, new Camera(90, 0.1f, 1000), new Transform(new Vector3(0, 0, -5f), new Vector3(0, 0, 0), new Vector3(1, 1, 1)));
         var window = new Window(windowWidth, windowHeight, windowTitle);
         window.setBackgroundColor(0.05f, 0.045f, 0.06f);
 
@@ -38,10 +38,9 @@ public class Main {
         entity.addComponent(mat);
 
         var shader = new Shader(vertexPath, fragmentPath);
-        var renderer = new Renderer(shader);
-        scene.addSystem(renderer);
-
         shader.create();
+        var renderer = new Renderer(shader, window, (Camera)camera.getComponent(Camera.type));
+        scene.addSystem(renderer);
 
         var input = new Input();
 
@@ -54,5 +53,7 @@ public class Main {
         }
 
         scene.deInit();
+
+        java.lang.System.exit(0); // Kills worker threads
     }
 }

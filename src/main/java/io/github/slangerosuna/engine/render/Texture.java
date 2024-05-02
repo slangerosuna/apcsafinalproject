@@ -66,6 +66,7 @@ public class Texture {
 
             return tex;
         }catch(Exception e){
+            System.err.println("Can't load file "+texture);
             e.printStackTrace();
         }
 

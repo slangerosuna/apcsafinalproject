@@ -7,6 +7,11 @@ import java.util.concurrent.locks.ReentrantLock;
 public class WorkerThread implements Runnable {
     private BlockingQueue<Task> tasks;
     private Lock lock;
+    private boolean dead = false;
+
+    public void kill() {
+        dead = true;
+    }
 
     public WorkerThread(BlockingQueue<Task> tasks) {
         this.tasks = tasks;
@@ -31,7 +36,7 @@ public class WorkerThread implements Runnable {
         try { Thread.sleep(10); }
         catch (InterruptedException e)
             {Thread.currentThread().interrupt();}
-        run();
+        if (!dead) run();
     }
 
     private Task getNextTask() {

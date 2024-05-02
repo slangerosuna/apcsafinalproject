@@ -63,9 +63,6 @@ public class Window implements Resource {
 
 		GLFW.glfwSwapInterval(1);
 
-		GLFW.glfwMakeContextCurrent(window);
-		GL.createCapabilities();
-
 		time = System.currentTimeMillis();
 	}
 
@@ -85,10 +82,14 @@ public class Window implements Resource {
 		GLFW.glfwSetWindowSizeCallback(window, sizeCallback);
 	}
 
+	public boolean justResized = false;
+
 	public void update() {
 		if (isResized) {
 			GL11.glViewport(0, 0, width, height);
 			isResized = false;
+
+			justResized = true;
 		}
 		GL11.glClearColor(rgb.x, rgb.y, rgb.z, 1.0f);
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);

@@ -20,6 +20,11 @@ public class Scheduler {
     private Instant lastTime = Instant.now();
     private WorkerThread[] workers;
 
+    public void kill() {
+        for (var worker : workers)
+            worker.kill();
+    }
+
     public Scheduler(Scene scene, int numThreads) {
         tasks = new LinkedBlockingQueue<Task>();
         workers = new WorkerThread[numThreads];
