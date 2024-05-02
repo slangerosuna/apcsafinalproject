@@ -39,10 +39,15 @@ public class Scheduler {
 
         while (next != null) {
             var tasks = next.genTasks(entities, resources, dt);
+
+			if (tasks.size() != 1) {
             for (var task : tasks)
                 schedule(task);
+				waitUntilTasksAreDone();
+			} else {
+				tasks.get(0).execute();
+			}
             next = executionOrder.get(type).next();
-            waitUntilTasksAreDone();
         }
     }
 
@@ -71,7 +76,7 @@ public class Scheduler {
         var executionGroups = new ArrayList<ExecutionGroup>();
         var remaining = new ArrayList<Integer>();
         for (int i = 0; i < systems.size(); i++)
-            remaining.addLast(i);
+            remaining.add(i);
 
         while (remaining.size() > 0)
             executionGroups.add(nextGroup(systems, remaining));

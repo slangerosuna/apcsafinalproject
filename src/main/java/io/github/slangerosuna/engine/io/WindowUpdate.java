@@ -8,7 +8,8 @@ import io.github.slangerosuna.engine.core.ecs.Entity;
 public class WindowUpdate extends System {
     public WindowUpdate() {
         super(SystemType.LATEUPDATE,
-            "RESOURCE Window"
+            "RESOURCE Window",
+			"SYNC"
         );
     }
 

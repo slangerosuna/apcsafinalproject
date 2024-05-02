@@ -19,7 +19,8 @@ public class Renderer extends System {
         super(
             SystemType.RENDER,
             "ENTITY AND ( HAS Mesh HAS Transform HAS Material )",
-            "RESOURCE Window"
+            "RESOURCE Window",
+			"SYNC"
         );
 		this.shader = shader;
 	}

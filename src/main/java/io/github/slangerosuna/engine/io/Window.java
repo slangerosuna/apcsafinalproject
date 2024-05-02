@@ -63,6 +63,9 @@ public class Window implements Resource {
 
 		GLFW.glfwSwapInterval(1);
 
+		GLFW.glfwMakeContextCurrent(window);
+		GL.createCapabilities();
+
 		time = System.currentTimeMillis();
 	}
 
