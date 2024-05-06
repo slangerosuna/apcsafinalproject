@@ -21,6 +21,14 @@ public class Vector3 {
         return x * other.x + y * other.y + z * other.z;
     }
 
+	public Vector3 multiply(float scalar) {
+		return new Vector3(x * scalar, y * scalar, z * scalar);
+	}
+
+	public Vector3 divide(float scalar) {
+		return new Vector3(x / scalar, y / scalar, z / scalar);
+	}
+
     public Vector3 cross(Vector3 other) {
         return new Vector3(y * other.z - z * other.y,
                            z * other.x - x * other.z,
