@@ -22,6 +22,11 @@ public class Input implements Resource {
 
 	private static boolean[] keys = new boolean[GLFW.GLFW_KEY_LAST];
 	private static boolean[] buttons = new boolean[GLFW.GLFW_MOUSE_BUTTON_LAST];
+	private static boolean focused = true;
+	public static boolean isFocused() {
+		return focused;
+	}
+
 	private static double mouseX, mouseY;
 	private static double scrollX, scrollY;
 
@@ -34,6 +39,10 @@ public class Input implements Resource {
 		keyboard = new GLFWKeyCallback() {
 			public void invoke(long window, int key, int scancode, int action, int mods) {
 				keys[key] = (action != GLFW.GLFW_RELEASE);
+				if (keys[GLFW.GLFW_KEY_ESCAPE]) {
+					GLFW.glfwSetInputMode(window, GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_NORMAL);
+					focused = false;
+				}
 			}
 		};
 
@@ -47,6 +56,8 @@ public class Input implements Resource {
 		mouseButtons = new GLFWMouseButtonCallback() {
 			public void invoke(long window, int button, int action, int mods) {
 				buttons[button] = (action != GLFW.GLFW_RELEASE);
+				GLFW.glfwSetInputMode(window, GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_DISABLED);
+				focused = true;
 			}
 		};
 

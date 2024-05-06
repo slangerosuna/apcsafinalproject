@@ -80,6 +80,7 @@ public class Window implements Resource {
 		GLFW.glfwSetMouseButtonCallback(window, input.getMouseButtonsCallback());
 		GLFW.glfwSetScrollCallback(window, input.getMouseScrollCallback());
 		GLFW.glfwSetWindowSizeCallback(window, sizeCallback);
+		GLFW.glfwSetInputMode(window, GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_DISABLED);
 	}
 
 	public boolean justResized = false;

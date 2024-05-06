@@ -47,7 +47,7 @@ public class Renderer extends System {
 		if (((Window)queriedResources[0]).justResized) {
 			projection = Matrix4.projection(
 				camera.getFov(),
-				((Window)queriedResources[0]).getWidth() / ((Window)queriedResources[0]).getHeight(), 
+				((float)((Window)queriedResources[0]).getWidth()) / ((Window)queriedResources[0]).getHeight(), 
 				camera.getNear(), 
 				camera.getFar()
 			);
