@@ -1,7 +1,5 @@
 package io.github.slangerosuna.engine.render;
 
-import org.lwjgl.opengl.GL13;
-
 import io.github.slangerosuna.engine.core.ecs.Component;
 
 public class Material implements Component {
@@ -33,7 +31,7 @@ public class Material implements Component {
 	}
 
 	public void destroy() {
-		GL13.glDeleteTextures(textureID);
+		texture.kill();
 	}
 
 	public float getWidth() {

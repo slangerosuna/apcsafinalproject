@@ -1,6 +1,7 @@
 package io.github.slangerosuna;
 
 import io.github.slangerosuna.engine.core.ecs.*;
+import io.github.slangerosuna.engine.core.ecs.System;
 import io.github.slangerosuna.engine.render.*;
 import io.github.slangerosuna.engine.io.*;
 import io.github.slangerosuna.engine.math.vector.Vector3;
@@ -19,11 +20,10 @@ public class Main {
 
     public static void main(String[] args) {
         var scene = new Scene(workerThreads);
-        var entity = new Entity(scene, new Transform(new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(10, 10, 10)));
+        var entity = new Entity(scene, new Transform(new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(1, 1, 1)));
         var camera = new Entity(scene, new Camera(90, 0.1f, 1000), new Transform(new Vector3(0, 0, -5f), new Vector3(0, 0, 0), new Vector3(1, 1, 1)));
         var window = new Window(windowWidth, windowHeight, windowTitle);
         window.setBackgroundColor(0.05f, 0.045f, 0.06f);
-
 
         var windowUpdate = new WindowUpdate();
         scene.addSystem(windowUpdate);
@@ -41,12 +41,15 @@ public class Main {
         shader.create();
         var renderer = new Renderer(shader, window, (Camera)camera.getComponent(Camera.type));
         scene.addSystem(renderer);
+        var rotateCamera = new RotateCamera();
+        scene.addSystem(rotateCamera);
 
         var input = new Input();
 
         scene.addResource(window);
         scene.addResource(input);
         scene.init();
+
 
         while (!window.shouldClose()) {
             scene.update();
@@ -56,4 +59,21 @@ public class Main {
 
         java.lang.System.exit(0); // Kills worker threads
     }
+}
+
+class RotateCamera extends System {
+    public RotateCamera() {
+        super(
+            SystemType.UPDATE,
+            "ENTITY AND ( NOT HAS Camera HAS Transform )"
+        );
+    }
+
+    @Override
+    public void execute(Entity[] queriedEntities, Resource[] queriedResources, float deltaTime) {
+        var cameraEntity = queriedEntities[0];
+        var cameraTransform = (Transform)cameraEntity.getComponent(Transform.type);
+
+        cameraTransform.position.y += deltaTime;
+     }
 }

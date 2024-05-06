@@ -17,4 +17,8 @@ public class Transform implements Component {
         this.rotation = rotation;
         this.scale = scale;
     }
+
+    public String toString() {
+        return "Position: " + position + "\nRotation: " + rotation + "\nScale: " + scale;
+    }
 }

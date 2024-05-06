@@ -56,6 +56,11 @@ public class Shader {
 			System.err.println("Program Validation: " + GL20.glGetProgramInfoLog(programID));
 			return;
 		}
+
+		if (GL11.glGetError() != GL11.GL_NO_ERROR) {
+			System.err.println("OpenGL Error: " + GL11.glGetError());
+			return;
+		}
 	}
 
 	public int getUniformLocation(String name) {
@@ -85,7 +90,7 @@ public class Shader {
 	public void setUniform(String name, Matrix4 value) {
 		FloatBuffer matrix = MemoryUtil.memAllocFloat(Matrix4.SIZE * Matrix4.SIZE);
 		matrix.put(value.getAll()).flip();
-		GL20.glUniformMatrix4fv(getUniformLocation(name), true, matrix);
+		GL20.glUniformMatrix4fv(getUniformLocation(name),true, matrix);
 	}
 
 	public void bind() {

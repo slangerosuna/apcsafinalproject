@@ -34,4 +34,19 @@ public class Vector3 {
 	public static Vector3 add(Vector3 a, Vector3 b){
 		return new Vector3(a.x + b.x, a.y + b.y, a.z + b.z);
 	}
+
+	public boolean equals(Object other) {
+		if (other instanceof Vector3) {
+			return equals((Vector3)other);
+		}
+		return false;
+	}
+
+	public boolean equals(Vector3 other) {
+		return x == other.x && y == other.y && z == other.z;
+	}
+
+	public String toString() {
+		return "(" + x + ", " + y + ", " + z + ")";
+	}
 }

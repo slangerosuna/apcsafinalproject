@@ -33,7 +33,9 @@ public class Mesh implements Component {
 				new Vertex(new Vector3(-0.5f, -0.5f, 0.0f), new Vector2(0, 1.0f), new Vector3(1, 1, 0)) },
 			new int[] {
 				0, 1, 2,
-				0, 3, 2
+				0, 3, 2,
+				2, 1, 0, // allows it to be seen from the other side if backface culling is enabled
+				2, 3, 0 
 			});
 	}
 

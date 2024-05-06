@@ -96,7 +96,7 @@
                 </os>
             </activation>
             <properties>
-                <lwjgl.classifier>natives-macos</lwjgl.classifier>
+                <lwjgl.classifier>natives-windows</lwjgl.classifier>
             </properties>
         </profile>
         <profile>

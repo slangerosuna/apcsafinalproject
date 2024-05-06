@@ -11,12 +11,18 @@ import org.lwjgl.system.MemoryStack;
 public class Texture {
     private int id, width, height;
 
+    private int refCount;
+    private String path;
+
     private static HashMap<String, Texture> idMap = new HashMap<String, Texture>();
 
-    private Texture(int id, int width, int height){
+    private Texture(int id, int width, int height, String path){
         this.id = id;
         this.width = width;
         this.height = height;
+
+        refCount = 1;
+        this.path = path;
     }
 
     public int getTextureID(){
@@ -30,6 +36,7 @@ public class Texture {
     public int getHeight(){
         return height;
     }
+
     public static Texture loadTexture(String texture){
         int width;
         int height;
@@ -37,7 +44,9 @@ public class Texture {
 
         try (MemoryStack stack = MemoryStack.stackPush()){
             if(idMap.containsKey(texture)){
-                return idMap.get(texture);
+                var tex = idMap.get(texture);
+                tex.refCount++;
+                return tex;
             }
             IntBuffer w = stack.mallocInt(1);
             IntBuffer h = stack.mallocInt(1);
@@ -53,7 +62,7 @@ public class Texture {
 
             int id = GL11.glGenTextures();
 
-            var tex = new Texture(id, width, height);
+            var tex = new Texture(id, width, height, texture);
 
             idMap.put(texture, tex);
             GL11.glBindTexture(GL11.GL_TEXTURE_2D, id);
@@ -73,4 +82,10 @@ public class Texture {
         return null;
     }
 
+    public void kill() {
+        if (--refCount > 0) return;
+        
+        idMap.remove(path);
+		GL11.glDeleteTextures(id);
+    }
 }
