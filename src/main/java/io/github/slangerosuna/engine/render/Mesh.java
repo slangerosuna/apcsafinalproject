@@ -27,7 +27,7 @@ public class Mesh implements Component {
 
 	private Vertex[] vertices;
 	private int[] indices;
-	private int vao, pbo, ibo, cbo, uvbo;
+	private int vao, pbo, ibo, nbo, uvbo;
 
 	public static Mesh getRectMesh() {
 		return new Mesh(new Vertex[] {
@@ -72,7 +72,7 @@ public class Mesh implements Component {
 		}
 		normalBuffer.put(normalData).flip();
 
-		cbo = storeData(normalBuffer, 1, 3);
+		nbo = storeData(normalBuffer, 1, 3);
 
 		FloatBuffer uvBuffer = MemoryUtil.memAllocFloat(vertices.length * 2);
 		float[] uvData = new float[vertices.length * 2];
@@ -103,7 +103,7 @@ public class Mesh implements Component {
 	}
 
 	public void destroy() {
-		GL15.glDeleteBuffers(cbo);
+		GL15.glDeleteBuffers(nbo);
 		GL15.glDeleteBuffers(pbo);
 		GL15.glDeleteBuffers(ibo);
 		GL15.glDeleteBuffers(uvbo);
@@ -115,8 +115,8 @@ public class Mesh implements Component {
 		return vertices;
 	}
 
-	public int getCBO() {
-		return cbo;
+	public int getNBO() {
+		return nbo;
 	}
 
 	public int getUVBO() {
