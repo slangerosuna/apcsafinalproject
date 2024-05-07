@@ -38,6 +38,9 @@ public class Input implements Resource {
 	public Input() {
 		keyboard = new GLFWKeyCallback() {
 			public void invoke(long window, int key, int scancode, int action, int mods) {
+				if (key < 0 || key >= keys.length) {
+					return;
+				}
 				keys[key] = (action != GLFW.GLFW_RELEASE);
 				if (keys[GLFW.GLFW_KEY_ESCAPE]) {
 					GLFW.glfwSetInputMode(window, GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_NORMAL);

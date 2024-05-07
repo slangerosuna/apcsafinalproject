@@ -19,4 +19,9 @@ public class Vector2 {
 	public static Vector2 zero() {
 		return new Vector2(0, 0);
 	}
+
+	@Override
+	public int hashCode() {
+		return Float.hashCode(x) + Float.hashCode(y);
+	}
 }

@@ -12,6 +12,7 @@ import io.github.slangerosuna.engine.core.ecs.Resource;
 import io.github.slangerosuna.engine.core.ecs.System;
 import io.github.slangerosuna.engine.io.Window;
 import io.github.slangerosuna.engine.math.matrix.Matrix4;
+import io.github.slangerosuna.engine.math.vector.Vector3;
 
 public class Renderer extends System {
 	private Shader shader;
@@ -69,6 +70,25 @@ public class Renderer extends System {
 			view
 		);
 
+		var lightDir = new Vector3(0, 0, 1);
+		shader.setUniform(
+			"lightDir",
+			lightDir
+		);
+
+		var dirLightColor = new Vector3(0.7f, 0.7f, 0.7f);
+		shader.setUniform(
+			"dirLightColor",
+			dirLightColor
+		);
+
+		var ambient = new Vector3(0.3f, 0.3f, 0.3f);
+
+		shader.setUniform(
+			"ambient",
+			ambient
+		);
+
         for(Entity entity : queriedEntities) {
 			if (entity.hasComponent(Camera.type)) continue;
 
@@ -79,10 +99,10 @@ public class Renderer extends System {
         }
 		shader.unBind();
 
-		var err = GL11.glGetError();
-		if (err != GL11.GL_NO_ERROR) {
-			java.lang.System.out.println("OpenGL Error: " + err);
-		}
+		//var err = GL11.glGetError();
+		//if (err != GL11.GL_NO_ERROR) {
+		//	java.lang.System.out.println("OpenGL Error: " + err);
+		//}
 		((Window)queriedResources[0]).swapBuffers();
     }
 

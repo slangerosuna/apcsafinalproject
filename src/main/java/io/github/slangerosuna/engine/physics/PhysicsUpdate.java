@@ -38,11 +38,24 @@ public class PhysicsUpdate extends System {
                 var rigidBodyA = (RigidBody)entityA.getComponent(RigidBody.type);
                 var rigidBodyB = (RigidBody)entityB.getComponent(RigidBody.type);
 
+                var transformA = (Transform)entityA.getComponent(Transform.type);
+                var transformB = (Transform)entityB.getComponent(Transform.type);
+
                 var colliderA = (Collider)entityA.getComponent(Collider.type);
                 var colliderB = (Collider)entityB.getComponent(Collider.type);
 
                 if (colliderA.intersects(colliderB)) {
                     var axis = colliderA.getIntersectionDirection(colliderB);
+
+                    var velocityAOnAxis = rigidBodyA.velocity.dot(axis);
+                    var velocityBOnAxis = rigidBodyB.velocity.dot(axis);
+
+                    var displacement = transformA.position.sub(transformB.position);
+
+                    // verify they're going towards eachother
+                    if (axis.multiply(velocityBOnAxis - velocityAOnAxis).dot(displacement) < 0)
+                        continue;
+                    
                     handleCollision(rigidBodyA, rigidBodyB, axis, 0.3f);
                 }
             }
@@ -67,15 +80,12 @@ public class PhysicsUpdate extends System {
                     rigidBodyA.velocity = rigidBodyA.velocity.sub(axis.multiply(velocityAOnAxis));
 
                     // teleport the object out of the collision
-                    if (axis.x != 0) {
+                    if (axis.x != 0)
                         transformA.position.x = transformB.position.x * ((colliderA.getWidth() + colliderB.getWidth()) / 2 * axis.x);
-                    }
-                    if (axis.y != 0) {
+                    if (axis.y != 0)
                         transformA.position.y = transformB.position.y * ((colliderA.getHeight() + colliderB.getHeight()) / 2 * axis.y);
-                    }
-                    if (axis.z != 0) {
+                    if (axis.z != 0)
                         transformA.position.z = transformB.position.z * ((colliderA.getDepth() + colliderB.getDepth()) / 2 * axis.z);
-                    }
                 }
             }
         }

@@ -4,8 +4,8 @@ import io.github.slangerosuna.engine.core.ecs.*;
 import io.github.slangerosuna.engine.render.*;
 import io.github.slangerosuna.engine.io.*;
 import io.github.slangerosuna.engine.math.vector.Vector3;
-
 import io.github.slangerosuna.game.RotateCamera;
+import io.github.slangerosuna.engine.utils.ObjLoader;
 
 public class Main {
     private static final String windowTitle = "Hello, World!";
@@ -15,7 +15,8 @@ public class Main {
     private static final String vertexPath = "/io/github/slangerosuna/engine/render/shaders/MainVertex.glsl";
     private static final String fragmentPath = "/io/github/slangerosuna/engine/render/shaders/MainFrag.glsl";
 
-    private static final String texturePath = "/io/github/slangerosuna/resources/textures/randomAsset.png";
+    private static final String modelPath = "/io/github/slangerosuna/resources/models/amoogus.obj";
+    private static final String texturePath = "/io/github/slangerosuna/resources/textures/amoogus.png";
 
     private static final int workerThreads = 8;
 
@@ -31,7 +32,8 @@ public class Main {
 
         window.create();
 
-        var mesh = Mesh.getRectMesh();
+        var mesh = ObjLoader.loadObj(modelPath);
+        //var mesh = Mesh.getRectMesh();
         mesh.create();
         entity.addComponent(mesh);
 

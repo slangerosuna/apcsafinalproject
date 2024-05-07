@@ -57,4 +57,9 @@ public class Vector3 {
 	public String toString() {
 		return "(" + x + ", " + y + ", " + z + ")";
 	}
+
+	@Override
+	public int hashCode() {
+		return Float.hashCode(x) + Float.hashCode(y) + Float.hashCode(z);
+	}
 }

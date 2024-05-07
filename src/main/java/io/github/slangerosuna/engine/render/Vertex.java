@@ -5,17 +5,16 @@ import io.github.slangerosuna.engine.math.vector.*;
 public class Vertex {
 	public Vector3 position;
 	public Vector2 UV;
-	public Vector4 rgba;
+	public Vector3 normal;
 
-	public Vertex(Vector3 position, Vector2 UV, Vector4 rgba) {
+	public Vertex(Vector3 position, Vector2 UV, Vector3 normal) {
 		this.position = position;
 		this.UV = UV;
-		this.rgba = rgba;
+		this.normal = normal;
 	}
 
-	public Vertex(Vector3 position, Vector2 UV, Vector3 rgb) {
-		this.position = position;
-		this.UV = UV;
-		this.rgba = new Vector4(rgb.x, rgb.y, rgb.z, 1);
+	@Override
+	public int hashCode() {
+		return position.hashCode() + UV.hashCode() + normal.hashCode();
 	}
 }

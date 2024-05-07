@@ -18,8 +18,12 @@ public class Mesh implements Component {
         return type;
     }
     public void kill() {
+		if (--refCount > 0) return;
         destroy();
     }
+
+	private int refCount = 1;
+	public void incrementRefCount() { refCount++; }
 
 	private Vertex[] vertices;
 	private int[] indices;
@@ -59,17 +63,16 @@ public class Mesh implements Component {
 
 		pbo = storeData(positionBuffer, 0, 3);
 
-		FloatBuffer colorBuffer = MemoryUtil.memAllocFloat(vertices.length * 4);
-		float[] colorData = new float[vertices.length * 4];
+		FloatBuffer normalBuffer = MemoryUtil.memAllocFloat(vertices.length * 3);
+		float[] normalData = new float[vertices.length * 3];
 		for (int i = 0; i < vertices.length; i++) {
-			colorData[i * 4] = vertices[i].rgba.x;
-			colorData[i * 4 + 1] = vertices[i].rgba.y;
-			colorData[i * 4 + 2] = vertices[i].rgba.z;
-			colorData[i * 4 + 3] = vertices[i].rgba.w;
+			normalData[i * 3] = vertices[i].normal.x;
+			normalData[i * 3 + 1] = vertices[i].normal.y;
+			normalData[i * 3 + 2] = vertices[i].normal.z;
 		}
-		colorBuffer.put(colorData).flip();
+		normalBuffer.put(normalData).flip();
 
-		cbo = storeData(colorBuffer, 1, 4);
+		cbo = storeData(normalBuffer, 1, 3);
 
 		FloatBuffer uvBuffer = MemoryUtil.memAllocFloat(vertices.length * 2);
 		float[] uvData = new float[vertices.length * 2];
