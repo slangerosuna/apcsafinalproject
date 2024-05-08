@@ -28,6 +28,9 @@ public class Main {
     public static void main(String[] args) {
         var scene = new Scene(workerThreads);
         var entity = new Entity(scene, new Transform(new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(1, 1, 1)));
+        var entity1 = new Entity(scene, new Transform(new Vector3(3, 0, 0), new Vector3(0, 0, 0), new Vector3(1, 1, 1)));
+        var entity2 = new Entity(scene, new Transform(new Vector3(-3, 0, 0), new Vector3(0, 0, 0), new Vector3(1, 1, 1)));
+        var entity3 = new Entity(scene, new Transform(new Vector3(0, 0, 3), new Vector3(0, 0, 0), new Vector3(1, 1, 1)));
         
         var cameraTransform = new Transform(new Vector3(0, 0, -5f), new Vector3(0, 180, 0), new Vector3(1, 1, 1));
         var camera = new Entity(scene,
@@ -46,11 +49,16 @@ public class Main {
         window.create();
 
         var mesh = ObjLoader.loadObj(modelPath);
-        mesh.create();
         entity.addComponent(mesh);
+        entity1.addComponent(mesh);
+        entity2.addComponent(mesh);
+        entity3.addComponent(mesh);
 
         var mat = new Material(texturePath);
         entity.addComponent(mat);
+        entity1.addComponent(mat);
+        entity2.addComponent(mat);
+        entity3.addComponent(mat);
 
         var shader = new Shader(vertexPath, fragmentPath);
         shader.create();

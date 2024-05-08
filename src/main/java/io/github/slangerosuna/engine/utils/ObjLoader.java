@@ -94,6 +94,7 @@ public class ObjLoader {
         }
 
         var mesh = new Mesh(vertices.toArray(Vertex[]::new), indices.stream().mapToInt(x -> x).toArray(), path);
+        mesh.create();
         idMap.put(path, mesh);
         return mesh;
     }

@@ -42,6 +42,10 @@ public class Renderer extends System {
 		var cameraTransform = (Transform)cameraEntity.getComponent(Transform.type);
 
 		shader.bind();
+		var err = GL11.glGetError();
+		if (err != GL11.GL_NO_ERROR) {
+			java.lang.System.out.println("OpenGL Error on shader bind: " + err);
+		}
 
 		if (queriedResources.length == 0) return;
 
@@ -98,35 +102,57 @@ public class Renderer extends System {
             renderObject(transform, mesh, material);
         }
 		shader.unBind();
+		err = GL11.glGetError();
+		if (err != GL11.GL_NO_ERROR) {
+			java.lang.System.out.println("OpenGL Error on shader unbind: " + err);
+		}
 
-		//var err = GL11.glGetError();
-		//if (err != GL11.GL_NO_ERROR) {
-		//	java.lang.System.out.println("OpenGL Error: " + err);
-		//}
+		err = GL11.glGetError();
+		if (err != GL11.GL_NO_ERROR) {
+			java.lang.System.out.println("OpenGL Error: " + err);
+		}
 		((Window)queriedResources[0]).swapBuffers();
     }
 
 	public void renderObject(Transform transform, Mesh mesh, Material material) {
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
 		GL13.glBindTexture(GL11.GL_TEXTURE_2D, material.getTextureID());
-
+		var err = GL11.glGetError();
+		if (err != GL11.GL_NO_ERROR) {
+			java.lang.System.out.println("OpenGL Error on texture: " + err);
+		}
 
 		GL30.glBindVertexArray(mesh.getVAO());
 		GL30.glEnableVertexAttribArray(0);
 		GL30.glEnableVertexAttribArray(1);
 		GL30.glEnableVertexAttribArray(2);
 		GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, mesh.getIBO());
+		err = GL11.glGetError();
+		if (err != GL11.GL_NO_ERROR) {
+			java.lang.System.out.println("OpenGL Error on buffer binding: " + err);
+		}
 
 		var model = Matrix4.transform(transform.position, transform.rotation, transform.scale);
 		shader.setUniform("model", model);
+		err = GL11.glGetError();
+		if (err != GL11.GL_NO_ERROR) {
+			java.lang.System.out.println("OpenGL Error on uniform setting: " + err);
+		}
 
 		GL11.glDrawElements(GL11.GL_TRIANGLES, mesh.getIndices().length, GL11.GL_UNSIGNED_INT, 0);
+		err = GL11.glGetError();
+		if (err != GL11.GL_NO_ERROR) {
+			java.lang.System.out.println("OpenGL Error on draw: " + err);
+		}
 
 		GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
 		GL30.glDisableVertexAttribArray(0);
 		GL30.glDisableVertexAttribArray(1);
 		GL30.glDisableVertexAttribArray(2);
 		GL30.glBindVertexArray(0);
-		shader.unBind();
+		err = GL11.glGetError();
+		if (err != GL11.GL_NO_ERROR) {
+			java.lang.System.out.println("OpenGL Error on buffer unbind: " + err);
+		}
 	}
 }
