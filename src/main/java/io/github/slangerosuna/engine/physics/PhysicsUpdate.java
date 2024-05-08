@@ -14,7 +14,7 @@ public class PhysicsUpdate extends System {
     public PhysicsUpdate() {
         super(
             SystemType.UPDATE,
-            "Entity AND ( HAS RigidBody HAS Transform HAS Collider )",
+        "ENTITY AND ( HAS RigidBody HAS Transform HAS Collider )",
             "ENTITY AND ( HAS Transform HAS Collider )"
         );
     }

@@ -8,28 +8,23 @@ import io.github.slangerosuna.engine.core.ecs.Resource;
 import io.github.slangerosuna.engine.io.Input;
 import io.github.slangerosuna.engine.render.Transform;
 import io.github.slangerosuna.engine.physics.RigidBody;
+import io.github.slangerosuna.engine.math.vector.Vector3;
 
 public class PlayerController extends System {
 
     public PlayerController() {
         super(
             SystemType.UPDATE,
-            "ENTITY AND ( HAS RigidBody HAS Player )",
-            "ENTITY AND ( HAS Camera HAS Transform HAS Player)"
+            "ENTITY AND ( HAS Camera HAS Transform HAS RigidBody HAS Player )"
         );
     }
 
     @Override
     public void execute(Entity[] queriedEntities, Resource[] queriedResources, float deltaTime) {
-        Entity player;
-        Entity camera;
-        for (Entity entity : queriedEntities) {
-            if (entity.hasComponent(RigidBody.type)) {player = entity;}
-            else {camera = entity;}
-        }
-        Rigidbody playerRB = (RigidBody)player.getComponent(RigidBody.type);
+        Entity player = queriedEntities[0];
+        RigidBody playerRB = (RigidBody)player.getComponent(RigidBody.type);
         float playerSpeed = ((Player)player.getComponent(Player.type)).getSpeed();
-        Transform camTransform = (Transform)camera.getComponent(Transform.type);
+        Transform camTransform = (Transform)player.getComponent(Transform.type);
         Vector3 camRotation = camTransform.rotation;
 
         //WIP: Move in the direction the camera is facing when W key pressed
@@ -37,11 +32,11 @@ public class PlayerController extends System {
         float cos = (float) Math.cos(Math.toRadians(angle));
 		float sin = (float) Math.sin(Math.toRadians(angle));
 
-        Vector3 forward = new Vector3(sin, 0, cos);
+        Vector3 forward = new Vector3(-sin, 0, -cos);
         Vector3 backward = forward.multiply(-1);
+        Vector3 up = new Vector3(0, 1, 0);
         Vector3 right = forward.cross(up);
         Vector3 left = right.multiply(-1);
-        Vector3 up = new Vector3(0, 1, 0);
 
         int forwardKey = GLFW.GLFW_KEY_W;
         int backKey = GLFW.GLFW_KEY_S;
@@ -57,7 +52,9 @@ public class PlayerController extends System {
 
         Vector3 horzMovement = horzMovementUnit.multiply(playerSpeed * deltaTime);
 
-        Vector3 horzVelocityOp = new Vector3(playerRB.velocity.x, 0, playerRB.velocity.y).multiply(-1*deltaTime);
+        java.lang.System.out.println(horzMovementUnit);
+
+        Vector3 horzVelocityOp = new Vector3(playerRB.velocity.x, 0, playerRB.velocity.z).multiply(-10.0f*deltaTime);
 
         playerRB.applyImpulse(horzVelocityOp);
         playerRB.applyImpulse(horzMovement);

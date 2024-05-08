@@ -4,7 +4,12 @@ import io.github.slangerosuna.engine.core.ecs.*;
 import io.github.slangerosuna.engine.render.*;
 import io.github.slangerosuna.engine.io.*;
 import io.github.slangerosuna.engine.math.vector.Vector3;
+import io.github.slangerosuna.engine.physics.Collider;
+import io.github.slangerosuna.engine.physics.RigidBody;
+import io.github.slangerosuna.engine.physics.PhysicsUpdate;
 import io.github.slangerosuna.game.RotateCamera;
+import io.github.slangerosuna.game.Player;
+import io.github.slangerosuna.game.PlayerController;
 import io.github.slangerosuna.engine.utils.ObjLoader;
 
 public class Main {
@@ -23,8 +28,15 @@ public class Main {
     public static void main(String[] args) {
         var scene = new Scene(workerThreads);
         var entity = new Entity(scene, new Transform(new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(1, 1, 1)));
-        var camera = new Entity(scene, new Camera(90, 0.1f, 1000), new Transform(new Vector3(0, 0, -5f), new Vector3(0, 180, 0), new Vector3(1, 1, 1)));
-        camera.addComponent(new Player());
+        
+        var cameraTransform = new Transform(new Vector3(0, 0, -5f), new Vector3(0, 180, 0), new Vector3(1, 1, 1));
+        var camera = new Entity(scene,
+            new Camera(90, 0.1f, 1000),
+            cameraTransform,
+            new Player(1.0f),
+            new Collider(1.0f, 1.0f, 1.0f, cameraTransform),
+            new RigidBody(1.0f, false)
+        );
         var window = new Window(windowWidth, windowHeight, windowTitle);
         window.setBackgroundColor(0.05f, 0.045f, 0.06f);
 
@@ -34,7 +46,6 @@ public class Main {
         window.create();
 
         var mesh = ObjLoader.loadObj(modelPath);
-        //var mesh = Mesh.getRectMesh();
         mesh.create();
         entity.addComponent(mesh);
 
@@ -47,6 +58,10 @@ public class Main {
         scene.addSystem(renderer);
         var rotateCamera = new RotateCamera();
         scene.addSystem(rotateCamera);
+        var playerController = new PlayerController();
+        scene.addSystem(playerController);
+        var physicsUpdate = new PhysicsUpdate();
+        scene.addSystem(physicsUpdate);
 
         var input = new Input();
 
