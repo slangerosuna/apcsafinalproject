@@ -28,6 +28,6 @@ void main() {
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), shininess);
     vec3 specularLight = spec * dirLightColor * 0.1f;*/
 
-    vec4 texColor = texture(tex, passUV);
+    vec4 texColor = texture(tex, vec2(passUV.x, -passUV.y));
     color = vec4(ambientLight + diffuseLight, 1.0) * texColor;// + vec4(specularLight, 1.0);
 }

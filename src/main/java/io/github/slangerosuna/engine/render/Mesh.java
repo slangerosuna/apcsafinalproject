@@ -11,6 +11,7 @@ import org.lwjgl.system.MemoryUtil;
 
 import io.github.slangerosuna.engine.core.ecs.Component;
 import io.github.slangerosuna.engine.math.vector.*;
+import io.github.slangerosuna.engine.utils.ObjLoader;
 
 public class Mesh implements Component {
     public static final int type = Component.registerComponent("Mesh");
@@ -23,6 +24,7 @@ public class Mesh implements Component {
     }
 
 	private int refCount = 1;
+	private String path;
 	public void incrementRefCount() { refCount++; }
 
 	private Vertex[] vertices;
@@ -46,6 +48,11 @@ public class Mesh implements Component {
 	public Mesh(Vertex[] vertices, int[] indices) {
 		this.vertices = vertices;
 		this.indices = indices;
+	}
+
+	public Mesh(Vertex[] vertices, int[] indices, String path) {
+		this(vertices, indices);
+		this.path = path;
 	}
 
 	public void create() {
@@ -103,6 +110,9 @@ public class Mesh implements Component {
 	}
 
 	public void destroy() {
+		if (path != null)
+			ObjLoader.removeMesh(path);
+
 		GL15.glDeleteBuffers(nbo);
 		GL15.glDeleteBuffers(pbo);
 		GL15.glDeleteBuffers(ibo);
