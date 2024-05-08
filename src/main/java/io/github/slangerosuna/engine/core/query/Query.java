@@ -50,7 +50,6 @@ public interface Query {
     }
 
     public static Query parseQuery(String queryText){
-        java.lang.System.out.println(queryText);
         String[] queryParts = queryText.split(" ");
         List<String> queryPartsList = new ArrayList<String>(Arrays.asList(queryParts));
         return parseQuery(queryPartsList);
