@@ -24,6 +24,7 @@ public class Main {
         var scene = new Scene(workerThreads);
         var entity = new Entity(scene, new Transform(new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(1, 1, 1)));
         var camera = new Entity(scene, new Camera(90, 0.1f, 1000), new Transform(new Vector3(0, 0, -5f), new Vector3(0, 180, 0), new Vector3(1, 1, 1)));
+        camera.addComponent(new Player());
         var window = new Window(windowWidth, windowHeight, windowTitle);
         window.setBackgroundColor(0.05f, 0.045f, 0.06f);
 
