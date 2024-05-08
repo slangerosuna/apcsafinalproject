@@ -14,4 +14,15 @@ public class Player implements Component {
         return type;
     }
     public void kill() {}
+
+    private float speed;
+
+    public Player() {
+        speed = 1;
+    }
+    public Player(float speed) {
+        this.speed = speed;
+    }
+
+    public float getSpeed() {return speed;}
 }
