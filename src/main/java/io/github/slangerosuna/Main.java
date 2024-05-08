@@ -78,9 +78,8 @@ public class Main {
         scene.init();
 
 
-        while (!window.shouldClose()) {
+        while (!window.shouldClose())
             scene.update();
-        }
 
         scene.deInit();
 

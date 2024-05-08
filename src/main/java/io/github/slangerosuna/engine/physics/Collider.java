@@ -6,9 +6,7 @@ import io.github.slangerosuna.engine.render.Transform;
 
 public class Collider implements Component {
     public static final int type = Component.registerComponent("Collider");
-    public int getType() {
-        return type;
-    }
+    public int getType() { return type; }
     public void kill() {}
     private float w, h, d; // width, height, depth
     public float getWidth() { return this.w; }

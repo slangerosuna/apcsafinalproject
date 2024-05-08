@@ -11,9 +11,7 @@ import io.github.slangerosuna.engine.math.vector.Vector3;
 
 public class ObjLoader {
     private static HashMap<String, Mesh> idMap = new HashMap<String, Mesh>();
-    public static void removeMesh(String path) {
-        idMap.remove(path);
-    }
+    public static void removeMesh(String path) { idMap.remove(path); }
 
     public static Mesh loadObj(String path) {
         if (idMap.containsKey(path)) {

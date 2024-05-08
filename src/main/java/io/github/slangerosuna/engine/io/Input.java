@@ -9,23 +9,14 @@ import org.lwjgl.glfw.GLFWScrollCallback;
 import io.github.slangerosuna.engine.core.ecs.Resource;
 
 public class Input implements Resource {
-    private static int type = Resource.registerResource("Input");
-
-
-    public int getType() {
-        return type;
-    }
-
-    public void kill() {
-        destroy();
-    }
+    public static int type = Resource.registerResource("Input");
+    public int getType() { return type; }
+    public void kill() { destroy(); }
 
 	private static boolean[] keys = new boolean[GLFW.GLFW_KEY_LAST];
 	private static boolean[] buttons = new boolean[GLFW.GLFW_MOUSE_BUTTON_LAST];
-	private static boolean focused = true;
-	public static boolean isFocused() {
-		return focused;
-	}
+	private static boolean focused = false;
+	public static boolean isFocused() { return focused; }
 
 	private static double mouseX, mouseY;
 	private static double scrollX, scrollY;
@@ -38,9 +29,8 @@ public class Input implements Resource {
 	public Input() {
 		keyboard = new GLFWKeyCallback() {
 			public void invoke(long window, int key, int scancode, int action, int mods) {
-				if (key < 0 || key >= keys.length) {
+				if (key < 0 || key >= keys.length)
 					return;
-				}
 				keys[key] = (action != GLFW.GLFW_RELEASE);
 				if (keys[GLFW.GLFW_KEY_ESCAPE]) {
 					GLFW.glfwSetInputMode(window, GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_NORMAL);

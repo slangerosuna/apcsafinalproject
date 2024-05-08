@@ -11,12 +11,8 @@ import io.github.slangerosuna.engine.math.vector.Vector3;
 
 public class Window implements Resource {
     private static int type = Resource.registerResource("Window");
-    public void kill() {
-        destroy();
-    }
-    public int getType() {
-        return type;
-    }
+    public void kill() { destroy(); }
+    public int getType() { return type; }
 	private int width, height;
 	private String title;
 	private long window;
@@ -80,7 +76,6 @@ public class Window implements Resource {
 		GLFW.glfwSetMouseButtonCallback(window, input.getMouseButtonsCallback());
 		GLFW.glfwSetScrollCallback(window, input.getMouseScrollCallback());
 		GLFW.glfwSetWindowSizeCallback(window, sizeCallback);
-		GLFW.glfwSetInputMode(window, GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_DISABLED);
 	}
 
 	public boolean justResized = false;

@@ -5,9 +5,7 @@ import io.github.slangerosuna.engine.math.vector.Vector3;
 
 public class RigidBody implements Component {
     public static final int type = Component.registerComponent("RigidBody");
-    public int getType() {
-        return type;
-    }
+    public int getType() { return type; }
     public void kill() {}
  
     private float mass;

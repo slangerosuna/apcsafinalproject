@@ -16,7 +16,7 @@ public class Texture {
 
     private static HashMap<String, Texture> idMap = new HashMap<String, Texture>();
 
-    private Texture(int id, int width, int height, String path){
+    private Texture(int id, int width, int height, String path) {
         this.id = id;
         this.width = width;
         this.height = height;
@@ -25,25 +25,17 @@ public class Texture {
         this.path = path;
     }
 
-    public int getTextureID(){
-        return id;
-    }
+    public int getTextureID() { return id; }
+    public int getWidth() { return width; }
+    public int getHeight() { return height; }
 
-    public int getWidth(){
-        return width;
-    }
-
-    public int getHeight(){
-        return height;
-    }
-
-    public static Texture loadTexture(String texture){
+    public static Texture loadTexture(String texture) {
         int width;
         int height;
         ByteBuffer buffer;
 
-        try (MemoryStack stack = MemoryStack.stackPush()){
-            if(idMap.containsKey(texture)){
+        try (MemoryStack stack = MemoryStack.stackPush()) {
+            if(idMap.containsKey(texture)) {
                 var tex = idMap.get(texture);
                 tex.refCount++;
                 return tex;
@@ -74,7 +66,7 @@ public class Texture {
             STBImage.stbi_image_free(buffer);
 
             return tex;
-        }catch(Exception e){
+        } catch(Exception e) {
             System.err.println("Can't load file "+texture);
             e.printStackTrace();
         }

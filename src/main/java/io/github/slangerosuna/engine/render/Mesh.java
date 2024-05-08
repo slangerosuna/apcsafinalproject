@@ -121,31 +121,11 @@ public class Mesh implements Component {
 		GL30.glDeleteVertexArrays(vao);
 	}
 
-	public Vertex[] getVertices() {
-		return vertices;
-	}
-
-	public int getNBO() {
-		return nbo;
-	}
-
-	public int getUVBO() {
-		return uvbo;
-	}
-
-	public int[] getIndices() {
-		return indices;
-	}
-
-	public int getVAO() {
-		return vao;
-	}
-
-	public int getPBO() {
-		return pbo;
-	}
-
-	public int getIBO() {
-		return ibo;
-	}
+	public Vertex[] getVertices() { return vertices; }
+	public int getNBO() { return nbo; }
+	public int getUVBO() { return uvbo; }
+	public int[] getIndices() { return indices; }
+	public int getVAO() { return vao; }
+	public int getPBO() { return pbo; }
+	public int getIBO() { return ibo; }
 }

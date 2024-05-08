@@ -27,7 +27,6 @@ public class PlayerController extends System {
         Transform camTransform = (Transform)player.getComponent(Transform.type);
         Vector3 camRotation = camTransform.rotation;
 
-        //WIP: Move in the direction the camera is facing when W key pressed
         float angle = camRotation.y;
         float cos = (float) Math.cos(Math.toRadians(angle));
 		float sin = (float) Math.sin(Math.toRadians(angle));
@@ -45,10 +44,14 @@ public class PlayerController extends System {
 
         Vector3 horzMovementUnit = new Vector3(0, 0, 0);
         
-        if (Input.isKeyDown(forwardKey)) {horzMovementUnit = horzMovementUnit.add(forward);}
-        if (Input.isKeyDown(backKey)) {horzMovementUnit = horzMovementUnit.add(backward);}
-        if (Input.isKeyDown(leftKey)) {horzMovementUnit = horzMovementUnit.add(left);}
-        if (Input.isKeyDown(rightKey)) {horzMovementUnit = horzMovementUnit.add(right);}
+        if (Input.isKeyDown(forwardKey))
+            horzMovementUnit = horzMovementUnit.add(forward);
+        if (Input.isKeyDown(backKey))
+            horzMovementUnit = horzMovementUnit.add(backward);
+        if (Input.isKeyDown(leftKey))
+            horzMovementUnit = horzMovementUnit.add(left);
+        if (Input.isKeyDown(rightKey))
+            horzMovementUnit = horzMovementUnit.add(right);
 
         Vector3 horzMovement = horzMovementUnit.multiply(playerSpeed * deltaTime);
 

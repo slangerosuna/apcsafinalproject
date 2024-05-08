@@ -14,14 +14,12 @@ void main() {
     vec3 normalizedLightDir = normalize(lightDir);
     vec3 normalizedNormal = normalize(passNormal);
 
-    // Ambient component
     vec3 ambientLight = ambient;
 
-    // Diffuse component
     float diff = max(dot(normalizedNormal, normalizedLightDir), 0.0);
     vec3 diffuseLight = diff * dirLightColor;
 
-    /*// Specular component (you can adjust the shininess to your liking)
+    /*
     float shininess = 32.0;
     vec3 viewDir = normalize(-passNormal);
     vec3 reflectDir = reflect(-normalizedLightDir, normalizedNormal);
