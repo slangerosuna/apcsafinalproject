@@ -78,11 +78,7 @@ public class PhysicsUpdate extends System {
                 if (colliderA.intersects(colliderB)) {
                     var axis = colliderA.getIntersectionDirection(colliderB, rigidBodyA.velocity);
                     var velocityAOnAxis = axis.multiply(rigidBodyA.velocity.dot(axis));
-                    java.lang.System.out.println(velocityAOnAxis);
                     rigidBodyA.velocity = rigidBodyA.velocity.sub(velocityAOnAxis);
-                    java.lang.System.out.println(rigidBodyA.velocity);
-
-                    java.lang.System.out.println(axis);
 
                     // teleport the object out of the collision
                     if (axis.x != 0)
