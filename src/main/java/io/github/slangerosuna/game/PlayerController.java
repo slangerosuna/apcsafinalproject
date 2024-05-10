@@ -55,7 +55,7 @@ public class PlayerController extends System {
 
         Vector3 horzMovement = horzMovementUnit.multiply(playerSpeed * deltaTime);
 
-        Vector3 horzVelocityOp = new Vector3(playerRB.velocity.x, 0, playerRB.velocity.z).multiply(-10.0f*deltaTime);
+        Vector3 horzVelocityOp = new Vector3(playerRB.velocity.x, 0, playerRB.velocity.z).multiply(-0.2f * (float)Math.exp(deltaTime));
 
         playerRB.applyImpulse(horzVelocityOp);
         playerRB.applyImpulse(horzMovement);
