@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import io.github.slangerosuna.engine.core.scheduler.Scheduler;
 
 public class Scene {
+    public static Scene curScene;
     private ArrayList<Entity> entities;
     private ArrayList<System> systems;
     private ArrayList<Resource> resources;
@@ -12,6 +13,8 @@ public class Scene {
     private Scheduler scheduler;
 
     public Scene(int numThreads){
+        curScene = this;
+
         entities = new ArrayList<Entity>();
         systems = new ArrayList<System>();
         resources = new ArrayList<Resource>();
