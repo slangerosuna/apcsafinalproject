@@ -9,7 +9,7 @@ import io.github.slangerosuna.engine.core.ecs.Entity;
 
 
 public class PhysicsUpdate extends System {
-    float gravity = 9.8f;
+    float gravity = 1.0f;
 
     public PhysicsUpdate() {
         super(
@@ -21,11 +21,12 @@ public class PhysicsUpdate extends System {
 
     public void execute(Entity[] queriedEntities, Resource[] queriedResources, float deltaTime) {
         for (var entity : queriedEntities) {
+            if (!(entity.hasComponent(RigidBody.type))) continue;
             var rigidBody = (RigidBody)entity.getComponent(RigidBody.type);
             var transform = (Transform)entity.getComponent(Transform.type);
 
             rigidBody.applyGravity(gravity * deltaTime);
-            transform.position = transform.position.add(rigidBody.velocity);
+            transform.position = transform.position.add(rigidBody.velocity.multiply(0.5f));
         }
 
         for (int i = 0; i < queriedEntities.length; i++) {
@@ -45,7 +46,7 @@ public class PhysicsUpdate extends System {
                 var colliderB = (Collider)entityB.getComponent(Collider.type);
 
                 if (colliderA.intersects(colliderB)) {
-                    var axis = colliderA.getIntersectionDirection(colliderB);
+                    var axis = colliderA.getIntersectionDirection(colliderB, rigidBodyA.velocity.sub(rigidBodyB.velocity));
 
                     var velocityAOnAxis = rigidBodyA.velocity.dot(axis);
                     var velocityBOnAxis = rigidBodyB.velocity.dot(axis);
@@ -75,19 +76,30 @@ public class PhysicsUpdate extends System {
                 var colliderB = (Collider)entityB.getComponent(Collider.type);
                 
                 if (colliderA.intersects(colliderB)) {
-                    var axis = colliderA.getIntersectionDirection(colliderB);
-                    var velocityAOnAxis = rigidBodyA.velocity.dot(axis);
-                    rigidBodyA.velocity = rigidBodyA.velocity.sub(axis.multiply(velocityAOnAxis));
+                    var axis = colliderA.getIntersectionDirection(colliderB, rigidBodyA.velocity);
+                    var velocityAOnAxis = axis.multiply(rigidBodyA.velocity.dot(axis));
+                    java.lang.System.out.println(velocityAOnAxis);
+                    rigidBodyA.velocity = rigidBodyA.velocity.sub(velocityAOnAxis);
+                    java.lang.System.out.println(rigidBodyA.velocity);
+
+                    java.lang.System.out.println(axis);
 
                     // teleport the object out of the collision
                     if (axis.x != 0)
-                        transformA.position.x = transformB.position.x * ((colliderA.getWidth() + colliderB.getWidth()) / 2 * axis.x);
+                        transformA.position.x = transformB.position.x + ((colliderA.getWidth() + colliderB.getWidth()) / 2 * -Math.signum(axis.x));
                     if (axis.y != 0)
-                        transformA.position.y = transformB.position.y * ((colliderA.getHeight() + colliderB.getHeight()) / 2 * axis.y);
+                        transformA.position.y = transformB.position.y - ((colliderA.getHeight() + colliderB.getHeight()) / 2 * -Math.signum(axis.y));
                     if (axis.z != 0)
-                        transformA.position.z = transformB.position.z * ((colliderA.getDepth() + colliderB.getDepth()) / 2 * axis.z);
+                        transformA.position.z = transformB.position.z + ((colliderA.getDepth() + colliderB.getDepth()) / 2 * -Math.signum(axis.z));
                 }
             }
+        }
+        for (var entity : queriedEntities) {
+            if (!(entity.hasComponent(RigidBody.type))) continue;
+            var rigidBody = (RigidBody)entity.getComponent(RigidBody.type);
+            var transform = (Transform)entity.getComponent(Transform.type);
+
+            transform.position = transform.position.add(rigidBody.velocity.multiply(0.5f));
         }
     }
 

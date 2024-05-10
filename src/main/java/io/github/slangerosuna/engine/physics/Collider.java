@@ -27,16 +27,23 @@ public class Collider implements Component {
         return widthIntersects(other) && heightIntersects(other) && depthIntersects(other);
     }
 
-    public Vector3 getIntersectionDirection(Collider other) {
-        float x = widthIntersects(other) ? 1 : 0;
-        float y = heightIntersects(other) ? 1 : 0;
-        float z = depthIntersects(other) ? 1 : 0;
+    /*
+     * @returns the normal of the face that other is intersecting with
+     */
+    public Vector3 getIntersectionDirection(Collider other, Vector3 velocity) {
+        var displacement = this.transform.position.sub(other.transform.position);
+        displacement = displacement.multiply(new Vector3(1 / (w + other.w), 1 / (h + other.h), 1 / (d + other.d)));
+        var axis = new Vector3(0, 0, 0);
 
-        x = this.transform.position.x > other.transform.position.x ? x : -x;
-        y = this.transform.position.y > other.transform.position.y ? y : -y;
-        z = this.transform.position.z > other.transform.position.z ? z : -z;
+        if (Math.abs(displacement.x) >= Math.abs(displacement.y) && Math.abs(displacement.x) >= Math.abs(displacement.z)) {
+            axis = new Vector3(displacement.x, 0, 0);
+        } else if (Math.abs(displacement.y) >= Math.abs(displacement.x) && Math.abs(displacement.y) >= Math.abs(displacement.z)) {
+            axis = new Vector3(0, displacement.y, 0);
+        } else {
+            axis = new Vector3(0, 0, displacement.z);
+        }
 
-        return new Vector3(x, y, z);
+        return axis.normalized();
     }
 
     public boolean widthIntersects(Collider other) {

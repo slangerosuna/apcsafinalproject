@@ -9,6 +9,15 @@ public class Vector3 {
 		this.z = z;
 	}
 
+	public float length() {
+		return (float)Math.sqrt(x * x + y * y + z * z);
+	}
+
+	public Vector3 normalized() {
+		float length = length();
+		return new Vector3(x / length, y / length, z / length);
+	}
+
 	public Vector3 add(Vector3 other) {
 		return new Vector3(x + other.x, y + other.y, z + other.z);
     }
@@ -37,6 +46,10 @@ public class Vector3 {
 
 	public static Vector3 zero() {
 		return new Vector3(0, 0, 0);
+	}
+
+	public Vector3 multiply(Vector3 other) {
+		return new Vector3(x * other.x, y * other.y, z * other.z);
 	}
 
 	public static Vector3 add(Vector3 a, Vector3 b){

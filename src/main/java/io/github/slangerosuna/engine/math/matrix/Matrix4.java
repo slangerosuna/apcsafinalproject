@@ -9,22 +9,18 @@ public class Matrix4 {
 	private float[] elements = new float[SIZE * SIZE];
 
 	public static Matrix4 transform(Vector3 pos, Vector3 rot, Vector3 scale) {
-		Matrix4 result = Matrix4.identity();
-
 		Matrix4 translationMatrix = Matrix4.translation(pos);
 		Matrix4 scaleMatrix = Matrix4.scale(scale);
 
 		Matrix4 rotMatrix = rotation(rot);
 
-		result = Matrix4.Multiply(scaleMatrix, Matrix4.Multiply(rotMatrix, translationMatrix));
-
-		return result;
+		return Matrix4.Multiply(translationMatrix, Matrix4.Multiply(rotMatrix, scaleMatrix));
 	}
 	public static Matrix4 transform(Vector3 pos, Matrix4 rotMatrix, Vector3 scale) {
 		Matrix4 translationMatrix = Matrix4.translation(pos);
 		Matrix4 scaleMatrix = Matrix4.scale(scale);
 
-		return Matrix4.Multiply(scaleMatrix, Matrix4.Multiply(rotMatrix, translationMatrix));
+		return Matrix4.Multiply(translationMatrix, Matrix4.Multiply(rotMatrix, scaleMatrix));
 	}
 	public static Matrix4 rotation(Vector3 rot){
 		Matrix4 rotXMatrix = Matrix4.rotate(rot.x, new Vector3(1, 0, 0));

@@ -27,18 +27,22 @@ public class Main {
 
     public static void main(String[] args) {
         var scene = new Scene(workerThreads);
+
         var entity = new Entity(scene, new Transform(new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(1, 1, 1)));
         var entity1 = new Entity(scene, new Transform(new Vector3(3, 0, 0), new Vector3(0, 0, 0), new Vector3(1, 1, 1)));
         var entity2 = new Entity(scene, new Transform(new Vector3(-3, 0, 0), new Vector3(0, 0, 0), new Vector3(1, 1, 1)));
         var entity3 = new Entity(scene, new Transform(new Vector3(0, 0, 3), new Vector3(0, 0, 0), new Vector3(1, 1, 1)));
         
+        entity.addComponent(new Collider(1.0f, 1.0f, 1.0f, (Transform)entity.getComponent(Transform.type)));
+        entity.addComponent(new RigidBody(1.0f, true));
+
         var cameraTransform = new Transform(new Vector3(0, 0, -5f), new Vector3(0, 180, 0), new Vector3(1, 1, 1));
         var camera = new Entity(scene,
             new Camera(90, 0.1f, 1000),
             cameraTransform,
             new Player(1.0f),
             new Collider(1.0f, 1.0f, 1.0f, cameraTransform),
-            new RigidBody(1.0f, false)
+            new RigidBody(1.0f, true)
         );
         var window = new Window(windowWidth, windowHeight, windowTitle);
         window.setBackgroundColor(0.05f, 0.045f, 0.06f);
@@ -59,6 +63,14 @@ public class Main {
         entity1.addComponent(mat);
         entity2.addComponent(mat);
         entity3.addComponent(mat);
+
+        var floor = new Entity(scene, new Transform(new Vector3(0, -1, 0), new Vector3(90, 0, 0), new Vector3(10, 10, 10)));
+        floor.addComponent(new Collider(10, 1, 10, (Transform)floor.getComponent(Transform.type)));
+        var floorMat = new Material("/io/github/slangerosuna/resources/textures/randomAsset.png");
+        floor.addComponent(floorMat);
+        var floorMesh = Mesh.getRectMesh();
+        floorMesh.create();
+        floor.addComponent(floorMesh);
 
         var shader = new Shader(vertexPath, fragmentPath);
         shader.create();
