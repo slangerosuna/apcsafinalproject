@@ -111,7 +111,6 @@ public class Renderer extends System {
 		if (err != GL11.GL_NO_ERROR) {
 			java.lang.System.out.println("OpenGL Error: " + err);
 		}
-		((Window)queriedResources[0]).swapBuffers();
     }
 
 	public void renderObject(Transform transform, Mesh mesh, Material material) {

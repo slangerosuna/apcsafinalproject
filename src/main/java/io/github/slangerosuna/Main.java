@@ -2,6 +2,8 @@ package io.github.slangerosuna;
 
 import io.github.slangerosuna.engine.core.ecs.*;
 import io.github.slangerosuna.engine.render.*;
+import io.github.slangerosuna.engine.render.ui.UIElement;
+import io.github.slangerosuna.engine.render.ui.UIRenderer;
 import io.github.slangerosuna.engine.io.*;
 import io.github.slangerosuna.engine.math.vector.Vector3;
 import io.github.slangerosuna.engine.physics.Collider;
@@ -64,8 +66,10 @@ public class Main {
         entity2.addComponent(mat);
         entity3.addComponent(mat);
 
-        var floor = new Entity(scene, new Transform(new Vector3(0, -1, 0), new Vector3(90, 0, 0), new Vector3(10, 10, 10)));
-        floor.addComponent(new Collider(10, 1, 10, (Transform)floor.getComponent(Transform.type)));
+        var uiElement = new Entity(scene, new UIElement(0.5f, 0.5f, 0.5f, 0.5f));
+
+        var floor = new Entity(scene, new Transform(new Vector3(0, -1, 0), new Vector3(90, 0, 0), new Vector3(100, 100, 100)));
+        floor.addComponent(new Collider(100, 1, 100, (Transform)floor.getComponent(Transform.type)));
         var floorMat = new Material("/io/github/slangerosuna/resources/textures/randomAsset.png");
         floor.addComponent(floorMat);
         var floorMesh = Mesh.getRectMesh();
@@ -76,6 +80,15 @@ public class Main {
         shader.create();
         var renderer = new Renderer(shader, window, (Camera)camera.getComponent(Camera.type));
         scene.addSystem(renderer);
+
+        var uiShader = new Shader("/io/github/slangerosuna/engine/render/shaders/UIVertex.glsl", "/io/github/slangerosuna/engine/render/shaders/UIFrag.glsl");
+        uiShader.create();
+        var uiRenderer = new UIRenderer(uiShader);
+        scene.addSystem(uiRenderer);
+
+        var bufferSwapper = new BufferSwapper();
+        scene.addSystem(bufferSwapper);
+        
         var rotateCamera = new RotateCamera();
         scene.addSystem(rotateCamera);
         var playerController = new PlayerController();
