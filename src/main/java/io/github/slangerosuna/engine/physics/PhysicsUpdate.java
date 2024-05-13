@@ -61,24 +61,28 @@ public class PhysicsUpdate extends System {
                 }
             }
 
+            var entityA = queriedEntities[i];
+            var transformA = (Transform)entityA.getComponent(Transform.type);
+            var rigidBodyA = (RigidBody)entityA.getComponent(RigidBody.type);
+            var colliderA = (Collider)entityA.getComponent(Collider.type);
+
+            rigidBodyA.setGrounded(false);
+
             for (int j = 0; j < queriedEntities.length; j++) {
                 if (queriedEntities[j].hasComponent(RigidBody.type)) continue;
                 
-                var entityA = queriedEntities[i];
                 var entityB = queriedEntities[j];
-
-                var transformA = (Transform)entityA.getComponent(Transform.type);
                 var transformB = (Transform)entityB.getComponent(Transform.type);
-
-                var rigidBodyA = (RigidBody)entityA.getComponent(RigidBody.type);
-
-                var colliderA = (Collider)entityA.getComponent(Collider.type);
                 var colliderB = (Collider)entityB.getComponent(Collider.type);
                 
                 if (colliderA.intersects(colliderB)) {
                     var axis = colliderA.getIntersectionDirection(colliderB, rigidBodyA.velocity);
                     var velocityAOnAxis = axis.multiply(rigidBodyA.velocity.dot(axis));
                     rigidBodyA.velocity = rigidBodyA.velocity.sub(velocityAOnAxis);
+
+                    // ground check
+                    if (axis.y == 1)
+                        rigidBodyA.setGrounded(true);
 
                     // teleport the object out of the collision
                     if (axis.x != 0)
