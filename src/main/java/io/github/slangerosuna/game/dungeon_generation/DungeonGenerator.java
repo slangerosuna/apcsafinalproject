@@ -1,4 +1,8 @@
+package io.github.slangerosuna.game.dungeon_generation;
+
 import java.util.ArrayList;
+
+import io.github.slangerosuna.engine.core.ecs.Scene;
 
 public class DungeonGenerator {
     Scene scene;
@@ -14,17 +18,17 @@ public class DungeonGenerator {
     }
 
     public void startDungeon() {
-        generatedRooms.add(startRoom.gen(-1));
+        generatedRooms.add(startRoom.genRoomFromDoor(null, -1));
     }
 
     public Door[] getUnconnectedDoors() {
         ArrayList<Door> unconnectedDoors = new ArrayList<Door>();
         for (Room room : generatedRooms) {
-            for (Door door : room) {
+            for (Door door : room.doors) {
                 if (!door.isConnected()) {unconnectedDoors.add(door);}
             }
         }
-        return unconnectedDoors.toArray();
+        return unconnectedDoors.toArray(Door[]::new);
     }
 
     public boolean doesRoomIntersect(Room room) {
@@ -40,7 +44,7 @@ public class DungeonGenerator {
         Room room;
         for (int i = 0; i < prefab.getNumDoors(); i++) {
             room = prefab.genRoomFromDoor(door, i);
-            if (!roomIntersects(room)) {return true;}
+            if (!doesRoomIntersect(room)) {return true;}
             room.kill();
         }
         return false;
@@ -51,18 +55,17 @@ public class DungeonGenerator {
         for (int i = 0; i < rooms.length; i++) {indices.add(i);}
 
         RoomPrefab prefab;
-        int prefabIndex;
+        int prefabIndex = -1;
         boolean couldGenerate;
-        Room room;
+        Room room = null;
         while (room == null && indices.size() > 0) {
             prefabIndex = indices.remove((int) Math.random() * indices.size());
-            prefab = rooms.get(prefabIndex);
-            couldGenerate = genRoomAtDoor(door, prefab);
+            prefab = rooms[prefabIndex];
+            couldGenerate = genRoomAtDoor(prefab, door);
             if (couldGenerate) {
                 room = door.getConnectedRoom();
             }
         }
-        if (room == null) { return -1; }
-        else { return prefabIndex; }
+        return prefabIndex;
     }
 }

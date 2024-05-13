@@ -1,3 +1,7 @@
+package io.github.slangerosuna.game.dungeon_generation;
+
+import io.github.slangerosuna.engine.render.Transform;
+
 public class Door {
     private Transform transform;
     private Room parent;
