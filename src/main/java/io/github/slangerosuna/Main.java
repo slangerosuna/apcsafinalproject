@@ -38,6 +38,8 @@ public class Main {
         entity.addComponent(new Collider(1.0f, 1.0f, 1.0f, (Transform)entity.getComponent(Transform.type)));
         entity.addComponent(new RigidBody(1.0f, true));
 
+        var ruler = new Entity(scene, new Transform(new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(1, 1, 1)));
+
         var cameraTransform = new Transform(new Vector3(0, 0, -5f), new Vector3(0, 180, 0), new Vector3(1, 1, 1));
         var camera = new Entity(scene,
             new Camera(90, 0.1f, 1000),
@@ -53,6 +55,12 @@ public class Main {
         scene.addSystem(windowUpdate);
 
         window.create();
+
+        var rect = Mesh.getRectMesh();
+        rect.create();
+
+        ruler.addComponent(rect);
+        ruler.addComponent(new Material("/io/github/slangerosuna/resources/textures/randomAsset.png"));
 
         var mesh = ObjLoader.loadObj(modelPath);
         entity.addComponent(mesh);

@@ -40,6 +40,9 @@ public class UIRenderer extends System {
         }
         if (queriedResources.length == 0 || queriedEntities.length == 0) return;
         shader.bind();
+
+        GL11.glClear(GL11.GL_DEPTH_BUFFER_BIT);
+
 		GL30.glBindVertexArray(rect.getVAO());
 		GL30.glEnableVertexAttribArray(0);
 		GL30.glEnableVertexAttribArray(1);

@@ -10,6 +10,6 @@ uniform vec3 scale;
 uniform vec3 pos;
 
 void main() {
-    gl_Position = vec4((position * scale).xy + pos.xy, 0.0, 0.0);
+    gl_Position = vec4((position * scale).xy + pos.xy, 0.0, 1.0);
     passUV = UV;
 }
