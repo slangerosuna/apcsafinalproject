@@ -2,7 +2,7 @@
 
 in vec2 passUV;
 
-out vec4 color
+out vec4 color;
 
 uniform sampler2D tex;
 

@@ -40,8 +40,6 @@ public class Mesh implements Component {
 			new int[] {
 				0, 1, 2,
 				0, 3, 2,
-				2, 1, 0, // allows it to be seen from the other side if backface culling is enabled
-				2, 3, 0 
 			});
 	}
 
