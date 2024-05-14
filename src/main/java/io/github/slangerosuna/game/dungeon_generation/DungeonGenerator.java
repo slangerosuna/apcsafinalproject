@@ -7,6 +7,7 @@ import io.github.slangerosuna.engine.core.ecs.Scene;
 import io.github.slangerosuna.engine.math.vector.Vector3;
 import io.github.slangerosuna.engine.physics.Collider;
 import io.github.slangerosuna.engine.render.Transform;
+import io.github.slangerosuna.engine.utils.ObjLoader;
 
 public class DungeonGenerator {
     Scene scene;
@@ -94,7 +95,7 @@ public class DungeonGenerator {
                 return new Room(transform, collider, doors) {
                     @Override
                     public void create(Scene scene) {
-                        new Entity(scene);
+                        new Entity(scene, transform, ObjLoader.loadObj("/io/github/slangerosuna/resources/models/room1.obj"));
                     }
                 };
             }
