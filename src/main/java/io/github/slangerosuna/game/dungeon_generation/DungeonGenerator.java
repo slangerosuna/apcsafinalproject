@@ -86,6 +86,11 @@ public class DungeonGenerator {
         doorPositions1[1] = new Vector3(0, -height1/2+1, depth1/2);
         RoomPrefab cubeRoom = new RoomPrefab(doorPositions1) {
             public Room genRoomFromDoor(Door otherDoor, int connectedDoorIndex) {
+                if (otherDoor == null) {
+                    Transform transform = new Transform(new Vector3(0, -height1/2+1, -depth1/2), Vector3.zero(), new Vector3(0, 0, 0));
+                    otherDoor = new Door(transform);
+                }
+                if (connectedDoorIndex == -1) connectedDoorIndex = 1;
                 Vector3 position = otherDoor.getTransform().position.sub(doorPositions1[connectedDoorIndex]);
                 Transform transform = new Transform(position, new Vector3(0, 0, 0), new Vector3(1, 1, 1));
                 Collider collider = new Collider(width1, height1, depth1, transform);
