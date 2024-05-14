@@ -1,7 +1,7 @@
 package io.github.slangerosuna.game.dungeon_generation;
 
 import io.github.slangerosuna.engine.math.vector.Vector3;
-import io.github.slangerosuno.engine.render.Transform;
+import io.github.slangerosuna.engine.render.Transform;
 
 public abstract class RoomPrefab {
     public Vector3[] doorPositions;
