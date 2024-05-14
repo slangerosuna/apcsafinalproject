@@ -4,6 +4,8 @@ import java.util.HashMap;
 
 import org.lwjgl.openal.AL10;
 
+import io.github.slangerosuna.engine.utils.WAVLoader;
+
 
 public class Sound {
     private static HashMap<String, Sound> sounds = new HashMap<String, Sound>();

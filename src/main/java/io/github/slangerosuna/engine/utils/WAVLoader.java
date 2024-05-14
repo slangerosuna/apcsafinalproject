@@ -1,4 +1,4 @@
-package io.github.slangerosuna.engine.audio;
+package io.github.slangerosuna.engine.utils;
 
 import java.io.*;
 import java.nio.*;
