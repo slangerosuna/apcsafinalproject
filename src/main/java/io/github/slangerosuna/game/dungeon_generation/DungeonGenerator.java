@@ -3,6 +3,7 @@ package io.github.slangerosuna.game.dungeon_generation;
 import java.util.ArrayList;
 
 import io.github.slangerosuna.engine.core.ecs.Scene;
+import io.github.slangerosuno.engine.render.Transform;
 
 public class DungeonGenerator {
     Scene scene;
@@ -44,7 +45,7 @@ public class DungeonGenerator {
         Room room;
         for (int i = 0; i < prefab.getNumDoors(); i++) {
             room = prefab.genRoomFromDoor(door, i);
-            if (!doesRoomIntersect(room)) {return true;}
+            if (!doesRoomIntersect(room)) { return true; }
             room.kill();
         }
         return false;
@@ -66,6 +67,30 @@ public class DungeonGenerator {
                 room = door.getConnectedRoom();
             }
         }
+        if (room == null) prefabIndex = -1;
         return prefabIndex;
+    }
+
+    public static RoomPrefab[] defaultRoomPrefabs() {
+        ArrayList<RoomPrefab> prefabs = new ArrayList<RoomPrefab>();
+
+        float width1 = 10f;
+        float height1 = 10f;
+        float depth1 = 10f;
+        Vector3[] doorPositions1 = new Vector3[2];
+        doorPositions1[0] = new Vector3(0, -height1/2+1, -depth1/2);
+        doorPositions1[1] = new Vector3(0, -height1/2+1, depth1/2);
+        RoomPrefab cubeRoom = new RoomPrefab(doorPositions1) {
+            public Room genRoomFromDoor(Door otherDoor, int connectedDoorIndex) {
+                Vector3 position = new Vector3(otherDoor.getTransform().position.sub(doorPositions1[connectedDoorIndex]));
+                Transform transform = new Transform(position, new Vector3(0, 0, 0), new Vector3(1, 1, 1));
+                Collider collider = new Collider(width1, height1, depth1, transform);
+                Door[] doors = genDoors(position);
+                doors[connectedDoorIndex].setConnectedRoom(otherDoor.getParent());
+
+                return new Room(transform, collider, doors);
+            }
+        }
+        prefabs.add(cubeRoom);
     }
 }

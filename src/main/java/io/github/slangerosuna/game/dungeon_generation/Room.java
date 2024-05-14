@@ -18,6 +18,11 @@ public abstract class Room {
         this.transform = transform;
         this.collider = collider;
         this.doors = doors;
+        adoptDoors();
+    }
+
+    private void adoptDoors() {
+        for (Door door : doors) { door.setParent(this); }
     }
 
     public abstract void create(Scene scene);

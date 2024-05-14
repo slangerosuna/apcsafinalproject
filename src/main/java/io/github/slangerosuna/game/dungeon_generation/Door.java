@@ -8,6 +8,11 @@ public class Door {
     private boolean connected;
     private Room connectedRoom;
 
+    public Door(Transform transform) {
+        this.transform = transform;
+        this.connected = false;
+    }
+
     public Door(Transform transform, Room parent) {
         this.transform = transform;
         this.parent = parent;
@@ -21,8 +26,13 @@ public class Door {
         this.connectedRoom = connectedRoom;
     }
 
+    public void setParent(Room room) {
+        this.parent = room;
+    }
+
     //prec: Door is connected equals false
     public void setConnectedRoom(Room room) {
+        // Proper exception needed
         if (connected) {return;}
         connected = true;
         connectedRoom = room;
