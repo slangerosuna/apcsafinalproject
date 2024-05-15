@@ -22,6 +22,8 @@ public class DungeonGenerator {
         this.generatedRooms = new ArrayList<Room>();
     }
 
+    public ArrayList<Room> getGeneratedRooms() { return generatedRooms; }
+
     public void startDungeon() {
         generatedRooms.add(startRoom.genRoomFromDoor(null, -1));
     }

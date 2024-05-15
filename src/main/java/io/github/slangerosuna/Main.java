@@ -13,6 +13,7 @@ import io.github.slangerosuna.game.RotateCamera;
 import io.github.slangerosuna.game.Player;
 import io.github.slangerosuna.game.PlayerController;
 import io.github.slangerosuna.engine.utils.ObjLoader;
+import io.github.slangerosuna.game.dungeon_generation.*;
 
 public class Main {
     private static final String windowTitle = "Hello, World!";
@@ -29,6 +30,17 @@ public class Main {
 
     public static void main(String[] args) {
         var scene = new Scene(workerThreads);
+
+        RoomPrefab[] prefabs = DungeonGenerator.defaultRoomPrefabs();
+        DungeonGenerator dungeonGenerator = new DungeonGenerator(scene, prefabs[0], prefabs);
+        dungeonGenerator.startDungeon();
+        Room room1 = dungeonGenerator.getGeneratedRooms().get(0);
+
+        String room1ModelPath = "/io/github/slangerosuna/resources/models/room1.obj";
+        String room1TexturePath = "/io/github/slangerosuna/resources/textures/randomAsset.png";
+        var room1Mesh = ObjLoader.loadObj(room1ModelPath);
+        var room1Mat = new Material(room1TexturePath);
+        var room1Entity = new Entity(scene, room1.transform, room1.collider, room1Mesh, room1Mat);
 
         var entity = new Entity(scene, new Transform(new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(1, 1, 1)));
         var entity1 = new Entity(scene, new Transform(new Vector3(3, 0, 0), new Vector3(0, 0, 0), new Vector3(1, 1, 1)));
