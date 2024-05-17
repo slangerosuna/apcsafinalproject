@@ -86,11 +86,11 @@ public class PhysicsUpdate extends System {
 
                     // teleport the object out of the collision
                     if (axis.x != 0)
-                        transformA.position.x = transformB.position.x + ((colliderA.getWidth() + colliderB.getWidth()) / 2 * -Math.signum(axis.x));
+                        transformA.position.x = transformB.position.x + ((colliderA.getWidth() + colliderB.getWidth()) / 2 * Math.signum(axis.x));
                     if (axis.y != 0)
                         transformA.position.y = transformB.position.y - ((colliderA.getHeight() + colliderB.getHeight()) / 2 * -Math.signum(axis.y));
                     if (axis.z != 0)
-                        transformA.position.z = transformB.position.z + ((colliderA.getDepth() + colliderB.getDepth()) / 2 * -Math.signum(axis.z));
+                        transformA.position.z = transformB.position.z + ((colliderA.getDepth() + colliderB.getDepth()) / 2 * Math.signum(axis.z));
                 }
             }
         }
