@@ -59,6 +59,7 @@ public class Main {
         scene.addSystem(windowUpdate);
 
         window.create();
+        window.setBackgroundColor(0.6f, 0.7f, 0.9f);
 
         var rect = Mesh.getRectMesh();
         rect.create();

@@ -74,7 +74,7 @@ public class Renderer extends System {
 			view
 		);
 
-		var lightDir = new Vector3(0, 0, 1);
+		var lightDir = new Vector3(0.1f, 0.7f, 0.5f).normalized();
 		shader.setUniform(
 			"lightDir",
 			lightDir
@@ -86,7 +86,7 @@ public class Renderer extends System {
 			dirLightColor
 		);
 
-		var ambient = new Vector3(0.3f, 0.3f, 0.3f);
+		var ambient = new Vector3(0.4f, 0.5f, 0.6f);
 
 		shader.setUniform(
 			"ambient",
