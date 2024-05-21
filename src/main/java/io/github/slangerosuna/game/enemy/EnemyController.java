@@ -48,8 +48,8 @@ public class EnemyController extends System {
             // rotate enemy towards player at a constant rate (keeping track of velocity may be better in the future)
             float currentYRot = enemyTransform.rotation.y;
             float diff = targetYRot - currentYRot;
-            if (diff > 180) diff -= 360;
-            if (diff < -180) diff += 360;
+            while (diff > 180) diff -= 360;
+            while (diff < -180) diff += 360;
 
             float rotSpeed = 180.0f;
             float maxRot = rotSpeed * deltaTime;
