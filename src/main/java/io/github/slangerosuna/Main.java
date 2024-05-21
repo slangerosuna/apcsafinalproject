@@ -14,6 +14,8 @@ import io.github.slangerosuna.game.Player;
 import io.github.slangerosuna.game.PlayerController;
 import io.github.slangerosuna.engine.utils.ObjLoader;
 import io.github.slangerosuna.game.dungeon_generation.*;
+import io.github.slangerosuna.game.enemy.Enemy;
+import io.github.slangerosuna.game.enemy.EnemyController;
 
 public class Main {
     private static final String windowTitle = "Hello, World!";
@@ -38,6 +40,7 @@ public class Main {
         
         entity.addComponent(new Collider(1.0f, 1.0f, 1.0f, (Transform)entity.getComponent(Transform.type)));
         entity.addComponent(new RigidBody(1.0f, true));
+        entity.addComponent(new Enemy(0.1f, true));
 
         var ruler = new Entity(scene, new Transform(new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(1, 1, 1)));
 
@@ -117,6 +120,8 @@ public class Main {
         scene.addSystem(playerController);
         var physicsUpdate = new PhysicsUpdate();
         scene.addSystem(physicsUpdate);
+
+        scene.addSystem(new EnemyController());
 
         var input = new Input();
 
