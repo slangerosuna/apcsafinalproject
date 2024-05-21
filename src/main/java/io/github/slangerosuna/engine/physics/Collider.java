@@ -23,6 +23,17 @@ public class Collider implements Component {
         this.transform = transform;
     }
 
+    public Collider(Vector3 cornerA, Vector3 cornerB) {
+        Vector3 dimensions = cornerB.sub(cornerA);
+        this.w = Math.abs(dimensions.x);
+        this.h = Math.abs(dimensions.y);
+        this.d = Math.abs(dimensions.z);
+
+        Vector3 center = cornerA.add(dimensions.divide(2.0f));
+
+        this.transform = new Transform(center, Vector3.zero(), new Vector3(1, 1, 1));
+    }
+
     public boolean intersects(Collider other) {
         return widthIntersects(other) && heightIntersects(other) && depthIntersects(other);
     }
