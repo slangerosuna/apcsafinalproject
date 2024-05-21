@@ -47,5 +47,7 @@ public class RotateCamera extends System {
 
         cameraTransform.rotation.y -= deltaX * sens;
         cameraTransform.rotation.x -= deltaY * sens;
+        cameraTransform.rotation.x = cameraTransform.rotation.x > 70 ? 70 : cameraTransform.rotation.x;
+        cameraTransform.rotation.x = cameraTransform.rotation.x < -70 ? -70 : cameraTransform.rotation.x;
     }
 }
