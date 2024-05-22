@@ -113,7 +113,9 @@ public class DungeonGenerator {
                 Door[] doors = genDoors(position);
                 doors[connectedDoorIndex].setConnectedRoom(otherDoor.getParent());
 
-                return new Room(scene, modelPath, texturePath, transform, collider, genColliders(scene, position), doors) {};
+                Room room = new Room(scene, modelPath, texturePath, transform, collider, genColliders(scene, position), doors) {};
+                room.create();
+                return room;
             }
         };
         prefabs.add(cubeRoom);
