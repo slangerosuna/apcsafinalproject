@@ -8,9 +8,11 @@ public class Player implements Component {
     public void kill() {}
 
     private float speed;
+    private float health = 10.0f;
 
     public Player(float speed) { this.speed = speed; }
     public Player() { this(1.0f); }
 
     public float getSpeed() {return speed;}
+    public void damage(float amount) { health -= amount; }
 }

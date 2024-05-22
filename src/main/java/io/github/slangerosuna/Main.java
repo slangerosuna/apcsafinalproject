@@ -16,6 +16,8 @@ import io.github.slangerosuna.engine.utils.ObjLoader;
 import io.github.slangerosuna.game.dungeon_generation.*;
 import io.github.slangerosuna.game.enemy.Enemy;
 import io.github.slangerosuna.game.enemy.EnemyController;
+import io.github.slangerosuna.game.enemy.Projectile;
+import io.github.slangerosuna.game.enemy.ProjectileController;
 
 public class Main {
     private static final String windowTitle = "Hello, World!";
@@ -32,6 +34,8 @@ public class Main {
 
     public static void main(String[] args) {
         var scene = new Scene(workerThreads);
+
+        new Projectile(1.0f); // to register component
 
         var entity = new Entity(scene, new Transform(new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(1, 1, 1)));
         var entity1 = new Entity(scene, new Transform(new Vector3(3, 0, 0), new Vector3(0, 0, 0), new Vector3(1, 1, 1)));
@@ -118,6 +122,7 @@ public class Main {
         scene.addSystem(physicsUpdate);
 
         scene.addSystem(new EnemyController());
+        scene.addSystem(new ProjectileController());
 
         var input = new Input();
 

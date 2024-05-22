@@ -4,6 +4,7 @@ import io.github.slangerosuna.engine.core.ecs.System;
 import io.github.slangerosuna.engine.core.ecs.SystemType;
 import io.github.slangerosuna.engine.math.vector.Vector3;
 import io.github.slangerosuna.engine.render.Transform;
+import io.github.slangerosuna.game.enemy.Projectile;
 import io.github.slangerosuna.engine.core.ecs.Resource;
 import io.github.slangerosuna.engine.core.ecs.Entity;
 
@@ -70,6 +71,7 @@ public class PhysicsUpdate extends System {
 
             for (int j = 0; j < queriedEntities.length; j++) {
                 if (queriedEntities[j].hasComponent(RigidBody.type)) continue;
+                if (queriedEntities[j].hasComponent(Projectile.type)) continue;
                 
                 var entityB = queriedEntities[j];
                 var transformB = (Transform)entityB.getComponent(Transform.type);

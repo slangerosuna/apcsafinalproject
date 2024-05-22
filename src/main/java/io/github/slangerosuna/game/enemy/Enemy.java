@@ -9,10 +9,23 @@ public class Enemy implements Component {
 
     private float speed = 1.0f;
     private boolean routesToPlayer = false;
+    private boolean attacksPlayer = true;
+    private float attackInterval = 1.0f;
+    private float lastAttack = 0.0f;
 
     public Enemy(float speed) { this.speed = speed; }
     public Enemy(float speed, boolean routesToPlayer) { this(speed); this.routesToPlayer = routesToPlayer; }
+    public Enemy(float speed, boolean routesToPlayer, boolean attacksPlayer) { this(speed, routesToPlayer); this.attacksPlayer = attacksPlayer; }
+    public Enemy(float speed, boolean routesToPlayer, boolean attacksPlayer, float attackInterval) { this(speed, routesToPlayer, attacksPlayer); this.attackInterval = attackInterval; }
 
-    public boolean routesToPlayer() {return routesToPlayer;}    
+    public boolean routesToPlayer() {return routesToPlayer;}
+    public boolean attacksPlayer() {return attacksPlayer;}
+    public boolean canAttack(float time) {
+        if (time - lastAttack >= attackInterval) {
+            lastAttack = time;
+            return true;
+        }
+        return false;
+    }
     public float getSpeed() {return speed;}
 }
