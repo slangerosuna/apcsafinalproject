@@ -4,16 +4,10 @@ import io.github.slangerosuna.engine.math.vector.Vector3;
 import io.github.slangerosuna.engine.render.Transform;
 
 public abstract class RoomPrefab {
-    private String modelPath;
-    private String texturePath;
-    public Vector3[][] colliderPositions;
     public Vector3[] doorPositions;
     private int numDoors;
 
-    public RoomPrefab(String modelPath, String texturePath, Vector3[][] colliderPositions, Vector3... doorPositions) {
-        this.modelPath = modelPath;
-        this.texturePath = texturePath;
-        this.colliderPositions = colliderPositions;
+    public RoomPrefab(Vector3... doorPositions) {
         this.doorPositions = doorPositions;
         this.numDoors = doorPositions.length;
     }

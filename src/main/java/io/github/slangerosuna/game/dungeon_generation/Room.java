@@ -5,24 +5,18 @@ import io.github.slangerosuna.engine.physics.Collider;
 import io.github.slangerosuna.engine.render.Transform;
 
 public abstract class Room {
-    private String modelPath;
-    private String texturePath;
     public Transform transform;
-    public Collider[] colliders;
+    public Collider collider;
     public Door[] doors;
 
     public void kill() {
         transform.kill();
-        for (Collider collider : colliders) {
-            collider.kill();
-        }
+        collider.kill();
     }
 
-    public Room(String modelPath, String texturePath, Transform transform, Collider[] colliders, Door... doors) {
-        this.modelPath = modelPath;
-        this.texturePath = texturePath;
+    public Room(Transform transform, Collider collider, Door... doors) {
         this.transform = transform;
-        this.colliders = colliders;
+        this.collider = collider;
         this.doors = doors;
         adoptDoors();
     }
