@@ -3,6 +3,7 @@ package io.github.slangerosuna.engine.physics;
 import io.github.slangerosuna.engine.core.ecs.Component;
 import io.github.slangerosuna.engine.math.vector.Vector3;
 import io.github.slangerosuna.engine.render.Transform;
+import io.github.slangerosuna.engine.utils.Pair;
 
 public class Collider implements Component {
     public static final int type = Component.registerComponent("Collider");
@@ -23,15 +24,17 @@ public class Collider implements Component {
         this.transform = transform;
     }
 
-    public Collider(Vector3 cornerA, Vector3 cornerB) {
+    public static Pair<Collider, Transform> fromCorners(Vector3 cornerA, Vector3 cornerB) {
         Vector3 dimensions = cornerB.sub(cornerA);
-        this.w = Math.abs(dimensions.x);
-        this.h = Math.abs(dimensions.y);
-        this.d = Math.abs(dimensions.z);
+        float w = Math.abs(dimensions.x);
+        float h = Math.abs(dimensions.y);
+        float d = Math.abs(dimensions.z);
 
         Vector3 center = cornerA.add(dimensions.divide(2.0f));
 
-        this.transform = new Transform(center, Vector3.zero(), new Vector3(1, 1, 1));
+        Transform transform = new Transform(center, Vector3.zero(), new Vector3(1, 1, 1));
+
+        return new Pair<Collider, Transform>(new Collider(w, h, d, transform), transform);
     }
 
     public boolean intersects(Collider other) {
