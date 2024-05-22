@@ -25,7 +25,7 @@ public class DungeonGenerator {
     public ArrayList<Room> getGeneratedRooms() { return generatedRooms; }
 
     public void startDungeon() {
-        generatedRooms.add(startRoom.genRoomFromDoor(null, -1));
+        generatedRooms.add(startRoom.genRoomFromDoor(scene, null, -1));
     }
 
     public Door[] getUnconnectedDoors() {
@@ -40,7 +40,7 @@ public class DungeonGenerator {
 
     public boolean doesRoomIntersect(Room room) {
         for (Room existingRoom : generatedRooms) {
-            if (room.collider.intersects(existingRoom.collider)) {
+            if (room.generationCollider.intersects(existingRoom.generationCollider)) {
                 return true;
             }
         }
@@ -50,7 +50,7 @@ public class DungeonGenerator {
     public boolean genRoomAtDoor(RoomPrefab prefab, Door door) {
         Room room;
         for (int i = 0; i < prefab.getNumDoors(); i++) {
-            room = prefab.genRoomFromDoor(door, i);
+            room = prefab.genRoomFromDoor(scene, door, i);
             if (!doesRoomIntersect(room)) { return true; }
             room.kill();
         }
@@ -80,31 +80,40 @@ public class DungeonGenerator {
     public static RoomPrefab[] defaultRoomPrefabs() {
         ArrayList<RoomPrefab> prefabs = new ArrayList<RoomPrefab>();
 
-        float width1 = 10f;
-        float height1 = 10f;
-        float depth1 = 10f;
+        String modelPath1 = "/io/github/slangerosuna/resources/models/room1.obj";
+        String texturePath1 = "/io/github/slangerosuna/resources/textures/wall.png";
+        Vector3 dimensions1 = new Vector3(10, 10, 10);
+        float colliderThickness = 0.5f;
+        Vector3[][] colliderPositions = new Vector3[6][2];
+        colliderPositions[0][0] = new Vector3(-dimensions1.x/2, -dimensions1.y/2-colliderThickness/2, -dimensions1.z/2);
+        colliderPositions[0][1] = new Vector3(dimensions1.x/2, -dimensions1.y/2+colliderThickness/2, dimensions1.z/2);
+        colliderPositions[1][0] = new Vector3(-dimensions1.x/2, -dimensions1.y/2, dimensions1.z/2-colliderThickness/2);
+        colliderPositions[1][1] = new Vector3(dimensions1.x/2, dimensions1.y/2, dimensions1.z/2+colliderThickness/2);
+        colliderPositions[2][0] = new Vector3(-dimensions1.x/2, dimensions1.y/2-colliderThickness/2, -dimensions1.z/2);
+        colliderPositions[2][1] = new Vector3(dimensions1.x/2, dimensions1.y/2+colliderThickness/2, dimensions1.z/2);
+        colliderPositions[3][0] = new Vector3(-dimensions1.x/2, -dimensions1.y/2, -dimensions1.z/2-colliderThickness/2);
+        colliderPositions[3][1] = new Vector3(dimensions1.x/2, dimensions1.y/2, -dimensions1.z/2+colliderThickness/2);
+        colliderPositions[4][0] = new Vector3(-dimensions1.x/2-colliderThickness/2, -dimensions1.y/2, -dimensions1.z/2);
+        colliderPositions[4][1] = new Vector3(-dimensions1.x/2+colliderThickness/2, dimensions1.y/2, dimensions1.z/2);
+        colliderPositions[5][0] = new Vector3(dimensions1.x/2-colliderThickness/2, -dimensions1.y/2, -dimensions1.z/2);
+        colliderPositions[5][1] = new Vector3(dimensions1.x/2+colliderThickness/2, dimensions1.y/2, dimensions1.z/2);
         Vector3[] doorPositions1 = new Vector3[2];
-        doorPositions1[0] = new Vector3(0, -height1/2+1, -depth1/2);
-        doorPositions1[1] = new Vector3(0, -height1/2+1, depth1/2);
-        RoomPrefab cubeRoom = new RoomPrefab(doorPositions1) {
-            public Room genRoomFromDoor(Door otherDoor, int connectedDoorIndex) {
+        doorPositions1[0] = new Vector3(0, -dimensions1.y/2+1, -dimensions1.z/2);
+        doorPositions1[1] = new Vector3(0, -dimensions1.y/2+1, dimensions1.z/2);
+        RoomPrefab cubeRoom = new RoomPrefab(modelPath1, texturePath1, colliderPositions, doorPositions1) {
+            public Room genRoomFromDoor(Scene scene, Door otherDoor, int connectedDoorIndex) {
                 if (otherDoor == null) {
-                    Transform transform = new Transform(new Vector3(0, -height1/2+1, -depth1/2), Vector3.zero(), new Vector3(0, 0, 0));
+                    Transform transform = new Transform(new Vector3(0, 1, -dimensions1.z/2), Vector3.zero(), new Vector3(1, 1, 1));
                     otherDoor = new Door(transform);
                 }
                 if (connectedDoorIndex == -1) connectedDoorIndex = 1;
                 Vector3 position = otherDoor.getTransform().position.sub(doorPositions1[connectedDoorIndex]);
                 Transform transform = new Transform(position, new Vector3(0, 0, 0), new Vector3(1, 1, 1));
-                Collider collider = new Collider(width1, height1, depth1, transform);
+                Collider collider = new Collider(dimensions1.x, dimensions1.y, dimensions1.z, transform);
                 Door[] doors = genDoors(position);
                 doors[connectedDoorIndex].setConnectedRoom(otherDoor.getParent());
 
-                return new Room(transform, collider, doors) {
-                    @Override
-                    public void create(Scene scene) {
-                        new Entity(scene, transform, ObjLoader.loadObj("/io/github/slangerosuna/resources/models/room1.obj"));
-                    }
-                };
+                return new Room(scene, modelPath, texturePath, transform, collider, genColliders(scene, position), doors) {};
             }
         };
         prefabs.add(cubeRoom);

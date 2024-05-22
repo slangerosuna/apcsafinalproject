@@ -71,12 +71,6 @@ public class Main {
         dungeonGenerator.startDungeon();
         Room room1 = dungeonGenerator.getGeneratedRooms().get(0);
 
-        String room1ModelPath = "/io/github/slangerosuna/resources/models/room1.obj";
-        String room1TexturePath = "/io/github/slangerosuna/resources/textures/wall.png";
-        var room1Mesh = ObjLoader.loadObj(room1ModelPath);
-        var room1Mat = new Material(room1TexturePath);
-        new Entity(scene, room1.transform, room1.collider, room1Mesh, room1Mat);
-
         var mesh = ObjLoader.loadObj(modelPath);
         entity.addComponent(mesh);
         entity1.addComponent(mesh);
