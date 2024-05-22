@@ -2,7 +2,7 @@ package io.github.slangerosuna.engine.core.ecs;
 
 import java.util.ArrayList;
 
-public class Entity {
+public final class Entity {
     private ArrayList<Component> components;
     private int id;
     private boolean alive = true;
