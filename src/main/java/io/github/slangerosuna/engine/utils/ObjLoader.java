@@ -40,8 +40,6 @@ public class ObjLoader {
                     var uvIndex = face.uvIndices[j] - 1;
                     var normalIndex = face.normalIndices[j] - 1;
 
-                    System.out.println(vertexIndex + " " + uvIndex + " " + normalIndex);
-
                     var vertex = new Vertex(positions[vertexIndex], uvs[uvIndex], normals[normalIndex]);
 
                     if (vertexIndexMap.get(vertex) != null) {
