@@ -98,12 +98,18 @@ public class ObjLoader {
     }
 
     private static Vector3 getVertex(String line) {
-        var tokens = line.split(" ");
-        var x = Float.parseFloat(tokens[1]);
-        var y = Float.parseFloat(tokens[2]);
-        var z = Float.parseFloat(tokens[3]);
-    
-        return new Vector3(x, y, z);
+        var tokens = Arrays.stream(line.split(" ")).filter (x -> !x.isEmpty()).toArray(String[]::new);
+
+        try {
+            var x = Float.parseFloat(tokens[1]);
+            var y = Float.parseFloat(tokens[2]);
+            var z = Float.parseFloat(tokens[3]);
+        
+            return new Vector3(x, y, z);
+        } catch (Exception e) {
+            System.out.println("Error parsing vertex: " + line);
+            throw e;
+        }
     }
 
     private static Vector2 getUV(String line) {

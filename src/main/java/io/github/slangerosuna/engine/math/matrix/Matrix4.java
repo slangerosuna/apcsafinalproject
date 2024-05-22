@@ -14,7 +14,7 @@ public class Matrix4 {
 
 		Matrix4 rotMatrix = rotation(rot);
 
-		return Matrix4.Multiply(translationMatrix, Matrix4.Multiply(rotMatrix, scaleMatrix));
+		return Matrix4.Multiply(translationMatrix, Matrix4.Multiply(scaleMatrix, rotMatrix));
 	}
 	public static Matrix4 transform(Vector3 pos, Matrix4 rotMatrix, Vector3 scale) {
 		Matrix4 translationMatrix = Matrix4.translation(pos);
@@ -27,7 +27,7 @@ public class Matrix4 {
 		Matrix4 rotYMatrix = Matrix4.rotate(rot.y, new Vector3(0, 1, 0));
 		Matrix4 rotZMatrix = Matrix4.rotate(rot.z, new Vector3(0, 0, 1));
 
-		return Matrix4.Multiply(rotXMatrix, Matrix4.Multiply(rotYMatrix, rotZMatrix));
+		return Matrix4.Multiply(rotZMatrix, Matrix4.Multiply(rotYMatrix, rotXMatrix));
 	}
 	public static Matrix4 identity() {
 		Matrix4 result = new Matrix4();

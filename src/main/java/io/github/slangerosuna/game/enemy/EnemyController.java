@@ -44,18 +44,25 @@ public class EnemyController extends System {
 
             Vector3 direction = playerPos.sub(enemyPos).normalized();
             float targetYRot = (float)Math.toDegrees(Math.atan2(direction.x, direction.z));
+            targetYRot += 90;
 
             // rotate enemy towards player at a constant rate (keeping track of velocity may be better in the future)
             float currentYRot = enemyTransform.rotation.y;
             float diff = targetYRot - currentYRot;
-            while (diff > 180) diff -= 360;
-            while (diff < -180) diff += 360;
+
+            // make sure diff is in [-180, 180] so that the enemy rotates the shortest way
+            diff %= 360;
+            if (diff > 180) diff -= 360;
+            if (diff < -180) diff += 360;
+
+            diff += 90;
 
             float rotSpeed = 180.0f;
             float maxRot = rotSpeed * deltaTime;
             float newRot = currentYRot + Math.min(Math.max(diff, -maxRot), maxRot);
 
             enemyTransform.rotation.y = newRot;
+            enemyTransform.rotation.x = 90;
             if (!((Enemy)enemy.getComponent(Enemy.type)).routesToPlayer()) 
                 return;
 

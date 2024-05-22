@@ -25,8 +25,8 @@ public class Main {
     private static final String vertexPath = "/io/github/slangerosuna/engine/render/shaders/MainVertex.glsl";
     private static final String fragmentPath = "/io/github/slangerosuna/engine/render/shaders/MainFrag.glsl";
 
-    private static final String modelPath = "/io/github/slangerosuna/resources/models/amoogus.obj";
-    private static final String texturePath = "/io/github/slangerosuna/resources/textures/amoogus.png";
+    private static final String modelPath = "/io/github/slangerosuna/resources/models/eye.obj";
+    private static final String texturePath = "/io/github/slangerosuna/resources/textures/eye.jpg";
 
     private static final int workerThreads = 8;
 
@@ -41,8 +41,6 @@ public class Main {
         entity.addComponent(new Collider(1.0f, 1.0f, 1.0f, (Transform)entity.getComponent(Transform.type)));
         entity.addComponent(new RigidBody(1.0f, true));
         entity.addComponent(new Enemy(0.1f, true));
-
-        var ruler = new Entity(scene, new Transform(new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(1, 1, 1)));
 
         var cameraTransform = new Transform(new Vector3(0, 0, -5f), new Vector3(0, 180, 0), new Vector3(1, 1, 1));
         var camera = new Entity(scene,
@@ -70,13 +68,10 @@ public class Main {
         Room room1 = dungeonGenerator.getGeneratedRooms().get(0);
 
         String room1ModelPath = "/io/github/slangerosuna/resources/models/room1.obj";
-        String room1TexturePath = "/io/github/slangerosuna/resources/textures/randomAsset.png";
+        String room1TexturePath = "/io/github/slangerosuna/resources/textures/wall.png";
         var room1Mesh = ObjLoader.loadObj(room1ModelPath);
         var room1Mat = new Material(room1TexturePath);
         new Entity(scene, room1.transform, room1.collider, room1Mesh, room1Mat);
-
-        ruler.addComponent(rect);
-        ruler.addComponent(new Material("/io/github/slangerosuna/resources/textures/randomAsset.png"));
 
         var mesh = ObjLoader.loadObj(modelPath);
         entity.addComponent(mesh);
@@ -96,7 +91,7 @@ public class Main {
 
         var floor = new Entity(scene, new Transform(new Vector3(0, -1, 0), new Vector3(90, 0, 0), new Vector3(100, 100, 100)));
         floor.addComponent(new Collider(100, 1, 100, (Transform)floor.getComponent(Transform.type)));
-        var floorMat = new Material("/io/github/slangerosuna/resources/textures/randomAsset.png");
+        var floorMat = new Material("/io/github/slangerosuna/resources/textures/floor.png");
         floor.addComponent(floorMat);
         var floorMesh = Mesh.getRectMesh();
         floorMesh.create();
