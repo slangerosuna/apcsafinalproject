@@ -45,6 +45,6 @@ public class Player implements Component {
     public void damage(float amount) { 
         health -= amount;
         if (health <= 1) displayRedVignette.getAsBoolean();
-        if (health <= 0) die.getAsBoolean();
+        if (health <= 0) { die.getAsBoolean(); }
     }
 }

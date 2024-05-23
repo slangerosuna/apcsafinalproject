@@ -57,6 +57,7 @@ public class UIRenderer extends System {
         }
 
         for (var entity : queriedEntities) {
+            GL11.glClear(GL11.GL_DEPTH_BUFFER_BIT);
             var uiElement = (UIElement)entity.getComponent(UIElement.type);
             var material = (Material)entity.getComponent(Material.type);
             renderUIObject(uiElement, material);
