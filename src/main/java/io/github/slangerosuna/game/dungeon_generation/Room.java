@@ -1,6 +1,7 @@
 package io.github.slangerosuna.game.dungeon_generation;
 
 import io.github.slangerosuna.engine.core.ecs.Scene;
+import io.github.slangerosuna.engine.math.vector.Vector3;
 import io.github.slangerosuna.engine.physics.Collider;
 import io.github.slangerosuna.engine.render.Material;
 import io.github.slangerosuna.engine.render.Transform;
@@ -39,6 +40,7 @@ public abstract class Room {
     }
 
     public void create() {
+        transform.scale = new Vector3(0.5f, 0.5f, 0.5f);
         roomEntity = new Entity(scene, transform, ObjLoader.loadObj(modelPath), new Material(texturePath));
     }
 }
