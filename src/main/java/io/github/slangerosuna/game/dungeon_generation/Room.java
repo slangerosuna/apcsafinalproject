@@ -6,6 +6,9 @@ import io.github.slangerosuna.engine.physics.Collider;
 import io.github.slangerosuna.engine.render.Material;
 import io.github.slangerosuna.engine.render.Transform;
 import io.github.slangerosuna.engine.utils.ObjLoader;
+
+import java.util.ArrayList;
+
 import io.github.slangerosuna.engine.core.ecs.Entity;
 
 public abstract class Room {
@@ -33,6 +36,14 @@ public abstract class Room {
         this.colliders = colliders;
         this.doors = doors;
         adoptDoors();
+    }
+
+    public Door[] getUnconnectedDoors() {
+        ArrayList<Door> unconnectedDoors = new ArrayList<Door>();
+        for (Door door : doors) {
+            if (!door.isConnected()) unconnectedDoors.add(door);
+        }
+        return (Door[]) unconnectedDoors.toArray();
     }
 
     private void adoptDoors() {

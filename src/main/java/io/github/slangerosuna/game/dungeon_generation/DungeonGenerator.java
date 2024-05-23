@@ -14,28 +14,40 @@ public class DungeonGenerator {
     RoomPrefab[] rooms;
     RoomPrefab startRoom;
     ArrayList<Room> generatedRooms;
+    ArrayList<Door> unconnectedDoors;
 
     public DungeonGenerator(Scene scene, RoomPrefab startRoom, RoomPrefab... rooms) {
         this.scene = scene;
         this.startRoom = startRoom;
         this.rooms = rooms;
         this.generatedRooms = new ArrayList<Room>();
+        this.unconnectedDoors = new ArrayList<Door>();
     }
 
     public ArrayList<Room> getGeneratedRooms() { return generatedRooms; }
 
-    public void startDungeon() {
-        generatedRooms.add(startRoom.genRoomFromDoor(scene, null, -1));
+    public void generateDungeon(Scene scene, RoomPrefab[] prefabs, int minRooms, int maxAttempts, int maxSidePathLength) {
+        this.rooms = prefabs;
+        this.startRoom = rooms[0];
+        startDungeon();
+        Room[] pathGenerated = new Room[0];
+        int attempts = 0;
+        while (pathGenerated.length < minRooms && attempts < maxAttempts) {
+            pathGenerated = genRoomSequenceFromRoom(generatedRooms.get(0), minRooms);
+        }
+        if (pathGenerated.length < minRooms && attempts >= maxAttempts) {System.out.println("Unable to generate path to exit of sufficient length");}
+        genSidePaths(pathGenerated, maxSidePathLength);
     }
 
-    public Door[] getUnconnectedDoors() {
-        ArrayList<Door> unconnectedDoors = new ArrayList<Door>();
-        for (Room room : generatedRooms) {
-            for (Door door : room.doors) {
-                if (!door.isConnected()) {unconnectedDoors.add(door);}
-            }
+    public void addRoom(Room room) {
+        generatedRooms.add(room);
+        for (Door door : room.doors) {
+            if (!door.isConnected()) unconnectedDoors.add(door);
         }
-        return unconnectedDoors.toArray(Door[]::new);
+    }
+
+    public void startDungeon() {
+        addRoom(startRoom.genRoomFromDoor(scene, null, -1));
     }
 
     public boolean doesRoomIntersect(Room room) {
@@ -51,7 +63,10 @@ public class DungeonGenerator {
         Room room;
         for (int i = 0; i < prefab.getNumDoors(); i++) {
             room = prefab.genRoomFromDoor(scene, door, i);
-            if (!doesRoomIntersect(room)) { return true; }
+            if (!doesRoomIntersect(room)) { 
+                addRoom(room);
+                return true; 
+            }
             room.kill();
         }
         return false;
@@ -75,6 +90,54 @@ public class DungeonGenerator {
         }
         if (room == null) prefabIndex = -1;
         return prefabIndex;
+    }
+
+    public boolean genRandRoomAtRoom(Room room) {
+        ArrayList<Door> availableDoors = new ArrayList<Door>();
+        for (Door door : room.doors) {
+            if (!door.isConnected()) availableDoors.add(door);
+        }
+        Door curDoor;
+        boolean couldGenerate = false;
+        while (!couldGenerate && availableDoors.size() > 0) {
+            curDoor = availableDoors.remove((int)(Math.random() * availableDoors.size()));
+            couldGenerate = (genRandRoomAtDoor(curDoor) != -1);
+        }
+        return couldGenerate;
+    }
+
+    public Room[] genRoomSequenceFromRoom(Room startRoom, int numRooms) {
+        ArrayList<Room> rooms = new ArrayList<Room>();
+        int curNumRooms = 0;
+        Room curRoom = startRoom;
+        boolean couldGenerate = true;
+        while (curNumRooms < numRooms && couldGenerate) {
+            couldGenerate = genRandRoomAtRoom(curRoom);
+            if (couldGenerate) {
+                curNumRooms++;
+                rooms.add(generatedRooms.get(generatedRooms.size()-1));
+            }
+        }
+        return (Room[]) rooms.toArray();
+    }
+
+    public void genSidePaths(Room[] mainPath, int maxSidePathLength) {
+        ArrayList<ArrayList<Room>> roomTree = new ArrayList<ArrayList<Room>>(maxSidePathLength+1);
+        for (Room room : mainPath) {roomTree.get(0).add(room);}
+
+        Room curRoom;
+        Room[] pathGenerated;
+        for (int i = 0; i < maxSidePathLength; i++) {
+            while (roomTree.get(i).size() > 0) {
+                curRoom = roomTree.get(i).remove((int)(Math.random() * roomTree.get(i).size()));
+                for (int j = 0; j < curRoom.getUnconnectedDoors().length; j++) {
+                    pathGenerated = genRoomSequenceFromRoom(curRoom, maxSidePathLength-j);
+                    for (int k = 0; k < pathGenerated.length; k++) {
+                        roomTree.get(i+k+1).add(pathGenerated[k]);
+                    }
+                }
+            }
+        }
     }
 
     public static RoomPrefab[] defaultRoomPrefabs() {
