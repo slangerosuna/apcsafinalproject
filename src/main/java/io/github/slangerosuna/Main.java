@@ -83,8 +83,9 @@ public class Main {
         entity2.addComponent(mat);
         entity3.addComponent(mat);
 
-        var uiElement = new Entity(scene, new UIElement(0.5f, 0.5f, 0.5f, 0.5f));
-        uiElement.addComponent(new Material("/io/github/slangerosuna/resources/textures/randomAsset.png"));
+        new UIElement(0.5f, 0.5f, 0.5f, 0.5f); // to register component
+        //var uiElement = new Entity(scene, new UIElement(0.5f, 0.5f, 0.5f, 0.5f));
+        //uiElement.addComponent(new Material("/io/github/slangerosuna/resources/textures/randomAsset.png"));
 
 
         var floor = new Entity(scene, new Transform(new Vector3(0, -1, 0), new Vector3(90, 0, 0), new Vector3(100, 100, 100)));

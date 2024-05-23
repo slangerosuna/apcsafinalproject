@@ -11,6 +11,7 @@ import io.github.slangerosuna.engine.physics.RigidBody;
 import io.github.slangerosuna.engine.math.vector.Vector3;
 
 public class PlayerController extends System {
+    private boolean prevSpace = false;
 
     public PlayerController() {
         super(
@@ -52,6 +53,13 @@ public class PlayerController extends System {
             horzMovementUnit = horzMovementUnit.add(left);
         if (Input.isKeyDown(rightKey))
             horzMovementUnit = horzMovementUnit.add(right);
+
+        if (Input.isKeyDown(GLFW.GLFW_KEY_SPACE) && !prevSpace && playerRB.velocity.y == 0) {
+            playerRB.applyImpulse(new Vector3(0, 0.3f, 0));
+            prevSpace = true;
+        } else if (!Input.isKeyDown(GLFW.GLFW_KEY_SPACE)) {
+            prevSpace = false;
+        }
 
         Vector3 horzMovement = horzMovementUnit.multiply(playerSpeed * deltaTime);
 

@@ -30,6 +30,9 @@ public class UIRenderer extends System {
         rect.create();
         indicesLength = rect.getIndices().length;
         this.shader = shader;
+
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glEnable(GL11.GL_BLEND);
     }
 
     @Override
