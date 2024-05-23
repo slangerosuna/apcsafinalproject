@@ -17,7 +17,7 @@ public class Player implements Component {
         var scene = Scene.curScene;
 
         var vignette = new Entity(scene, new UIElement(0, 0, 2, 2));
-        vignette.addComponent(new Material("/io/github/slangerosuna/resources/textures/gameOver.png"));
+        vignette.addComponent(new Material("/io/github/slangerosuna/resources/textures/redVignette.png"));
 
         return false;
     };
