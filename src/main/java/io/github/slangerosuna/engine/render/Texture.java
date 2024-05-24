@@ -45,6 +45,8 @@ public class Texture {
             IntBuffer channels = stack.mallocInt(1);
 
             var filePath = Texture.class.getResource(texture).getPath();
+            if (filePath.charAt(1) == 'C')
+                filePath = filePath.substring(1);
             buffer = STBImage.stbi_load(filePath, w, h, channels, 4);
             if(buffer ==null) {
                 throw new Exception("Can't load file "+texture+" "+STBImage.stbi_failure_reason());
