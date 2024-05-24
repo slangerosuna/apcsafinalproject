@@ -10,6 +10,7 @@ import io.github.slangerosuna.engine.core.ecs.Entity;
 
 
 public class PhysicsUpdate extends System {
+    private boolean firstRun = true;
     float gravity = 1.0f;
 
     public PhysicsUpdate() {
@@ -21,6 +22,10 @@ public class PhysicsUpdate extends System {
     }
 
     public void execute(Entity[] queriedEntities, Resource[] queriedResources, float deltaTime) {
+        if (firstRun) {
+            firstRun = false;
+            return;
+        }
         for (var entity : queriedEntities) {
             if (!(entity.hasComponent(RigidBody.type))) continue;
             var rigidBody = (RigidBody)entity.getComponent(RigidBody.type);
