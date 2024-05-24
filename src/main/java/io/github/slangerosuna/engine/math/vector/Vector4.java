@@ -10,17 +10,9 @@ public class Vector4 {
 		this.w = w;
 	}
 
-    public float dot(Vector4 other) {
-        return x * other.x + y * other.y + z * other.z + w * other.w;
-    }
-
-    public Vector4 add(Vector4 other) {
-        return new Vector4(x + other.x, y + other.y, z + other.z, w + other.w);
-    }
-
-    public Vector4 sub(Vector4 other) {
-        return new Vector4(x - other.x, y - other.y, z - other.z, w - other.w);
-    }
+    public float dot(Vector4 other) { return x * other.x + y * other.y + z * other.z + w * other.w; }
+    public Vector4 add(Vector4 other) { return new Vector4(x + other.x, y + other.y, z + other.z, w + other.w); }
+    public Vector4 sub(Vector4 other) { return new Vector4(x - other.x, y - other.y, z - other.z, w - other.w); }
 
     public Vector4 cross(Vector4 other) {
         return new Vector4(y * other.z - z * other.y,
@@ -29,7 +21,5 @@ public class Vector4 {
                            0);
     }
 
-	public static Vector4 zero() {
-		return new Vector4(0, 0, 0, 0);
-	}
+	public static Vector4 zero() { return new Vector4(0, 0, 0, 0); }
 }

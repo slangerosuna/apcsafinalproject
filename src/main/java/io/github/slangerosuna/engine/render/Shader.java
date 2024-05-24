@@ -65,9 +65,8 @@ public class Shader {
 
 	public int getUniformLocation(String name) {
 		int location = GL20.glGetUniformLocation(programID, name);
-		if (location == -1) {
+		if (location == -1)
 			System.err.println("Could not find uniform variable '" + name + "'!");
-		}
 		return location;
 	}
 

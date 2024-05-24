@@ -62,13 +62,8 @@ public class Input implements Resource {
 		};
 	}
 
-	public static boolean isKeyDown(int key) {
-		return keys[key];
-	}
-
-	public static boolean isButtonDown(int button) {
-		return buttons[button];
-	}
+	public static boolean isKeyDown(int key) { return keys[key]; }
+	public static boolean isButtonDown(int button) { return buttons[button]; }
 
 	public void destroy() {
 		keyboard.free();
@@ -77,35 +72,12 @@ public class Input implements Resource {
 		mouseScroll.free();
 	}
 
-	public static double getMouseX() {
-		return mouseX;
-	}
-
-	public static double getMouseY() {
-		return mouseY;
-	}
-
-	public static double getScrollX() {
-		return scrollX;
-	}
-
-	public static double getScrollY() {
-		return scrollY;
-	}
-
-	public GLFWKeyCallback getKeyboardCallback() {
-		return keyboard;
-	}
-
-	public GLFWCursorPosCallback getMouseMoveCallback() {
-		return mouseMove;
-	}
-
-	public GLFWMouseButtonCallback getMouseButtonsCallback() {
-		return mouseButtons;
-	}
-
-	public GLFWScrollCallback getMouseScrollCallback() {
-		return mouseScroll;
-	}
+	public static double getMouseX() { return mouseX; }
+	public static double getMouseY() { return mouseY; }
+	public static double getScrollX() { return scrollX; }
+	public static double getScrollY() { return scrollY; }
+	public GLFWKeyCallback getKeyboardCallback() { return keyboard; }
+	public GLFWCursorPosCallback getMouseMoveCallback() { return mouseMove; }
+	public GLFWMouseButtonCallback getMouseButtonsCallback() { return mouseButtons; }
+	public GLFWScrollCallback getMouseScrollCallback() { return mouseScroll; }
 }

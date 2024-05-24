@@ -114,13 +114,8 @@ public class Window implements Resource {
 		GLFW.glfwTerminate();
 	}
 
-	public void setBackgroundColor(float r, float g, float b) {
-		rgb = new Vector3(r, g, b);
-	}
-
-	public boolean isFullscreen() {
-		return isFullscreen;
-	}
+	public void setBackgroundColor(float r, float g, float b) { rgb = new Vector3(r, g, b); }
+	public boolean isFullscreen() { return isFullscreen; }
 
 	public void setFullscreen(boolean isFullscreen) {
 		this.isFullscreen = isFullscreen;
@@ -133,19 +128,8 @@ public class Window implements Resource {
 		}
 	}
 
-	public int getWidth() {
-		return width;
-	}
-
-	public int getHeight() {
-		return height;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public long getWindow() {
-		return window;
-	}
+	public int getWidth() { return width; }
+	public int getHeight() { return height; }
+	public String getTitle() { return title; }
+	public long getWindow() { return window; }
 }

@@ -57,9 +57,8 @@ public class PlayerController extends System {
         if (Input.isKeyDown(GLFW.GLFW_KEY_SPACE) && !prevSpace && playerRB.velocity.y == 0) {
             playerRB.applyImpulse(new Vector3(0, 0.3f, 0));
             prevSpace = true;
-        } else if (!Input.isKeyDown(GLFW.GLFW_KEY_SPACE)) {
+        } else if (!Input.isKeyDown(GLFW.GLFW_KEY_SPACE))
             prevSpace = false;
-        }
 
         Vector3 horzMovement = horzMovementUnit.multiply(playerSpeed * deltaTime);
 

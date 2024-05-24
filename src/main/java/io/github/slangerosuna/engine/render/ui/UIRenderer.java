@@ -38,9 +38,9 @@ public class UIRenderer extends System {
     @Override
     public void execute(Entity[] queriedEntities, Resource[] queriedResources, float deltaTime) {
         var err = GL11.glGetError();
-        if (err != GL11.GL_NO_ERROR) {
+        if (err != GL11.GL_NO_ERROR)
             java.lang.System.out.println("Error in normal rendering: " + err);
-        }
+
         if (queriedResources.length == 0 || queriedEntities.length == 0) return;
         shader.bind();
 
@@ -52,9 +52,8 @@ public class UIRenderer extends System {
 		GL30.glEnableVertexAttribArray(2);
 		GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, rect.getIBO());
         err = GL11.glGetError();
-        if (err != GL11.GL_NO_ERROR) {
+        if (err != GL11.GL_NO_ERROR)
             java.lang.System.out.println("Error on mesh binding in UI Renderer: " + err);
-        }
 
         for (var entity : queriedEntities) {
             GL11.glClear(GL11.GL_DEPTH_BUFFER_BIT);
@@ -69,39 +68,35 @@ public class UIRenderer extends System {
 		GL30.glDisableVertexAttribArray(2);
 		GL30.glBindVertexArray(0);
         err = GL11.glGetError();
-        if (err != GL11.GL_NO_ERROR) {
+        if (err != GL11.GL_NO_ERROR)
             java.lang.System.out.println("Error on mesh unbinding in UI Renderer: " + err);
-        }
+
         shader.unBind();
         err = GL11.glGetError();
-        if (err != GL11.GL_NO_ERROR) {
+        if (err != GL11.GL_NO_ERROR)
             java.lang.System.out.println("Error on shader unbinding in UI Renderer: " + err);
-        }
     }
 
     private void renderUIObject(UIElement uiElement, Material material) {
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
 		GL13.glBindTexture(GL11.GL_TEXTURE_2D, material.getTextureID());
         var err = GL11.glGetError();
-        if (err != GL11.GL_NO_ERROR) {
+        if (err != GL11.GL_NO_ERROR)
             java.lang.System.out.println("Error on texture binding in UI Renderer: " + err);
-        }
 
         shader.setUniform("pos", new Vector3(uiElement.x, uiElement.y, 1));
         err = GL11.glGetError();
-        if (err != GL11.GL_NO_ERROR) {
+        if (err != GL11.GL_NO_ERROR)
             java.lang.System.out.println("Error on uniform setting in UI Renderer: " + err);
-        }
+
         shader.setUniform("scale", new Vector3(uiElement.width, uiElement.height, 1));
         err = GL11.glGetError();
-        if (err != GL11.GL_NO_ERROR) {
+        if (err != GL11.GL_NO_ERROR)
             java.lang.System.out.println("Error on uniform setting in UI Renderer: " + err);
-        }
 
         GL11.glDrawElements(GL11.GL_TRIANGLES, indicesLength, GL11.GL_UNSIGNED_INT, 0);
         err = GL11.glGetError();
-        if (err != GL11.GL_NO_ERROR) {
+        if (err != GL11.GL_NO_ERROR)
             java.lang.System.out.println("Error on draw in UI Renderer: " + err);
-        }
     }
 }

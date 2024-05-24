@@ -31,11 +31,9 @@ public class Matrix4 {
 	}
 	public static Matrix4 identity() {
 		Matrix4 result = new Matrix4();
-		for(int x = 0; x < SIZE; x++) {
-			for(int y = 0; y < SIZE; y++) {
+		for(int x = 0; x < SIZE; x++)
+			for(int y = 0; y < SIZE; y++)
 				result.set(x, y, 0);
-			}
-		}
 
 		result.set(0, 0, 1);
 		result.set(1, 1, 1);
@@ -121,14 +119,12 @@ public class Matrix4 {
 	public static Matrix4 Multiply(Matrix4 a, Matrix4 b) {
 		Matrix4 result = Matrix4.identity();
 
-		for(int x = 0; x < SIZE; x++) {
-			for(int y = 0; y < SIZE; y++) {
+		for(int x = 0; x < SIZE; x++)
+			for(int y = 0; y < SIZE; y++)
 				result.set(x, y, a.get(x, 0) * b.get(0, y) +
 								 a.get(x, 1) * b.get(1, y) +
 								 a.get(x, 2) * b.get(2, y) +
 								 a.get(x, 3) * b.get(3, y));
-			}
-		}
 
 		return result;
 	}
@@ -136,12 +132,8 @@ public class Matrix4 {
 		Matrix4 axis = Matrix4.translation(objectiveAxis);
 		return Matrix4.Multiply(axis, inverted()).getTranslation();
 	}
-	public Vector3 getTranslation(){
-		return new Vector3(get(0, 3), get(1, 3), get(2, 3));
-	}
-	public Vector3 getScale(){
-		return new Vector3(get(0, 0), get(1, 1), get(2, 2));
-	}
+	public Vector3 getTranslation() { return new Vector3(get(0, 3), get(1, 3), get(2, 3)); }
+	public Vector3 getScale() { return new Vector3(get(0, 0), get(1, 1), get(2, 2)); }
 	public Matrix4 inverted(){
 		//Create a matrix to receive inverse matrix data
     	Matrix4 reMatrix = Matrix4.identity();

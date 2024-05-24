@@ -42,9 +42,9 @@ public class ObjLoader {
 
                     var vertex = new Vertex(positions[vertexIndex], uvs[uvIndex], normals[normalIndex]);
 
-                    if (vertexIndexMap.get(vertex) != null) {
+                    if (vertexIndexMap.get(vertex) != null)
                         indices.add(vertexIndexMap.get(vertex));
-                    } else {
+                    else {
                         vertices.add(vertex);
                         vertexIndexMap.put(vertex, vertices.size() - 1);
                         indices.add(vertices.size() - 1);
@@ -59,9 +59,9 @@ public class ObjLoader {
 
                     var vertex = new Vertex(positions[vertexIndex], uvs[uvIndex], normals[normalIndex]);
 
-                    if (vertexIndexMap.get(vertex) != null) {
+                    if (vertexIndexMap.get(vertex) != null)
                         indices.add(vertexIndexMap.get(vertex));
-                    } else {
+                    else {
                         vertices.add(vertex);
                         vertexIndexMap.put(vertex, vertices.size() - 1);
                         indices.add(vertices.size() - 1);
@@ -76,9 +76,9 @@ public class ObjLoader {
 
                     var vertex = new Vertex(positions[vertexIndex], uvs[uvIndex], normals[normalIndex]);
 
-                    if (vertexIndexMap.get(vertex) != null) {
+                    if (vertexIndexMap.get(vertex) != null)
                         indices.add(vertexIndexMap.get(vertex));
-                    } else {
+                    else {
                         vertices.add(vertex);
                         vertexIndexMap.put(vertex, vertices.size() - 1);
                         indices.add(vertices.size() - 1);

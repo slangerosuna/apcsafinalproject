@@ -12,11 +12,9 @@ public class Material implements Component {
 	private int textureID;
 
 	public Material(String path) {
-		try {
-			texture = Texture.loadTexture(path);
-		} catch (Exception e){
-			System.err.println("could not find file at " + path);
-		}
+		try { texture = Texture.loadTexture(path); }
+		catch (Exception e)
+		  { System.err.println("could not find file at " + path); }
 
 		create();
 	}

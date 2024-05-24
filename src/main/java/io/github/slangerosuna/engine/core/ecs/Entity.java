@@ -7,9 +7,7 @@ public final class Entity {
     private int id;
     private boolean alive = true;
 
-    public boolean isAlive(){
-        return alive;
-    }
+    public boolean isAlive() { return alive; }
 
     public Entity(Scene scene){
         components = new ArrayList<Component>();
@@ -27,22 +25,10 @@ public final class Entity {
         alive = false;
     }
 
-    public void killAllChildren() {
-        for(var component : components)
-            component.kill();
-    }
-
-    public int getId(){
-        return id;
-    }
-
-    public void decrementId(){
-        id--;
-    }
-
-    public void addComponent(Component component){
-        components.add(component);
-    }
+    public void killAllChildren() { for(var component : components) component.kill(); }
+    public int getId() { return id; }
+    public void decrementId() { id--; }
+    public void addComponent(Component component){ components.add(component); }
 
     public Component getComponent(int type){
         for(var component : components)

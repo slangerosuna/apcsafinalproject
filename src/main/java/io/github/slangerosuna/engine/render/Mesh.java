@@ -36,11 +36,13 @@ public class Mesh implements Component {
 				new Vertex(new Vector3(-0.5f, 0.5f, 0.0f), new Vector2(0, 0), new Vector3(1, 0, 0)),
 				new Vertex(new Vector3(0.5f, 0.5f, 0.0f), new Vector2(1.0f, 0), new Vector3(0, 0, 1)),
 				new Vertex(new Vector3(0.5f, -0.5f, 0.0f), new Vector2(1.0f, 1.0f), new Vector3(0, 1, 0)),
-				new Vertex(new Vector3(-0.5f, -0.5f, 0.0f), new Vector2(0, 1.0f), new Vector3(1, 1, 0)) },
+				new Vertex(new Vector3(-0.5f, -0.5f, 0.0f), new Vector2(0, 1.0f), new Vector3(1, 1, 0))
+			},
 			new int[] {
 				0, 1, 2,
 				0, 3, 2,
-			});
+			}
+		);
 	}
 
 	public Mesh(Vertex[] vertices, int[] indices) {

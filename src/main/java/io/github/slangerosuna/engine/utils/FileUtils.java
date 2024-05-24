@@ -10,9 +10,8 @@ public class FileUtils {
 		try {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(FileUtils.class.getResourceAsStream(path)));
 			String line = "";
-			while ((line = reader.readLine()) != null) {
+			while ((line = reader.readLine()) != null)
 				result.append(line).append("\n");
-			}
 		} catch (Exception e) {
 			System.err.println("Couldn't find the file at " + path);
 		}

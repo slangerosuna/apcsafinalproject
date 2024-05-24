@@ -13,6 +13,6 @@ public class Projectile implements Component {
     public Projectile(float speed) { this.speed = speed; }
     public Projectile(float speed, float damage) { this(speed); this.damage = damage; }
 
-    public float getSpeed() {return speed;}
-    public float getDamage() {return damage;}
+    public float getSpeed() { return speed; }
+    public float getDamage() { return damage; }
 }

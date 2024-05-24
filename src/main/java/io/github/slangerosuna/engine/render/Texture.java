@@ -50,9 +50,8 @@ public class Texture {
             if (filePath.charAt(1) == 'C' || filePath.charAt(1) == 'D')
                 filePath = filePath.substring(1);
             buffer = STBImage.stbi_load(filePath, w, h, channels, 4);
-            if(buffer ==null) {
+            if(buffer ==null)
                 throw new Exception("Can't load file "+texture+" "+STBImage.stbi_failure_reason());
-            }
             width = w.get();
             height = h.get();
 

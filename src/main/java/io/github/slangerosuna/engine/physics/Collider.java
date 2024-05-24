@@ -8,7 +8,7 @@ import io.github.slangerosuna.engine.utils.Pair;
 public class Collider implements Component {
     public static final int type = Component.registerComponent("Collider");
     public int getType() { return type; }
-    public void kill() {}
+    public void kill() { }
     private float w, h, d; // width, height, depth
     public float getWidth() { return this.w; }
     public float getHeight() { return this.h; }
@@ -49,13 +49,11 @@ public class Collider implements Component {
         displacement = displacement.multiply(new Vector3(1 / (w + other.w), 1 / (h + other.h), 1 / (d + other.d)));
         var axis = new Vector3(0, 0, 0);
 
-        if (Math.abs(displacement.x) >= Math.abs(displacement.y) && Math.abs(displacement.x) >= Math.abs(displacement.z)) {
+        if (Math.abs(displacement.x) >= Math.abs(displacement.y) && Math.abs(displacement.x) >= Math.abs(displacement.z))
             axis = new Vector3(displacement.x, 0, 0);
-        } else if (Math.abs(displacement.y) >= Math.abs(displacement.x) && Math.abs(displacement.y) >= Math.abs(displacement.z)) {
+        else if (Math.abs(displacement.y) >= Math.abs(displacement.x) && Math.abs(displacement.y) >= Math.abs(displacement.z))
             axis = new Vector3(0, displacement.y, 0);
-        } else {
-            axis = new Vector3(0, 0, displacement.z);
-        }
+        else axis = new Vector3(0, 0, displacement.z);
 
         return axis.normalized();
     }

@@ -6,7 +6,7 @@ import io.github.slangerosuna.engine.math.vector.Vector3;
 public class RigidBody implements Component {
     public static final int type = Component.registerComponent("RigidBody");
     public int getType() { return type; }
-    public void kill() {}
+    public void kill() { }
  
     private float mass;
     public float getMass() { return this.mass; }
@@ -33,8 +33,7 @@ public class RigidBody implements Component {
     }
 
     public void applyGravity(float gravity) {
-        if (this.useGravity) {
+        if (this.useGravity)
             this.velocity = this.velocity.add(new Vector3(0, -gravity, 0));
-        }
     }
 }
