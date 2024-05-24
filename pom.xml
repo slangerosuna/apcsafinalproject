@@ -103,7 +103,7 @@
             <id>windows</id>
             <activation>
                 <os>
-                    <name>windows</name>
+                    <family>windows</family>
                 </os>
             </activation>
             <properties>
