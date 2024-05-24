@@ -22,8 +22,6 @@ public class Player implements Component {
         return false;
     };
     public static void setDisplayRedVignette(BooleanSupplier displayRedVignette) { Player.displayRedVignette = displayRedVignette; }
-    private static BooleanSupplier killVignette;
-    public static void setKillVignette(BooleanSupplier killVignette) { Player.killVignette = killVignette; }
 
     private static BooleanSupplier die = () -> {
         var scene = Scene.curScene;

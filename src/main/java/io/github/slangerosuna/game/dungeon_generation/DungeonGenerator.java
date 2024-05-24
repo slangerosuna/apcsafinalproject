@@ -2,12 +2,10 @@ package io.github.slangerosuna.game.dungeon_generation;
 
 import java.util.ArrayList;
 
-import io.github.slangerosuna.engine.core.ecs.Entity;
 import io.github.slangerosuna.engine.core.ecs.Scene;
 import io.github.slangerosuna.engine.math.vector.Vector3;
 import io.github.slangerosuna.engine.physics.Collider;
 import io.github.slangerosuna.engine.render.Transform;
-import io.github.slangerosuna.engine.utils.ObjLoader;
 
 public class DungeonGenerator {
     Scene scene;
