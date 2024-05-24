@@ -47,7 +47,7 @@ public class Texture {
             var filePath = Texture.class.getResource(texture).getPath();
 
             // Windows fix
-            if (filePath.charAt(1) == 'C')
+            if (filePath.charAt(1) == 'C' || filePath.charAt(1) == 'D')
                 filePath = filePath.substring(1);
             buffer = STBImage.stbi_load(filePath, w, h, channels, 4);
             if(buffer ==null) {
