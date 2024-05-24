@@ -6,7 +6,7 @@
 
     <groupId>io.github.slangerosuna</groupId>
     <artifactId>apcsafinalproject</artifactId>
-    <version>0.0</version>
+    <version>1.0</version>
     <packaging>jar</packaging>
 
     <name>apcsafinalproject</name>
@@ -16,6 +16,7 @@
         <maven.compiler.target>17</maven.compiler.target>
         <lwjgl.version>3.2.2</lwjgl.version>
         <junit.version>5.4.2</junit.version>
+        <build.finalName>${project.artifactId}-${project.version}</build.finalName>
     </properties>
 
     <dependencyManagement>
@@ -188,7 +189,18 @@
                     <argLine>-XstartOnFirstThread</argLine>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <mainClass>io.github.slangerosuna.Main</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
-
 </project>
