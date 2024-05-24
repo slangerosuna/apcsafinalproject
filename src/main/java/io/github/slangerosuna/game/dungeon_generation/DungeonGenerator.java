@@ -30,18 +30,16 @@ public class DungeonGenerator {
         startDungeon();
         Room[] pathGenerated = new Room[0];
         int attempts = 0;
-        while (pathGenerated.length < minRooms && attempts < maxAttempts) {
+        while (pathGenerated.length < minRooms && attempts < maxAttempts)
             pathGenerated = genRoomSequenceFromRoom(generatedRooms.get(0), minRooms);
-        }
+        
         if (pathGenerated.length < minRooms && attempts >= maxAttempts) {System.out.println("Unable to generate path to exit of sufficient length");}
         genSidePaths(pathGenerated, maxSidePathLength);
     }
 
     public void addRoom(Room room) {
         generatedRooms.add(room);
-        for (Door door : room.doors) {
-            if (!door.isConnected()) unconnectedDoors.add(door);
-        }
+        for (Door door : room.doors) if (!door.isConnected()) unconnectedDoors.add(door);
     }
 
     public void startDungeon() {
@@ -49,11 +47,10 @@ public class DungeonGenerator {
     }
 
     public boolean doesRoomIntersect(Room room) {
-        for (Room existingRoom : generatedRooms) {
-            if (room.generationCollider.intersects(existingRoom.generationCollider)) {
+        for (Room existingRoom : generatedRooms)
+            if (room.generationCollider.intersects(existingRoom.generationCollider))
                 return true;
-            }
-        }
+
         return false;
     }
 
@@ -65,14 +62,13 @@ public class DungeonGenerator {
                 addRoom(room);
                 return true; 
             }
-            room.kill();
         }
         return false;
     }
 
     public int genRandRoomAtDoor(Door door) {
         ArrayList<Integer> indices = new ArrayList<Integer>();
-        for (int i = 0; i < rooms.length; i++) {indices.add(i);}
+        for (int i = 0; i < rooms.length; i++) indices.add(i);
 
         RoomPrefab prefab;
         int prefabIndex = -1;
@@ -82,9 +78,8 @@ public class DungeonGenerator {
             prefabIndex = indices.remove((int) Math.random() * indices.size());
             prefab = rooms[prefabIndex];
             couldGenerate = genRoomAtDoor(prefab, door);
-            if (couldGenerate) {
+            if (couldGenerate)
                 room = door.getConnectedRoom();
-            }
         }
         if (room == null) prefabIndex = -1;
         return prefabIndex;
@@ -92,9 +87,9 @@ public class DungeonGenerator {
 
     public boolean genRandRoomAtRoom(Room room) {
         ArrayList<Door> availableDoors = new ArrayList<Door>();
-        for (Door door : room.doors) {
-            if (!door.isConnected()) availableDoors.add(door);
-        }
+        for (Door door : room.doors)
+            if (!door.isConnected())
+                availableDoors.add(door);
         Door curDoor;
         boolean couldGenerate = false;
         while (!couldGenerate && availableDoors.size() > 0) {
@@ -116,12 +111,12 @@ public class DungeonGenerator {
                 rooms.add(generatedRooms.get(generatedRooms.size()-1));
             }
         }
-        return (Room[]) rooms.toArray();
+        return rooms.toArray(Room[]::new);
     }
 
     public void genSidePaths(Room[] mainPath, int maxSidePathLength) {
         ArrayList<ArrayList<Room>> roomTree = new ArrayList<ArrayList<Room>>(maxSidePathLength+1);
-        for (Room room : mainPath) {roomTree.get(0).add(room);}
+        for (Room room : mainPath) roomTree.get(0).add(room);
 
         Room curRoom;
         Room[] pathGenerated;
@@ -130,9 +125,8 @@ public class DungeonGenerator {
                 curRoom = roomTree.get(i).remove((int)(Math.random() * roomTree.get(i).size()));
                 for (int j = 0; j < curRoom.getUnconnectedDoors().length; j++) {
                     pathGenerated = genRoomSequenceFromRoom(curRoom, maxSidePathLength-j);
-                    for (int k = 0; k < pathGenerated.length; k++) {
+                    for (int k = 0; k < pathGenerated.length; k++)
                         roomTree.get(i+k+1).add(pathGenerated[k]);
-                    }
                 }
             }
         }

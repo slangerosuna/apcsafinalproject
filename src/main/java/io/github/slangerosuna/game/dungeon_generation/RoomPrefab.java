@@ -22,7 +22,7 @@ public abstract class RoomPrefab {
         this.numDoors = doorPositions.length;
     }
 
-    public int getNumDoors() {return numDoors;}
+    public int getNumDoors() { return numDoors; }
 
     public Entity[] genColliders(Scene scene, Vector3 roomPosition) {
         Entity[] colliderEntities = new Entity[colliderPositions.length];

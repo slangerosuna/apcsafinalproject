@@ -21,13 +21,6 @@ public abstract class Room {
     public Entity[] colliders;
     public Entity roomEntity;
 
-    public void kill() {
-        transform.kill();
-        for (Entity collider : colliders) {
-            collider.kill();
-        }
-    }
-
     public Room(Scene scene, String modelPath, String texturePath, Transform transform, Collider collider, Entity[] colliders, Door... doors) {
         this.scene = scene;
         this.modelPath = modelPath;
@@ -40,14 +33,13 @@ public abstract class Room {
 
     public Door[] getUnconnectedDoors() {
         ArrayList<Door> unconnectedDoors = new ArrayList<Door>();
-        for (Door door : doors) {
-            if (!door.isConnected()) unconnectedDoors.add(door);
-        }
+        for (Door door : doors) if (!door.isConnected()) unconnectedDoors.add(door);
+
         return (Door[]) unconnectedDoors.toArray();
     }
 
     private void adoptDoors() {
-        for (Door door : doors) { door.setParent(this); }
+        for (Door door : doors) door.setParent(this);
     }
 
     public void create() {

@@ -30,10 +30,9 @@ public class Door {
         this.parent = room;
     }
 
-    //prec: Door is connected equals false
     public void setConnectedRoom(Room room) {
-        // Proper exception needed
-        if (connected) {return;}
+        if (connected)
+            throw new IllegalArgumentException("Door is already connected");
         connected = true;
         connectedRoom = room;
     }
