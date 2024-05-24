@@ -20,7 +20,7 @@ public class Transform implements Component {
 
     public Vector3 forward() {
         var cosX = (float)Math.cos(rotation.x);
-        return new Vector3((float)Math.sin(rotation.y) * cosX,(float)Math.sin(rotation.x), (float)Math.cos(rotation.y) * cosX);
+        return new Vector3(-(float)Math.sin(rotation.y) * cosX,(float)Math.sin(rotation.x), -(float)Math.cos(rotation.y) * cosX);
     }
 
     public String toString() {
