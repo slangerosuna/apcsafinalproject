@@ -1,6 +1,7 @@
 package io.github.slangerosuna.engine.core.ecs;
 
 import java.util.ArrayList;
+import java.util.function.Function;
 
 import io.github.slangerosuna.engine.core.scheduler.Scheduler;
 
@@ -72,6 +73,12 @@ public class Scene {
 
     public ArrayList<Entity> getEntities() {
         return entities;
+    }
+
+    public void filterEntities(Function<Entity, Boolean> filter) {
+        for (int i = 0; i < entities.size(); i++)
+            if (!filter.apply(entities.get(i)))
+                removeEntity(entities.get(i--));
     }
 
     public ArrayList<Resource> getResources() {
