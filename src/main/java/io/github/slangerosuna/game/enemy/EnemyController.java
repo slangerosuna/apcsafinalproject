@@ -54,11 +54,10 @@ public class EnemyController extends System {
 
             Vector3 direction = playerPos.sub(enemyPos).normalized();
             float targetYRot = (float)Math.toDegrees(Math.atan2(direction.x, direction.z));
-            targetYRot += 90;
 
             // rotate enemy towards player at a constant rate (keeping track of velocity may be better in the future)
             float currentYRot = enemyTransform.rotation.y;
-            float diff = targetYRot - currentYRot;
+            float diff = targetYRot + 90f - currentYRot;
 
             // make sure diff is in [-180, 180] so that the enemy rotates the shortest way
             diff %= 360;
@@ -84,7 +83,7 @@ public class EnemyController extends System {
                 projectile.addComponent(mat);
 
                 Vector3 projPos = enemyPos.add(new Vector3(0, 0, 0));
-                Transform projTransform = new Transform(projPos, new Vector3(0, targetYRot - 90f, 0), new Vector3(0.1f, 0.1f, 0.1f));
+                Transform projTransform = new Transform(projPos, new Vector3(0, targetYRot, 0), new Vector3(0.1f, 0.1f, 0.1f));
 
                 Collider projCollider = new Collider(1.0f, 1.0f, 1.0f, projTransform);
 
