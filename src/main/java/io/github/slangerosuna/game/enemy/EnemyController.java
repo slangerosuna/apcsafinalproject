@@ -75,7 +75,7 @@ public class EnemyController extends System {
 
             if (((Enemy)enemy.getComponent(Enemy.type)).attacksPlayer()
             &&  ((Enemy)enemy.getComponent(Enemy.type)).canAttack(time)) {
-                var projectile = new Entity(Scene.curScene, new Projectile(1.0f, 1.0f));
+                var projectile = new Entity(Scene.curScene, new Projectile(8.0f, 1.0f));
                 var mesh = ObjLoader.loadObj(projectileModelPath);
                 var mat = new Material(projectileTexturePath);
 

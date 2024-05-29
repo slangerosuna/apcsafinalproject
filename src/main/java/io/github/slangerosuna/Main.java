@@ -45,7 +45,7 @@ public class Main {
         
         entity.addComponent(new Collider(1.0f, 1.0f, 1.0f, (Transform)entity.getComponent(Transform.type)));
         entity.addComponent(new RigidBody(1.0f, true));
-        entity.addComponent(new Enemy(0.1f, true));
+        entity.addComponent(new Enemy(0.9f, true));
 
         var cameraTransform = new Transform(new Vector3(0, 5, -30f), new Vector3(0, 180, 0), new Vector3(1, 1, 1));
         var camera = new Entity(scene,
