@@ -54,5 +54,6 @@ public abstract class RoomPrefab {
         return doors;
     }
 
+    public abstract Room genRoomAtCoord(Scene scene, Vector3 coord);
     public abstract Room genRoomFromDoor(Scene scene, Door otherDoor, int connectedDoorIndex);
 }

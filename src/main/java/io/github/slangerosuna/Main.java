@@ -18,6 +18,7 @@ import io.github.slangerosuna.game.enemy.Enemy;
 import io.github.slangerosuna.game.enemy.EnemyController;
 import io.github.slangerosuna.game.enemy.Projectile;
 import io.github.slangerosuna.game.enemy.ProjectileController;
+import java.lang.System;
 
 public class Main {
     private static final String windowTitle = "Hello, World!";
@@ -46,7 +47,7 @@ public class Main {
         entity.addComponent(new RigidBody(1.0f, true));
         entity.addComponent(new Enemy(0.1f, true));
 
-        var cameraTransform = new Transform(new Vector3(0, 5, -7f), new Vector3(0, 180, 0), new Vector3(1, 1, 1));
+        var cameraTransform = new Transform(new Vector3(0, 5, -30f), new Vector3(0, 180, 0), new Vector3(1, 1, 1));
         var camera = new Entity(scene,
             new Camera(90, 0.1f, 1000),
             cameraTransform,
@@ -68,7 +69,9 @@ public class Main {
 
         RoomPrefab[] prefabs = DungeonGenerator.defaultRoomPrefabs();
         DungeonGenerator dungeonGenerator = new DungeonGenerator(scene, prefabs[0], prefabs);
-        dungeonGenerator.startDungeon();
+        dungeonGenerator.startDungeon(new Vector3(0f, 5.5f, 0f));
+        Room[] path = dungeonGenerator.genRoomSequenceFromRoom(dungeonGenerator.getGeneratedRooms().get(0), 5);
+        dungeonGenerator.genSidePaths(path, 2);
 
         var mesh = ObjLoader.loadObj(modelPath);
         entity.addComponent(mesh);

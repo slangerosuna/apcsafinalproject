@@ -26,16 +26,17 @@ public abstract class Room {
         this.modelPath = modelPath;
         this.texturePath = texturePath;
         this.transform = transform;
+        this.generationCollider = collider;
         this.colliders = colliders;
         this.doors = doors;
         adoptDoors();
     }
 
-    public Door[] getUnconnectedDoors() {
+    public ArrayList<Door> getUnconnectedDoors() {
         ArrayList<Door> unconnectedDoors = new ArrayList<Door>();
         for (Door door : doors) if (!door.isConnected()) unconnectedDoors.add(door);
 
-        return (Door[]) unconnectedDoors.toArray();
+        return unconnectedDoors;
     }
 
     private void adoptDoors() {
