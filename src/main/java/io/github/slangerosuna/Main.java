@@ -83,7 +83,14 @@ public class Main {
         RoomPrefab[] prefabs = DungeonGenerator.defaultRoomPrefabs();
         DungeonGenerator dungeonGenerator = new DungeonGenerator(scene, prefabs[0], prefabs);
         dungeonGenerator.startDungeon(new Vector3(0f, 5.5f, 0f));
-        Room[] path = dungeonGenerator.genRoomSequenceFromRoom(dungeonGenerator.getGeneratedRooms().get(0), 5);
+        Room[] path = null;
+
+        while (true) {
+            try {
+                path = dungeonGenerator.genRoomSequenceFromRoom(dungeonGenerator.getGeneratedRooms().get(0), 5);
+                break;
+            } catch(Exception e) {java.lang.System.out.println("Error on room gen: " + e.getMessage()); e.printStackTrace();}
+        }
         dungeonGenerator.genSidePaths(path, 2);
 
         var mesh = ObjLoader.loadObj(modelPath);
