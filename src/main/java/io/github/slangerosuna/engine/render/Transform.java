@@ -19,8 +19,8 @@ public class Transform implements Component {
     }
 
     public Vector3 forward() {
-        var cosX = (float)Math.cos(rotation.x);
-        return new Vector3(-(float)Math.sin(rotation.y) * cosX,(float)Math.sin(rotation.x), -(float)Math.cos(rotation.y) * cosX);
+        var cosX = (float)Math.cos(Math.toRadians(rotation.x));
+        return new Vector3((float)Math.sin(Math.toRadians(rotation.y)) * cosX,(float)Math.sin(Math.toRadians(rotation.x)), (float)Math.cos(Math.toRadians(rotation.y)) * cosX);
     }
 
     public String toString() {
