@@ -18,4 +18,17 @@ public class FileUtils {
 
 		return result.toString();
 	}
+
+	public static String getNonRelativePath(String path) {
+		var filePath = FileUtils.class.getResource(path).getPath();
+		// Windows fix
+		if (filePath.charAt(1) == 'C' || filePath.charAt(1) == 'D')
+			filePath = filePath.substring(1);
+
+		// Jar fix
+		if (filePath.contains("!"))
+			filePath = filePath.substring(filePath.indexOf("!") + 25);
+
+		return filePath;
+	}
 }

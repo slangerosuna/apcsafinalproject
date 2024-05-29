@@ -1,5 +1,9 @@
 package io.github.slangerosuna;
 
+import io.github.slangerosuna.engine.audio.Audio;
+import io.github.slangerosuna.engine.audio.Listener;
+import io.github.slangerosuna.engine.audio.Sound;
+import io.github.slangerosuna.engine.audio.Source;
 import io.github.slangerosuna.engine.core.ecs.*;
 import io.github.slangerosuna.engine.render.*;
 import io.github.slangerosuna.engine.render.ui.UIElement;
@@ -37,6 +41,9 @@ public class Main {
 
         new Projectile(1.0f); // to register component
 
+        var audio = new Audio();
+        scene.addResource(audio);
+
         var entity = new Entity(scene, new Transform(new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(1, 1, 1)));
         var entity1 = new Entity(scene, new Transform(new Vector3(3, 0, 0), new Vector3(0, 0, 0), new Vector3(1, 1, 1)));
         var entity2 = new Entity(scene, new Transform(new Vector3(-3, 0, 0), new Vector3(0, 0, 0), new Vector3(1, 1, 1)));
@@ -46,6 +53,8 @@ public class Main {
         entity.addComponent(new RigidBody(1.0f, true));
         entity.addComponent(new Enemy(0.9f, true));
 
+        entity.addComponent(new Source(new Sound("/io/github/slangerosuna/resources/audio/mrow.ogg")));
+
         var cameraTransform = new Transform(new Vector3(0, 5, -30f), new Vector3(0, 180, 0), new Vector3(1, 1, 1));
         var camera = new Entity(scene,
             new Camera(90, 0.1f, 1000),
@@ -54,6 +63,11 @@ public class Main {
             new Collider(1.0f, 1.0f, 1.0f, cameraTransform),
             new RigidBody(1.0f, true)
         );
+        var listener = new Listener(cameraTransform, (RigidBody)camera.getComponent(RigidBody.type));
+        camera.addComponent(listener);
+
+        ((Source)entity.getComponent(Source.type)).play();
+
         var window = new Window(windowWidth, windowHeight, windowTitle);
         window.setBackgroundColor(0.05f, 0.045f, 0.06f);
 

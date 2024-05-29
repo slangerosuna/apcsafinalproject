@@ -2,10 +2,16 @@ package io.github.slangerosuna.engine.audio;
 
 import java.util.HashMap;
 
+import java.nio.*;
+
 import org.lwjgl.openal.AL10;
+import org.lwjgl.stb.STBVorbis;
+import org.lwjgl.stb.STBVorbisInfo;
+import org.lwjgl.system.MemoryStack;
+import org.lwjgl.system.MemoryUtil;
 
+import io.github.slangerosuna.engine.utils.FileUtils;
 import io.github.slangerosuna.engine.utils.WAVLoader;
-
 
 public class Sound {
     private static HashMap<String, Sound> sounds = new HashMap<String, Sound>();
@@ -22,7 +28,7 @@ public class Sound {
         int[] samplerate = new int[1];
         int[] bps = new int[1];
         int[] size = new int[1];
-        byte[] data = WAVLoader.loadWAV("path_to_file.wav", chan, samplerate, bps, size);
+        byte[] data = WAVLoader.loadWAV(file, chan, samplerate, bps, size);
         if (data == null)
             return null;
 
@@ -65,6 +71,16 @@ public class Sound {
         return sound;
     }
 
+    public Sound(String file) {
+        this.file = file;
+        bufferID = AL10.alGenBuffers();
+        STBVorbisInfo info = STBVorbisInfo.malloc();
+        ShortBuffer pcm = readVorbis(file, info);
+
+        // Copy to buffer
+        AL10.alBufferData(bufferID, info.channels() == 1 ? AL10.AL_FORMAT_MONO16 : AL10.AL_FORMAT_STEREO16, pcm, info.sample_rate());
+    }
+
     private final int bufferID;
     private int refCount = 1;
     private final String file;
@@ -83,5 +99,30 @@ public class Sound {
 
         sounds.remove(file);
         AL10.alDeleteBuffers(bufferID);
+    }
+
+    private ShortBuffer readVorbis(String filePath, STBVorbisInfo info) {
+        try (MemoryStack stack = MemoryStack.stackPush()) {
+            IntBuffer error = stack.mallocInt(1);
+
+            var path = FileUtils.getNonRelativePath(filePath);
+            long decoder = STBVorbis.stb_vorbis_open_filename(path, error, null);
+            if (decoder == MemoryUtil.NULL) {
+                throw new RuntimeException("Failed to open Ogg Vorbis file. Error: " + error.get(0));
+            }
+
+            STBVorbis.stb_vorbis_get_info(decoder, info);
+
+            int channels = info.channels();
+
+            int lengthSamples = STBVorbis.stb_vorbis_stream_length_in_samples(decoder);
+
+            ShortBuffer result = MemoryUtil.memAllocShort(lengthSamples * channels);
+
+            result.limit(STBVorbis.stb_vorbis_get_samples_short_interleaved(decoder, channels, result) * channels);
+            STBVorbis.stb_vorbis_close(decoder);
+
+            return result;
+        }
     }
 }

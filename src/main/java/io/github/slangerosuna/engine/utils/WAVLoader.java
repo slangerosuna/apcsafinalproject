@@ -22,7 +22,9 @@ public class WAVLoader {
 
     public static byte[] loadWAV(String fn, int[] chan, int[] samplerate, int[] bps, int[] size) {
         byte[] buffer = new byte[4];
-        try (InputStream in = new FileInputStream(fn)) {
+
+        var file = FileUtils.loadAsString(fn);
+        try (InputStream in = new ByteArrayInputStream(file.getBytes("UTF-8"))) {
             in.read(buffer, 0, 4);
             if (!new String(buffer, "UTF-8").equals("RIFF")) {
                 System.out.println("this is not a valid WAVE file");
