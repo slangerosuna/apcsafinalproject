@@ -18,7 +18,6 @@ import io.github.slangerosuna.game.enemy.Enemy;
 import io.github.slangerosuna.game.enemy.EnemyController;
 import io.github.slangerosuna.game.enemy.Projectile;
 import io.github.slangerosuna.game.enemy.ProjectileController;
-import java.lang.System;
 
 public class Main {
     private static final String windowTitle = "Hello, World!";
