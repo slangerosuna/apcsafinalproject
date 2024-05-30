@@ -55,11 +55,11 @@ public class Main {
 
         entity.addComponent(new Source(new Sound("/io/github/slangerosuna/resources/audio/mrow.ogg")));
 
-        var cameraTransform = new Transform(new Vector3(0, 5, -30f), new Vector3(0, 180, 0), new Vector3(1, 1, 1));
+        var cameraTransform = new Transform(new Vector3(0, 10, 0f), new Vector3(0, 180, 0), new Vector3(1, 1, 1));
         var camera = new Entity(scene,
             new Camera(90, 0.1f, 1000),
             cameraTransform,
-            new Player(1.0f),
+            new Player(3.0f),
             new Collider(1.0f, 1.0f, 1.0f, cameraTransform),
             new RigidBody(1.0f, true)
         );
@@ -81,17 +81,17 @@ public class Main {
         rect.create();
 
         RoomPrefab[] prefabs = DungeonGenerator.defaultRoomPrefabs();
-        DungeonGenerator dungeonGenerator = new DungeonGenerator(scene, prefabs[0], prefabs);
-        dungeonGenerator.startDungeon(new Vector3(0f, 5.5f, 0f));
-        Room[] path = null;
-
-        while (true) {
-            try {
-                path = dungeonGenerator.genRoomSequenceFromRoom(dungeonGenerator.getGeneratedRooms().get(0), 5);
-                break;
-            } catch(Exception e) {java.lang.System.out.println("Error on room gen: " + e.getMessage()); e.printStackTrace();}
+        RoomPrefab[] prefab2 = {prefabs[1]};
+        DungeonGenerator dungeonGenerator = new DungeonGenerator(scene, prefabs[1], prefab2);
+        dungeonGenerator.startDungeon(new Vector3(0f, 10f, 0f));
+        int pathLen = 5;
+        Room[] path = new Room[0];
+        while (path.length < pathLen) {
+            dungeonGenerator.clear(1);
+            path = dungeonGenerator.genRoomSequenceFromRoom(dungeonGenerator.getGeneratedRooms().get(0), pathLen);
         }
-        dungeonGenerator.genSidePaths(path, 2);
+        dungeonGenerator.genSidePaths(dungeonGenerator.getGeneratedRooms().toArray(Room[]::new), 3);
+        dungeonGenerator.create();
 
         var mesh = ObjLoader.loadObj(modelPath);
         entity.addComponent(mesh);

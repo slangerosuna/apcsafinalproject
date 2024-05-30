@@ -12,17 +12,24 @@ public class DungeonGenerator {
     RoomPrefab[] rooms;
     RoomPrefab startRoom;
     ArrayList<Room> generatedRooms;
-    ArrayList<Door> unconnectedDoors;
 
     public DungeonGenerator(Scene scene, RoomPrefab startRoom, RoomPrefab... rooms) {
         this.scene = scene;
         this.startRoom = startRoom;
         this.rooms = rooms;
         this.generatedRooms = new ArrayList<Room>();
-        this.unconnectedDoors = new ArrayList<Door>();
     }
 
     public ArrayList<Room> getGeneratedRooms() { return generatedRooms; }
+    private ArrayList<Door> getUnconnectedDoors() {
+        ArrayList<Door> unconnectedDoors = new ArrayList<Door>();
+        for (Room room : generatedRooms) {
+            for (Door door : room.getUnconnectedDoors()) {
+                unconnectedDoors.add(door);
+            }
+        }
+        return unconnectedDoors;
+    }
 
     public void generateDungeon(Scene scene, RoomPrefab[] prefabs, int minRooms, int maxAttempts, int maxSidePathLength) {
         this.rooms = prefabs;
@@ -37,9 +44,27 @@ public class DungeonGenerator {
         genSidePaths(pathGenerated, maxSidePathLength);
     }
 
+    public void create() {
+        for (Room room : generatedRooms) room.create();
+    }
+
+    public void clear() {
+        generatedRooms.clear();
+    }
+
+    public void clear(int startIndex, int endIndex) {
+        if (startIndex > generatedRooms.size()-1) return;
+        if (endIndex > generatedRooms.size()) endIndex = generatedRooms.size();
+        for (int i = 0; i < endIndex-startIndex; i++) {
+            generatedRooms.remove(startIndex);
+        }
+    }
+    public void clear(int startIndex) {
+        clear(startIndex, generatedRooms.size());
+    }
+
     public void addRoom(Room room) {
         generatedRooms.add(room);
-        for (Door door : room.doors) if (!door.isConnected()) unconnectedDoors.add(door);
     }
 
     public void startDungeon(Vector3 startPos) {
@@ -65,12 +90,15 @@ public class DungeonGenerator {
             if (!doesRoomIntersect(room)) { 
                 addRoom(room);
                 return true; 
+            } else {
+                door.removeConnectedRoom();
+                room.kill();
             }
         }
         return false;
     }
 
-    public int genRandRoomAtDoor(Door door) {
+    public Room genRandRoomAtDoor(Door door) {
         ArrayList<Integer> indices = new ArrayList<Integer>();
         for (int i = 0; i < rooms.length; i++) indices.add(i);
 
@@ -84,26 +112,28 @@ public class DungeonGenerator {
             couldGenerate = genRoomAtDoor(prefab, door);
             if (couldGenerate)
                 room = door.getConnectedRoom();
+                break;
         }
-        if (room == null) prefabIndex = -1;
-        return prefabIndex;
+        return room;
     }
 
     public boolean genRandRoomAtRoom(Room room) {
-        ArrayList<Door> availableDoors = new ArrayList<Door>();
-        for (Door door : room.doors) {
-            if (!door.isConnected())
-                availableDoors.add(door);
-        }
+        ArrayList<Integer> indices = new ArrayList<Integer>();
+        for (int i = 0; i < room.doors.length; i++) indices.add(i);
+
         Door curDoor;
+        int curIndex;
+        Room generatedDoor;
         boolean couldGenerate = false;
-        int generatedDoorIndex;
-        while (!couldGenerate && availableDoors.size() > 0) {
-            curDoor = availableDoors.remove((int)(Math.random() * availableDoors.size()));
-            generatedDoorIndex = genRandRoomAtDoor(curDoor);
-            couldGenerate = generatedDoorIndex != -1;
+        while (indices.size() > 0) {
+            curIndex = (int) (Math.random() * indices.size());
+            curDoor = room.doors[indices.remove(curIndex)];
+            if (curDoor.getConnectedRoom() == null) {
+                generatedDoor = genRandRoomAtDoor(curDoor);
+                if (generatedDoor != null) return true;
+            }
         }
-        return couldGenerate;
+        return false;
     }
 
     public Room[] genRoomSequenceFromRoom(Room startRoom, int numRooms) {
@@ -111,9 +141,12 @@ public class DungeonGenerator {
         int curNumRooms = 0;
         Room curRoom = startRoom;
         boolean couldGenerate = true;
-        while (curNumRooms < numRooms && couldGenerate) {
+        int attemptCounter = 0;
+        while (curNumRooms < numRooms && attemptCounter < curRoom.doors.length) {
             couldGenerate = genRandRoomAtRoom(curRoom);
+            attemptCounter++;
             if (couldGenerate) {
+                attemptCounter = 0;
                 curNumRooms++;
                 curRoom = generatedRooms.get(generatedRooms.size()-1);
                 rooms.add(curRoom);
@@ -125,16 +158,21 @@ public class DungeonGenerator {
     public void genSidePaths(Room[] mainPath, int maxSidePathLength) {
         ArrayList<ArrayList<Room>> roomTree = new ArrayList<ArrayList<Room>>();
         for (int i = 0; i < maxSidePathLength+1; i++) roomTree.add(new ArrayList<Room>());
-        for (Room room : mainPath) roomTree.get(0).add(room);
+        for (Room room : mainPath) {
+            roomTree.get(0).add(room);
+            roomTree.get(0).add(room);
+        }
 
         Room curRoom;
         Room[] pathGenerated;
-        for (int i = 0; i < maxSidePathLength; i++) {
+        int curIndex;
+        for (int i = 0; i < roomTree.size(); i++) {
             while (roomTree.get(i).size() > 0) {
-                curRoom = roomTree.get(i).remove((int)(Math.random() * roomTree.get(i).size()));
-                for (int j = 0; j < curRoom.getUnconnectedDoors().size(); j++) {
-                    pathGenerated = genRoomSequenceFromRoom(curRoom, maxSidePathLength-j);
-                    for (int k = 0; k < pathGenerated.length; k++)
+                curIndex = (int)(Math.random() * roomTree.get(i).size());
+                curRoom = roomTree.get(i).remove(curIndex);
+                for (int j = 0; j < curRoom.getUnconnectedDoors().size()-1; j++) {
+                    pathGenerated = genRoomSequenceFromRoom(curRoom, maxSidePathLength-i);
+                    for (int k = 0; k < pathGenerated.length-1; k++)
                         roomTree.get(i+k+1).add(pathGenerated[k]);
                 }
             }
@@ -150,7 +188,7 @@ public class DungeonGenerator {
         String texturePath1 = "/io/github/slangerosuna/resources/textures/wall.png";
         Vector3 dimensions1 = new Vector3(10, 10, 10);
         float colliderThickness = 0.5f;
-        Vector3[][] colliderPositions = new Vector3[6][2];
+        /*Vector3[][] colliderPositions = new Vector3[6][2];
         colliderPositions[0][0] = new Vector3(-dimensions1.x/2, -dimensions1.y/2-colliderThickness/2, -dimensions1.z/2);
         colliderPositions[0][1] = new Vector3(dimensions1.x/2, -dimensions1.y/2+colliderThickness/2, dimensions1.z/2);
         colliderPositions[1][0] = new Vector3(-dimensions1.x/2, -dimensions1.y/2, dimensions1.z/2-colliderThickness/2);
@@ -163,18 +201,22 @@ public class DungeonGenerator {
         colliderPositions[4][1] = new Vector3(-dimensions1.x/2+colliderThickness/2, dimensions1.y/2, dimensions1.z/2);
         colliderPositions[5][0] = new Vector3(dimensions1.x/2-colliderThickness/2, -dimensions1.y/2, -dimensions1.z/2);
         colliderPositions[5][1] = new Vector3(dimensions1.x/2+colliderThickness/2, dimensions1.y/2, dimensions1.z/2);
+        */
+        Vector3[][] floorColliderPositions = new Vector3[1][2];
+        floorColliderPositions[0][0] = new Vector3(-dimensions1.x/2, -dimensions1.y/2-colliderThickness/2, -dimensions1.z/2);
+        floorColliderPositions[0][1] = new Vector3(dimensions1.x/2, -dimensions1.y/2+colliderThickness/2, dimensions1.z/2);
+
         Vector3[] doorPositions1 = new Vector3[2];
         doorPositions1[0] = new Vector3(-dimensions1.x/2, -dimensions1.y/2+1, 0);
         doorPositions1[1] = new Vector3(dimensions1.x/2, -dimensions1.y/2+1, 0);
-        RoomPrefab cubeRoom = new RoomPrefab(modelPath1, texturePath1, colliderPositions, doorPositions1) {
+        RoomPrefab cubeRoom = new RoomPrefab(modelPath1, texturePath1, floorColliderPositions, doorPositions1) {
             public Room genRoomAtCoord(Scene scene, Vector3 coord) {
                 Vector3 position = new Vector3(coord.x, coord.y, coord.z);
                 Transform transform = new Transform(position, Vector3.zero(), new Vector3(1, 1, 1));
                 Collider collider = new Collider(dimensions1.x, dimensions1.y, dimensions1.z, transform);
                 Door[] doors = genDoors(position);
 
-                Room room = new Room(scene, modelPath, texturePath, transform, collider, genColliders(scene, position), doors) {};
-                room.create();
+                Room room = new Room(scene, this, modelPath, texturePath, transform, collider, doors) {};
                 return room;
             }
             public Room genRoomFromDoor(Scene scene, Door otherDoor, int connectedDoorIndex) {
@@ -191,7 +233,38 @@ public class DungeonGenerator {
 
 
         //Room 2
+        String modelPath2 = "/io/github/slangerosuna/resources/models/room2.obj";
+        String texturePath2 = "/io/github/slangerosuna/resources/textures/wall.png";
+        Vector3[][] floorColliderPositions2 = new Vector3[1][2];
+        floorColliderPositions2[0][0] = new Vector3(-dimensions1.x/2f, -dimensions1.y/2-2f, -dimensions1.z/2f);
+        floorColliderPositions2[0][1] = new Vector3(dimensions1.x/2f, -dimensions1.y/2f, dimensions1.z/2f);
+        Vector3 dimensions2 = new Vector3(10, 10, 10);
+        Vector3[] doorPositions2 = new Vector3[4];
+        doorPositions2[0] = new Vector3(-dimensions2.x/2, -dimensions2.y/2+dimensions2.y/8*3, 0);
+        doorPositions2[1] = new Vector3(dimensions2.x/2, -dimensions2.y/2+dimensions2.y/8*3, 0);
+        doorPositions2[2] = new Vector3(0, -dimensions2.y/2+dimensions2.y/8*3, -dimensions2.z/2);
+        doorPositions2[3] = new Vector3(0, -dimensions2.y/2+dimensions2.y/8*3, dimensions2.z/2);
+        RoomPrefab fourDoorCubeRoom = new RoomPrefab(modelPath2, texturePath2, floorColliderPositions2, doorPositions2) {
+            public Room genRoomAtCoord(Scene scene, Vector3 coord) {
+                Vector3 position = new Vector3(coord.x, coord.y, coord.z);
+                Transform transform = new Transform(position, Vector3.zero(), new Vector3(1, 1, 1));
+                Collider collider = new Collider(dimensions2.x, dimensions2.y, dimensions2.z, transform);
+                Door[] doors = genDoors(position);
 
+                Room room = new Room(scene, this, modelPath, texturePath, transform, collider, doors) {};
+                return room;
+            }
+            public Room genRoomFromDoor(Scene scene, Door otherDoor, int connectedDoorIndex) {
+                if (connectedDoorIndex == -1) connectedDoorIndex = 1;
+                Vector3 position = otherDoor.getTransform().position.sub(doorPositions2[connectedDoorIndex]);
+                Room room = genRoomAtCoord(scene, position);
+
+                room.doors[connectedDoorIndex].setConnectedRoom(otherDoor.getParent());
+                otherDoor.setConnectedRoom(room);
+                return room;
+            }
+        };
+        prefabs.add(fourDoorCubeRoom);
 
         return prefabs.toArray(RoomPrefab[]::new);
     }

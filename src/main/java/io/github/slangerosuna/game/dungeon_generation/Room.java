@@ -13,6 +13,7 @@ import io.github.slangerosuna.engine.core.ecs.Entity;
 
 public abstract class Room {
     private Scene scene;
+    private RoomPrefab prefab;
     private String modelPath;
     private String texturePath;
     public Transform transform;
@@ -21,20 +22,29 @@ public abstract class Room {
     public Entity[] colliders;
     public Entity roomEntity;
 
-    public Room(Scene scene, String modelPath, String texturePath, Transform transform, Collider collider, Entity[] colliders, Door... doors) {
+    public Room(Scene scene, RoomPrefab prefab, String modelPath, String texturePath, Transform transform, Collider collider, Door... doors) {
         this.scene = scene;
+        this.prefab = prefab;
         this.modelPath = modelPath;
         this.texturePath = texturePath;
         this.transform = transform;
         this.generationCollider = collider;
-        this.colliders = colliders;
         this.doors = doors;
         adoptDoors();
     }
 
+    public void kill() {
+        if (colliders != null) {
+            for (Entity collider : colliders) {
+                collider.kill();
+            }
+        }
+        if (roomEntity != null) roomEntity.kill();
+    }
+
     public ArrayList<Door> getUnconnectedDoors() {
         ArrayList<Door> unconnectedDoors = new ArrayList<Door>();
-        for (Door door : doors) if (!door.isConnected()) unconnectedDoors.add(door);
+        for (Door door : doors) if (door.getConnectedRoom() == null) unconnectedDoors.add(door);
 
         return unconnectedDoors;
     }
@@ -44,7 +54,8 @@ public abstract class Room {
     }
 
     public void create() {
-        transform.scale = new Vector3(0.5f, 0.5f, 0.5f);
+        transform.scale = new Vector3(.5f, .5f, .5f);
+        colliders = prefab.genColliders(scene, transform.position);
         roomEntity = new Entity(scene, transform, ObjLoader.loadObj(modelPath), new Material(texturePath));
     }
 }
