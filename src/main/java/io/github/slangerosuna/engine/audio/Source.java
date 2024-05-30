@@ -19,10 +19,13 @@ public class Source implements Component {
     private Transform transform;
     private RigidBody rigidBody;
 
-    public Source(Sound sound) {
+    public Source(Sound sound, Transform transform, RigidBody rigidBody) {
         sourceID = AL10.alGenSources();
         this.sound = sound;
         AL10.alSourcei(sourceID, AL10.AL_BUFFER, sound.getBufferID());
+
+        this.transform = transform;
+        this.rigidBody = rigidBody;
     }
 
     public void update() {

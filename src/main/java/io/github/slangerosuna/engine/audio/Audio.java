@@ -36,5 +36,8 @@ public class Audio implements Resource {
         AL10.alDopplerFactor(1.0f);
         AL10.alDistanceModel(AL10.AL_INVERSE_DISTANCE_CLAMPED);
         AL10.alDopplerVelocity(343.3f);
+
+        // make noise quieter as it gets further away
+        AL10.alSourcef(0, AL10.AL_ROLLOFF_FACTOR, 0.5f);
     }
 }

@@ -4,6 +4,8 @@ import io.github.slangerosuna.engine.audio.Audio;
 import io.github.slangerosuna.engine.audio.Listener;
 import io.github.slangerosuna.engine.audio.Sound;
 import io.github.slangerosuna.engine.audio.Source;
+import io.github.slangerosuna.engine.audio.UpdateListeners;
+import io.github.slangerosuna.engine.audio.UpdateSources;
 import io.github.slangerosuna.engine.core.ecs.*;
 import io.github.slangerosuna.engine.render.*;
 import io.github.slangerosuna.engine.render.ui.UIElement;
@@ -53,7 +55,7 @@ public class Main {
         entity.addComponent(new RigidBody(1.0f, true));
         entity.addComponent(new Enemy(0.9f, true));
 
-        entity.addComponent(new Source(new Sound("/io/github/slangerosuna/resources/audio/mrow.ogg")));
+        entity.addComponent(new Source(new Sound("/io/github/slangerosuna/resources/audio/mrow.ogg"), (Transform)entity.getComponent(Transform.type), (RigidBody)entity.getComponent(RigidBody.type)));
 
         var cameraTransform = new Transform(new Vector3(0, 10, 0f), new Vector3(0, 180, 0), new Vector3(1, 1, 1));
         var camera = new Entity(scene,
@@ -137,6 +139,8 @@ public class Main {
 
         scene.addSystem(new EnemyController());
         scene.addSystem(new ProjectileController());
+        scene.addSystem(new UpdateListeners());
+        scene.addSystem(new UpdateSources());
 
         var input = new Input();
 
