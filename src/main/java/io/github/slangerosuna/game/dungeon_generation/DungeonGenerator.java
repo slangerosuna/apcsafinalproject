@@ -118,7 +118,9 @@ public class DungeonGenerator {
             curDoor = room.doors[curIndex];
             if (curDoor.getConnectedRoom() == null) {
                 generatedDoor = genRandRoomAtDoor(curDoor);
-                if (generatedDoor != null) return generatedDoor;
+                if (generatedDoor != null) {
+                    return generatedDoor;
+                }
             }
         }
         return null;
@@ -184,8 +186,6 @@ public class DungeonGenerator {
             curRoom = genRandRoomAtRoom(rootRoom);
             if (curRoom != null)
                 roomTree.get(roomTreeIndex+1).add(curRoom);
-            else
-                break;
         }
         if (recurse && roomTreeIndex < roomTree.size()-2) {
             genSidePathsHelper(roomTree, roomTreeIndex+1, sparseness, true);

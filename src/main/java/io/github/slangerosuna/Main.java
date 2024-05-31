@@ -82,9 +82,9 @@ public class Main {
         RoomPrefab[] prefabs = DungeonGenerator.defaultRoomPrefabs();
         Vector3 startPos = new Vector3(0f, 10f, 0f);
         int pathLen = 20;
-        int maxSidePathLength = 3;
+        int maxSidePathLength = 5;
         float sparseness = 1.5f;
-        float recursion = 1f;
+        float recursion = 1.5f;
         Room[] dungeon = DungeonGenerator.generateDungeon(scene, prefabs[0], prefabs, startPos, pathLen, maxSidePathLength, sparseness, recursion);
 
         java.util.ArrayList<Entity> enemies = new java.util.ArrayList<Entity>();
