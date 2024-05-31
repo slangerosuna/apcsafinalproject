@@ -21,15 +21,6 @@ public class DungeonGenerator {
     }
 
     public ArrayList<Room> getGeneratedRooms() { return generatedRooms; }
-    private ArrayList<Door> getUnconnectedDoors() {
-        ArrayList<Door> unconnectedDoors = new ArrayList<Door>();
-        for (Room room : generatedRooms) {
-            for (Door door : room.getUnconnectedDoors()) {
-                unconnectedDoors.add(door);
-            }
-        }
-        return unconnectedDoors;
-    }
 
     public void create() {
         for (Room room : generatedRooms) room.create();
@@ -123,7 +114,6 @@ public class DungeonGenerator {
 
     public ArrayList<Room> genStraightRoomSequenceFromRoom(Room startRoom, int doorIndex, int numRooms) {
         ArrayList<Room> rooms = new ArrayList<Room>();
-        int curNumRooms = 0;
         rooms.add(startRoom);
 
         Room curRoom = startRoom;
