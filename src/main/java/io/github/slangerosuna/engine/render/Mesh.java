@@ -19,7 +19,7 @@ public class Mesh implements Component {
         return type;
     }
     public void kill() {
-		if (--refCount > 0) return;
+		if (refCount-- > 0) return;
         destroy();
     }
 

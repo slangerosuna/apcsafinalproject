@@ -82,7 +82,7 @@ public class Texture {
     }
 
     public void kill() {
-        if (--refCount > 0) return;
+        if (refCount-- > 0) return;
         
         idMap.remove(path);
 		GL11.glDeleteTextures(id);

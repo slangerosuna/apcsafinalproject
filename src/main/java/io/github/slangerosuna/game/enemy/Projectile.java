@@ -14,8 +14,14 @@ public class Projectile implements Component {
 
     public Projectile(float speed) { this.speed = speed; this.timeAlive = 0.0f; }
     public Projectile(float speed, float damage) { this(speed); this.damage = damage; this.timeAlive = 0.0f; }
+    public Projectile(float speed, float damage, float lifetime) {this(speed, damage); this.lifetime = lifetime; this.timeAlive = 0.0f; }
 
     public float getSpeed() { return speed; }
     public float getDamage() { return damage; }
     public float getLifetime() { return lifetime; }
+
+    public boolean shouldDie(float timeInc) {
+        timeAlive += timeInc;
+        return timeAlive >= lifetime;
+    }
 }

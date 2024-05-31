@@ -47,16 +47,6 @@ public class Main {
         var audio = new Audio();
         scene.addResource(audio);
 
-        var entity = new Entity(scene, new Transform(new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(1, 1, 1)));
-        var entity1 = new Entity(scene, new Transform(new Vector3(3, 0, 0), new Vector3(0, 0, 0), new Vector3(1, 1, 1)));
-        var entity2 = new Entity(scene, new Transform(new Vector3(-3, 0, 0), new Vector3(0, 0, 0), new Vector3(1, 1, 1)));
-        var entity3 = new Entity(scene, new Transform(new Vector3(0, 0, 3), new Vector3(0, 0, 0), new Vector3(1, 1, 1)));
-        
-        entity.addComponent(new Collider(1.0f, 1.0f, 1.0f, (Transform)entity.getComponent(Transform.type)));
-        entity.addComponent(new RigidBody(1.0f, true));
-        entity.addComponent(new Enemy(0.9f, true));
-
-        entity.addComponent(new Source(new Sound("/io/github/slangerosuna/resources/audio/pigstep.ogg"), (Transform)entity.getComponent(Transform.type), (RigidBody)entity.getComponent(RigidBody.type)));
 
         var cameraTransform = new Transform(new Vector3(0, 10, 0f), new Vector3(0, 180, 0), new Vector3(1, 1, 1));
         var camera = new Entity(scene,
@@ -68,8 +58,9 @@ public class Main {
         );
         var listener = new Listener(cameraTransform, (RigidBody)camera.getComponent(RigidBody.type));
         camera.addComponent(listener);
+        camera.addComponent(new Source(new Sound("/io/github/slangerosuna/resources/audio/pigstep.ogg"), (Transform)camera.getComponent(Transform.type), (RigidBody)camera.getComponent(RigidBody.type)));
 
-        ((Source)entity.getComponent(Source.type)).play();
+        ((Source)camera.getComponent(Source.type)).play();
 
         var window = new Window(windowWidth, windowHeight, windowTitle);
         window.setBackgroundColor(0.05f, 0.045f, 0.06f);
@@ -91,8 +82,6 @@ public class Main {
         float enemyScale = 0.5f;
         float enemyMass = 1.0f;
         float enemySpeed = 0.9f;
-        var enemyMesh = ObjLoader.loadObj(modelPath);
-        var enemyMat = new Material(texturePath);
 
         Room curRoom;
         Entity curEnemy;
@@ -103,23 +92,11 @@ public class Main {
             curEnemy.addComponent( new Collider(1f, 2f, 1f, (Transform)curEnemy.getComponent(Transform.type)) );
             curEnemy.addComponent( new RigidBody(enemyMass, true) );
             curEnemy.addComponent( new Enemy(enemySpeed, false) );
-            curEnemy.addComponent( enemyMesh );
-            curEnemy.addComponent( enemyMat );
+            curEnemy.addComponent( new Material(texturePath) );
+            curEnemy.addComponent( ObjLoader.loadObj(modelPath) );
 
             enemies.add(curEnemy);
         }
-
-        var mesh = ObjLoader.loadObj(modelPath);
-        entity.addComponent(mesh);
-        entity1.addComponent(mesh);
-        entity2.addComponent(mesh);
-        entity3.addComponent(mesh);
-
-        var mat = new Material(texturePath);
-        entity.addComponent(mat);
-        entity1.addComponent(mat);
-        entity2.addComponent(mat);
-        entity3.addComponent(mat);
 
         new UIElement(0.5f, 0.5f, 0.5f, 0.5f); // to register component
 

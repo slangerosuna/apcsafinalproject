@@ -103,10 +103,13 @@ public class Renderer extends System {
 		GL30.glEnableVertexAttribArray(0);
 		GL30.glEnableVertexAttribArray(1);
 		GL30.glEnableVertexAttribArray(2);
+		err = GL11.glGetError();
+		if (err != GL11.GL_NO_ERROR)
+			java.lang.System.out.println("OpenGL Error on vertex buffer binding: " + err);
 		GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, mesh.getIBO());
 		err = GL11.glGetError();
 		if (err != GL11.GL_NO_ERROR)
-			java.lang.System.out.println("OpenGL Error on buffer binding: " + err);
+			java.lang.System.out.println("OpenGL Error on index buffer binding: " + err);
 
 		var model = Matrix4.transform(transform.position, transform.rotation, transform.scale);
 		shader.setUniform("model", model);
