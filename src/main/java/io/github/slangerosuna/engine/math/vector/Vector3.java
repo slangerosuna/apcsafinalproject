@@ -28,6 +28,7 @@ public class Vector3 {
     }
 
 	public static Vector3 zero() { return new Vector3(0, 0, 0); }
+	public static Vector3 one() { return new Vector3(1, 1, 1); }
 	public Vector3 multiply(Vector3 other) { return new Vector3(x * other.x, y * other.y, z * other.z); }
 	public static Vector3 add(Vector3 a, Vector3 b) { return new Vector3(a.x + b.x, a.y + b.y, a.z + b.z); }
 

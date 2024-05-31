@@ -91,6 +91,27 @@ public class Main {
         float recursion = 1f;
         Room[] dungeon = DungeonGenerator.generateDungeon(scene, prefabs[0], prefabs, startPos, pathLen, maxSidePathLength, sparseness, recursion);
 
+        float enemyScale = 0.5f;
+        float enemyMass = 1.0f;
+        float enemySpeed = 0.9f;
+        var enemyMesh = ObjLoader.loadObj(modelPath);
+        var enemyMat = new Material(texturePath);
+
+        Room curRoom;
+        Entity curEnemy;
+        for (int i = 3; i < dungeon.length; i += 5) {
+            curRoom = dungeon[i];
+            curEnemy = new Entity(scene);
+            curEnemy.addComponent( new Transform(curRoom.transform.position, Vector3.zero(), Vector3.one().divide(1f / enemyScale)) );
+            curEnemy.addComponent( new Collider(1f, 2f, 1f, (Transform)curEnemy.getComponent(Transform.type)) );
+            curEnemy.addComponent( new RigidBody(enemyMass, true) );
+            curEnemy.addComponent( new Enemy(enemySpeed, false) );
+            curEnemy.addComponent( enemyMesh );
+            curEnemy.addComponent( enemyMat );
+
+            enemies.add(curEnemy);
+        }
+
         var mesh = ObjLoader.loadObj(modelPath);
         entity.addComponent(mesh);
         entity1.addComponent(mesh);
