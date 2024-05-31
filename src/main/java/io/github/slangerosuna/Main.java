@@ -91,6 +91,7 @@ public class Main {
         float recursion = 1f;
         Room[] dungeon = DungeonGenerator.generateDungeon(scene, prefabs[0], prefabs, startPos, pathLen, maxSidePathLength, sparseness, recursion);
 
+        java.util.ArrayList<Entity> enemies = new java.util.ArrayList<Entity>();
         float enemyScale = 0.5f;
         float enemyMass = 1.0f;
         float enemySpeed = 0.9f;
