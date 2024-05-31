@@ -56,7 +56,7 @@ public class Main {
         entity.addComponent(new RigidBody(1.0f, true));
         entity.addComponent(new Enemy(0.9f, true));
 
-        entity.addComponent(new Source(new Sound("/io/github/slangerosuna/resources/audio/mrow.ogg"), (Transform)entity.getComponent(Transform.type), (RigidBody)entity.getComponent(RigidBody.type)));
+        entity.addComponent(new Source(new Sound("/io/github/slangerosuna/resources/audio/pigstep.ogg"), (Transform)entity.getComponent(Transform.type), (RigidBody)entity.getComponent(RigidBody.type)));
 
         var cameraTransform = new Transform(new Vector3(0, 10, 0f), new Vector3(0, 180, 0), new Vector3(1, 1, 1));
         var camera = new Entity(scene,
