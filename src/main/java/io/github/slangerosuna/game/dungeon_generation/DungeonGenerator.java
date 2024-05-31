@@ -260,6 +260,43 @@ public class DungeonGenerator {
         String modelPath2 = "/io/github/slangerosuna/resources/models/room2.obj";
         String texturePath2 = "/io/github/slangerosuna/resources/textures/wall.png";
 
+        Vector3[][] colliderPositions2 = new Vector3[3*4+2][2];
+        //floor
+        colliderPositions2[0][0] = new Vector3(-dimensions1.x/2, -dimensions1.y/2-2, -dimensions1.z/2);
+        colliderPositions2[0][1] = new Vector3(dimensions1.x/2, -dimensions1.y/2, dimensions1.z/2);
+        //top
+        colliderPositions2[1][0] = new Vector3(-dimensions1.x/2, dimensions1.y/2-colliderThickness/2, -dimensions1.z/2);
+        colliderPositions2[1][1] = new Vector3(dimensions1.x/2, dimensions1.y/2+colliderThickness/2, dimensions1.z/2);
+        //front
+        colliderPositions2[2][0] = new Vector3(-dimensions1.x/2, dimensions1.y/2, dimensions1.z/2-colliderThickness/2);
+        colliderPositions2[2][1] = new Vector3(-dimensions1.x/8, -dimensions1.y/2, dimensions1.z/2+colliderThickness/2);
+        colliderPositions2[3][0] = new Vector3(dimensions1.x/8, dimensions1.y/2, dimensions1.z/2-colliderThickness/2);
+        colliderPositions2[3][1] = new Vector3(dimensions1.x/2, -dimensions1.y/2, dimensions1.z/2+colliderThickness/2);
+        colliderPositions2[4][0] = new Vector3(-dimensions1.x/2, dimensions1.y/2, dimensions1.z/2-colliderThickness/2);
+        colliderPositions2[4][1] = new Vector3(dimensions1.x/2, 0, dimensions1.z/2+colliderThickness/2);
+        //back
+        colliderPositions2[5][0] = new Vector3(-dimensions1.x/2, dimensions1.y/2, -dimensions1.z/2-colliderThickness/2);
+        colliderPositions2[5][1] = new Vector3(-dimensions1.x/8, -dimensions1.y/2, -dimensions1.z/2+colliderThickness/2);
+        colliderPositions2[6][0] = new Vector3(dimensions1.x/8, dimensions1.y/2, -dimensions1.z/2-colliderThickness/2);
+        colliderPositions2[6][1] = new Vector3(dimensions1.x/2, -dimensions1.y/2, -dimensions1.z/2+colliderThickness/2);
+        colliderPositions2[7][0] = new Vector3(-dimensions1.x/2, dimensions1.y/2, -dimensions1.z/2-colliderThickness/2);
+        colliderPositions2[7][1] = new Vector3(dimensions1.x/2, 0, -dimensions1.z/2+colliderThickness/2);
+        //left
+        colliderPositions2[8][0] = new Vector3(-dimensions1.x/2-colliderThickness/2, dimensions1.y/2, -dimensions1.z/2);
+        colliderPositions2[8][1] = new Vector3(-dimensions1.x/2+colliderThickness/2, -dimensions1.y/2, -dimensions1.z/6);
+        colliderPositions2[9][0] = new Vector3(-dimensions1.x/2-colliderThickness/2, dimensions1.y/2, dimensions1.z/6);
+        colliderPositions2[9][1] = new Vector3(-dimensions1.x/2+colliderThickness/2, -dimensions1.y/2, dimensions1.z/2);
+        colliderPositions2[10][0] = new Vector3(-dimensions1.x/2-colliderThickness/2, dimensions1.y/2, -dimensions1.z/2);
+        colliderPositions2[10][1] = new Vector3(-dimensions1.x/2+colliderThickness/2, 0, dimensions1.z/2);
+        //right
+        colliderPositions2[11][0] = new Vector3(dimensions1.x/2-colliderThickness/2, dimensions1.y/2, -dimensions1.z/2);
+        colliderPositions2[11][1] = new Vector3(dimensions1.x/2+colliderThickness/2, -dimensions1.y/2, -dimensions1.z/6);
+        colliderPositions2[12][0] = new Vector3(dimensions1.x/2-colliderThickness/2, dimensions1.y/2, dimensions1.z/6);
+        colliderPositions2[12][1] = new Vector3(dimensions1.x/2+colliderThickness/2, -dimensions1.y/2, dimensions1.z/2);
+        colliderPositions2[13][0] = new Vector3(dimensions1.x/2-colliderThickness/2, dimensions1.y/2, -dimensions1.z/2);
+        colliderPositions2[13][1] = new Vector3(dimensions1.x/2+colliderThickness/2, 0, dimensions1.z/2);
+
+
         Vector3[][] floorColliderPositions2 = new Vector3[1][2];
         floorColliderPositions2[0][0] = new Vector3(-dimensions1.x/2f, -dimensions1.y/2-2f, -dimensions1.z/2f);
         floorColliderPositions2[0][1] = new Vector3(dimensions1.x/2f, -dimensions1.y/2f, dimensions1.z/2f);
@@ -269,7 +306,7 @@ public class DungeonGenerator {
         doorPositions2[1] = new Vector3(dimensions2.x/2, 0, 0);
         doorPositions2[2] = new Vector3(0, 0, -dimensions2.z/2);
         doorPositions2[3] = new Vector3(0, 0, dimensions2.z/2);
-        RoomPrefab fourDoorCubeRoom = new RoomPrefab(modelPath2, texturePath2, floorColliderPositions2, doorPositions2) {
+        RoomPrefab fourDoorCubeRoom = new RoomPrefab(modelPath2, texturePath2, colliderPositions2, doorPositions2) {
             public Room genRoomAtCoord(Scene scene, Vector3 coord) {
                 Vector3 position = new Vector3(coord.x, coord.y, coord.z);
                 Transform transform = new Transform(position, Vector3.zero(), new Vector3(1, 1, 1));
