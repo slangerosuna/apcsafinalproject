@@ -39,4 +39,8 @@ public class Source implements Component {
     public void play() {
         AL10.alSourcePlay(sourceID);
     }
+
+    public boolean isPlaying() {
+        return AL10.alGetSourcei(sourceID, AL10.AL_SOURCE_STATE) == AL10.AL_PLAYING;
+    }
 }

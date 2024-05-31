@@ -2,6 +2,7 @@ package io.github.slangerosuna;
 
 import io.github.slangerosuna.engine.audio.Audio;
 import io.github.slangerosuna.engine.audio.Listener;
+import io.github.slangerosuna.engine.audio.LoopAudio;
 import io.github.slangerosuna.engine.audio.Sound;
 import io.github.slangerosuna.engine.audio.Source;
 import io.github.slangerosuna.engine.audio.UpdateListeners;
@@ -24,7 +25,6 @@ import io.github.slangerosuna.game.enemy.Enemy;
 import io.github.slangerosuna.game.enemy.EnemyController;
 import io.github.slangerosuna.game.enemy.Projectile;
 import io.github.slangerosuna.game.enemy.ProjectileController;
-import java.util.ArrayList;
 
 public class Main {
     private static final String windowTitle = "Hello, World!";
@@ -141,6 +141,7 @@ public class Main {
         scene.addSystem(new ProjectileController());
         scene.addSystem(new UpdateListeners());
         scene.addSystem(new UpdateSources());
+        scene.addSystem(new LoopAudio());
 
         var input = new Input();
 
