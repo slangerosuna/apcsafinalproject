@@ -44,7 +44,7 @@ public class Player implements Component {
     public float getSpeed() {return speed;}
     public void damage(float amount) { 
         health -= amount;
-        if (health <= 0) { if (!spawnedDie) die.getAsBoolean(); spawnedDie = false; }
+        if (health <= 0) { if (!spawnedDie) die.getAsBoolean(); spawnedDie = true; }
         else if (health <= 1) displayRedVignette.getAsBoolean();
     }
 }
