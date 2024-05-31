@@ -10,7 +10,7 @@ public class RigidBody implements Component {
  
     private float mass;
     public float getMass() { return this.mass; }
-    private boolean useGravity;
+    public boolean useGravity;
     private boolean grounded = false;
     public boolean isGrounded() { return this.grounded; }
     public void setGrounded(boolean grounded) { this.grounded = grounded; }

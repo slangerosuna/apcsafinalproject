@@ -35,6 +35,7 @@ public class Player implements Component {
 
     private float speed;
     private float health = 2.0f;
+    public boolean flying;
 
     public Player(float speed) { this.speed = speed; }
     public Player() { this(1.0f); }

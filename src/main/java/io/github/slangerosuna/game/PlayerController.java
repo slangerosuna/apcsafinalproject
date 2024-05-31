@@ -24,7 +24,8 @@ public class PlayerController extends System {
     public void execute(Entity[] queriedEntities, Resource[] queriedResources, float deltaTime) {
         Entity player = queriedEntities[0];
         RigidBody playerRB = (RigidBody)player.getComponent(RigidBody.type);
-        float playerSpeed = ((Player)player.getComponent(Player.type)).getSpeed();
+        Player playerInfo = (Player)player.getComponent(Player.type);
+        float playerSpeed = playerInfo.getSpeed();
         Transform camTransform = (Transform)player.getComponent(Transform.type);
         Vector3 camRotation = camTransform.rotation;
 
@@ -35,13 +36,39 @@ public class PlayerController extends System {
         Vector3 forward = new Vector3(-sin, 0, -cos);
         Vector3 backward = forward.multiply(-1);
         Vector3 up = new Vector3(0, 1, 0);
+        Vector3 down = up.multiply(-1);
         Vector3 right = forward.cross(up);
         Vector3 left = right.multiply(-1);
 
         int forwardKey = GLFW.GLFW_KEY_W;
         int backKey = GLFW.GLFW_KEY_S;
+        int upKey = GLFW.GLFW_KEY_E;
+        int downKey = GLFW.GLFW_KEY_Q;
         int leftKey = GLFW.GLFW_KEY_A;
         int rightKey = GLFW.GLFW_KEY_D;
+
+        int flightOnKey = GLFW.GLFW_KEY_G;
+        int flightOffKey = GLFW.GLFW_KEY_V;
+        if (Input.isKeyDown(flightOnKey)) {
+            playerInfo.flying = true;
+            playerRB.useGravity = false;
+        }
+        if (Input.isKeyDown(flightOffKey)) {
+            playerInfo.flying = false;
+            playerRB.useGravity = true;
+        }
+
+        Vector3 vertMovement = new Vector3(0, 0, 0);
+        if (playerInfo.flying) {
+            Vector3 vertMovementUnit = new Vector3(0, 0, 0);
+            if (Input.isKeyDown(upKey)) {
+                vertMovementUnit = vertMovementUnit.add(up);
+            }
+            if (Input.isKeyDown(downKey)) {
+                vertMovementUnit = vertMovementUnit.add(down);
+            }
+            vertMovement = vertMovementUnit.multiply(playerSpeed * 2.5f * deltaTime).add(new Vector3(0, playerRB.velocity.y, 0).multiply(-0.2f * (float)Math.exp(deltaTime)));
+        }
 
         Vector3 horzMovementUnit = new Vector3(0, 0, 0);
         
@@ -65,6 +92,6 @@ public class PlayerController extends System {
         Vector3 horzVelocityOp = new Vector3(playerRB.velocity.x, 0, playerRB.velocity.z).multiply(-0.2f * (float)Math.exp(deltaTime));
 
         playerRB.applyImpulse(horzVelocityOp);
-        playerRB.applyImpulse(horzMovement);
+        playerRB.applyImpulse(horzMovement.add(vertMovement));
     }
 }
