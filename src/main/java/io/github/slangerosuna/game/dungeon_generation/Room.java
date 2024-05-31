@@ -33,6 +33,8 @@ public abstract class Room {
         adoptDoors();
     }
 
+    public RoomPrefab getPrefab() { return prefab; }
+
     public void kill() {
         if (colliders != null) {
             for (Entity collider : colliders) {

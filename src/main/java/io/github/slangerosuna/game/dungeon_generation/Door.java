@@ -1,6 +1,7 @@
 package io.github.slangerosuna.game.dungeon_generation;
 
 import io.github.slangerosuna.engine.render.Transform;
+import io.github.slangerosuna.engine.math.vector.Vector3;
 
 public class Door {
     private Transform transform;

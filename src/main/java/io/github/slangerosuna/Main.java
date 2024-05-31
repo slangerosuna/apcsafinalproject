@@ -24,6 +24,7 @@ import io.github.slangerosuna.game.enemy.Enemy;
 import io.github.slangerosuna.game.enemy.EnemyController;
 import io.github.slangerosuna.game.enemy.Projectile;
 import io.github.slangerosuna.game.enemy.ProjectileController;
+import java.util.ArrayList;
 
 public class Main {
     private static final String windowTitle = "Hello, World!";
@@ -84,15 +85,15 @@ public class Main {
 
         RoomPrefab[] prefabs = DungeonGenerator.defaultRoomPrefabs();
         RoomPrefab[] prefab2 = {prefabs[1]};
-        DungeonGenerator dungeonGenerator = new DungeonGenerator(scene, prefabs[1], prefab2);
+        DungeonGenerator dungeonGenerator = new DungeonGenerator(scene, prefabs[1], prefabs);
         dungeonGenerator.startDungeon(new Vector3(0f, 10f, 0f));
-        int pathLen = 5;
-        Room[] path = new Room[0];
-        while (path.length < pathLen) {
+        int pathLen = 50;
+        ArrayList<Room> path = new ArrayList<Room>();
+        while (path.size() < pathLen) {
             dungeonGenerator.clear(1);
             path = dungeonGenerator.genRoomSequenceFromRoom(dungeonGenerator.getGeneratedRooms().get(0), pathLen);
         }
-        dungeonGenerator.genSidePaths(dungeonGenerator.getGeneratedRooms().toArray(Room[]::new), 3);
+        dungeonGenerator.genSidePaths(path, 5, 3f, 1f);
         dungeonGenerator.create();
 
         var mesh = ObjLoader.loadObj(modelPath);
