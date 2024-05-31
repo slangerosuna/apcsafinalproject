@@ -243,8 +243,8 @@ public class DungeonGenerator {
         colliderPositions[9][1] = new Vector3(dimensions1.x/2+colliderThickness/2, 0, dimensions1.z/2);
 
         Vector3[] doorPositions1 = new Vector3[2];
-        doorPositions1[0] = new Vector3(-dimensions1.x/2, 0, 0);
-        doorPositions1[1] = new Vector3(dimensions1.x/2, 0, 0);
+        doorPositions1[0] = new Vector3(-dimensions1.x/2-0.01f, 0, 0);
+        doorPositions1[1] = new Vector3(dimensions1.x/2+0.01f, 0, 0);
         RoomPrefab cubeRoom = new RoomPrefab(modelPath1, texturePath1, colliderPositions, doorPositions1) {
             public Room genRoomAtCoord(Scene scene, Vector3 coord) {
                 Vector3 position = new Vector3(coord.x, coord.y, coord.z);
@@ -314,10 +314,10 @@ public class DungeonGenerator {
         floorColliderPositions2[0][1] = new Vector3(dimensions1.x/2f, -dimensions1.y/2f, dimensions1.z/2f);
         Vector3 dimensions2 = new Vector3(10, 10, 10);
         Vector3[] doorPositions2 = new Vector3[4];
-        doorPositions2[0] = new Vector3(-dimensions2.x/2, 0, 0);
-        doorPositions2[1] = new Vector3(dimensions2.x/2, 0, 0);
-        doorPositions2[2] = new Vector3(0, 0, -dimensions2.z/2);
-        doorPositions2[3] = new Vector3(0, 0, dimensions2.z/2);
+        doorPositions2[0] = new Vector3(-dimensions2.x/2-0.01f, 0, 0);
+        doorPositions2[1] = new Vector3(dimensions2.x/2+0.01f, 0, 0);
+        doorPositions2[2] = new Vector3(0, 0, -dimensions2.z/2-0.01f);
+        doorPositions2[3] = new Vector3(0, 0, dimensions2.z/2+0.01f);
         RoomPrefab fourDoorCubeRoom = new RoomPrefab(modelPath2, texturePath2, colliderPositions2, doorPositions2) {
             public Room genRoomAtCoord(Scene scene, Vector3 coord) {
                 Vector3 position = new Vector3(coord.x, coord.y, coord.z);
