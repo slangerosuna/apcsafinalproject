@@ -93,5 +93,10 @@ public class PlayerController extends System {
 
         playerRB.applyImpulse(horzVelocityOp);
         playerRB.applyImpulse(horzMovement.add(vertMovement));
+
+        if (camTransform.position.y <= -10f) {
+            playerRB.velocity = Vector3.zero();
+            camTransform.position = new Vector3(0f, 10f, 0f);
+        }
     }
 }

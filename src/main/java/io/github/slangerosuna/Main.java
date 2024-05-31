@@ -78,10 +78,6 @@ public class Main {
         scene.addSystem(windowUpdate);
 
         window.create();
-        window.setBackgroundColor(0.6f, 0.7f, 0.9f);
-
-        var rect = Mesh.getRectMesh();
-        rect.create();
 
         RoomPrefab[] prefabs = DungeonGenerator.defaultRoomPrefabs();
         Vector3 startPos = new Vector3(0f, 10f, 0f);
@@ -126,14 +122,6 @@ public class Main {
         entity3.addComponent(mat);
 
         new UIElement(0.5f, 0.5f, 0.5f, 0.5f); // to register component
-
-        var floor = new Entity(scene, new Transform(new Vector3(0, -1, 0), new Vector3(90, 0, 0), new Vector3(100, 100, 100)));
-        floor.addComponent(new Collider(100, 1, 100, (Transform)floor.getComponent(Transform.type)));
-        var floorMat = new Material("/io/github/slangerosuna/resources/textures/floor.png");
-        floor.addComponent(floorMat);
-        var floorMesh = Mesh.getRectMesh();
-        floorMesh.create();
-        floor.addComponent(floorMesh);
 
         var shader = new Shader(vertexPath, fragmentPath);
         shader.create();
