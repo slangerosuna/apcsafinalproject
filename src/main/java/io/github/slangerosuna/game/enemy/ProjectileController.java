@@ -33,6 +33,9 @@ public class ProjectileController extends System {
             var projectileTransform = (Transform)projectile.getComponent(Transform.type);
             var projectileProjectile = (Projectile)projectile.getComponent(Projectile.type);
 
+            projectileProjectile.timeAlive += deltaTime;
+            if (projectileProjectile.timeAlive >= projectileProjectile.getLifetime()) projectile.kill();
+
             projectileTransform.position = projectileTransform.position.add(projectileTransform.forward().multiply(projectileProjectile.getSpeed() * deltaTime));
 
             if (((Collider)projectile.getComponent(Collider.type)).intersects(playerCollider)) {

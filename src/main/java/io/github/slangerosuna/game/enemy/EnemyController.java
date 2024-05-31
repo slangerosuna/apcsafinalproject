@@ -87,8 +87,11 @@ public class EnemyController extends System {
 
                 Collider projCollider = new Collider(1.0f, 1.0f, 1.0f, projTransform);
 
-                projectile.addComponent(projCollider);
+                RigidBody projRigidBody = new RigidBody(1.0f, false);
+
                 projectile.addComponent(projTransform);
+                projectile.addComponent(projCollider);
+                projectile.addComponent(projRigidBody);
             }
 
             if (((Enemy)enemy.getComponent(Enemy.type)).routesToPlayer()){
