@@ -31,19 +31,6 @@ public class DungeonGenerator {
         return unconnectedDoors;
     }
 
-    public void generateDungeon(Scene scene, RoomPrefab[] prefabs, int minRooms, int maxAttempts, int maxSidePathLength) {
-        this.rooms = prefabs;
-        this.startRoom = rooms[0];
-        startDungeon();
-        Room[] pathGenerated = new Room[0];
-        int attempts = 0;
-        while (pathGenerated.length < minRooms && attempts < maxAttempts)
-            pathGenerated = genRoomSequenceFromRoom(generatedRooms.get(0), minRooms);
-        
-        if (pathGenerated.length < minRooms && attempts >= maxAttempts) {System.out.println("Unable to generate path to exit of sufficient length");}
-        genSidePaths(pathGenerated, maxSidePathLength);
-    }
-
     public void create() {
         for (Room room : generatedRooms) room.create();
     }
@@ -282,6 +269,7 @@ public class DungeonGenerator {
         //Room 2
         String modelPath2 = "/io/github/slangerosuna/resources/models/room2.obj";
         String texturePath2 = "/io/github/slangerosuna/resources/textures/wall.png";
+
         Vector3[][] floorColliderPositions2 = new Vector3[1][2];
         floorColliderPositions2[0][0] = new Vector3(-dimensions1.x/2f, -dimensions1.y/2-2f, -dimensions1.z/2f);
         floorColliderPositions2[0][1] = new Vector3(dimensions1.x/2f, -dimensions1.y/2f, dimensions1.z/2f);
