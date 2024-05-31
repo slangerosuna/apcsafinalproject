@@ -36,6 +36,7 @@ public class Player implements Component {
     private float speed;
     private float health = 2.0f;
     public boolean flying;
+    private boolean spawnedDie;
 
     public Player(float speed) { this.speed = speed; }
     public Player() { this(1.0f); }
@@ -43,7 +44,7 @@ public class Player implements Component {
     public float getSpeed() {return speed;}
     public void damage(float amount) { 
         health -= amount;
-        if (health <= 1) displayRedVignette.getAsBoolean();
-        if (health <= 0) { die.getAsBoolean(); }
+        if (health <= 0) { if (!spawnedDie) die.getAsBoolean(); spawnedDie = false; }
+        else if (health <= 1) displayRedVignette.getAsBoolean();
     }
 }
