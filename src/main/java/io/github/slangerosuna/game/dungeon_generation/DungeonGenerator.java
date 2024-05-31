@@ -20,6 +20,18 @@ public class DungeonGenerator {
         this.generatedRooms = new ArrayList<Room>();
     }
 
+    public static Room[] generateDungeon(Scene scene, RoomPrefab startRoom, RoomPrefab[] prefabs, Vector3 startPos, int pathLen, int maxSidePathLen, float sparseness, float recursion) {
+        DungeonGenerator generator = new DungeonGenerator(scene, startRoom, prefabs);
+        generator.startDungeon(startPos);
+        while (generator.generatedRooms.size() < pathLen) {
+            generator.clear(1);
+            generator.genRoomSequenceFromRoom(generator.generatedRooms.get(0), pathLen);
+        }
+        generator.genSidePaths(generator.generatedRooms, maxSidePathLen, sparseness, recursion);
+        generator.create();
+        return generator.generatedRooms.toArray(Room[]::new);
+    }
+
     public ArrayList<Room> getGeneratedRooms() { return generatedRooms; }
 
     public void create() {
