@@ -33,6 +33,9 @@ public class Player implements Component {
     };
     public static void setDie(BooleanSupplier die) { Player.die = die; }
 
+    private static BooleanSupplier playDamageNoise;
+    public static void setDamageNoise(BooleanSupplier noisePlayer) { playDamageNoise = noisePlayer; }
+
     private float speed;
     private float health = 2.0f;
     public boolean flying;
@@ -43,6 +46,7 @@ public class Player implements Component {
 
     public float getSpeed() {return speed;}
     public void damage(float amount) { 
+        playDamageNoise.getAsBoolean();
         health -= amount;
         if (health <= 0) { if (!spawnedDie) die.getAsBoolean(); spawnedDie = true; }
         else if (health <= 1) displayRedVignette.getAsBoolean();

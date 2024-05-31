@@ -1,5 +1,7 @@
 package io.github.slangerosuna.game;
 
+import java.util.function.BooleanSupplier;
+
 import org.lwjgl.glfw.GLFW;
 import io.github.slangerosuna.engine.core.ecs.System;
 import io.github.slangerosuna.engine.core.ecs.SystemType;
@@ -12,6 +14,9 @@ import io.github.slangerosuna.engine.math.vector.Vector3;
 
 public class PlayerController extends System {
     private boolean prevSpace = false;
+
+    private static BooleanSupplier playTpNoise;
+    public static void setTpNoise(BooleanSupplier tpNoise) { playTpNoise = tpNoise; }
 
     public PlayerController() {
         super(
@@ -97,6 +102,7 @@ public class PlayerController extends System {
         if (camTransform.position.y <= -10f) {
             playerRB.velocity = Vector3.zero();
             camTransform.position = new Vector3(0f, 10f, 0f);
+            playTpNoise.getAsBoolean();
         }
     }
 }

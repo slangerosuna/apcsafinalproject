@@ -1,5 +1,7 @@
 package io.github.slangerosuna;
 
+import java.util.ArrayList;
+
 import io.github.slangerosuna.engine.audio.Audio;
 import io.github.slangerosuna.engine.audio.Listener;
 import io.github.slangerosuna.engine.audio.LoopAudio;
@@ -61,6 +63,23 @@ public class Main {
         camera.addComponent(new Source(new Sound("/io/github/slangerosuna/resources/audio/pigstep.ogg"), (Transform)camera.getComponent(Transform.type), (RigidBody)camera.getComponent(RigidBody.type)));
 
         ((Source)camera.getComponent(Source.type)).play();
+        ((Source)camera.getComponent(Source.type)).setVolume(0.3f);
+
+        Source damSource = new Source(new Sound("/io/github/slangerosuna/resources/audio/oof.ogg"), cameraTransform, (RigidBody)camera.getComponent(RigidBody.type));
+        Player.setDamageNoise(() -> {
+            damSource.update();
+            damSource.play();
+
+            return false;
+        });
+
+        Source tpSource = new Source(new Sound("/io/github/slangerosuna/resources/audio/zwoop.ogg"), cameraTransform, (RigidBody)camera.getComponent(RigidBody.type));
+        PlayerController.setTpNoise(() -> {
+            tpSource.update();
+            tpSource.play();
+
+            return false;
+        });
 
         var window = new Window(windowWidth, windowHeight, windowTitle);
         window.setBackgroundColor(0.05f, 0.045f, 0.06f);
@@ -78,7 +97,7 @@ public class Main {
         float recursion = 1.5f;
         Room[] dungeon = DungeonGenerator.generateDungeon(scene, prefabs[0], prefabs, startPos, pathLen, maxSidePathLength, sparseness, recursion);
 
-        java.util.ArrayList<Entity> enemies = new java.util.ArrayList<Entity>();
+        ArrayList<Entity> enemies = new ArrayList<Entity>();
         float enemyScale = 0.5f;
         float enemyMass = 1.0f;
         float enemySpeed = 0.9f;

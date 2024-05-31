@@ -40,6 +40,10 @@ public class Source implements Component {
         AL10.alSourcePlay(sourceID);
     }
 
+    public void setVolume(float volume) {
+        AL10.alSourcef(sourceID, AL10.AL_GAIN, volume);
+    }
+
     public boolean isPlaying() {
         return AL10.alGetSourcei(sourceID, AL10.AL_SOURCE_STATE) == AL10.AL_PLAYING;
     }
