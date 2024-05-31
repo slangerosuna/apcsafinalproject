@@ -38,7 +38,7 @@ public abstract class RoomPrefab {
             dimensions = cornerB.sub(cornerA);
             center = cornerA.add(dimensions.divide(2)).add(roomPosition);
             transform = new Transform(center, Vector3.zero(), new Vector3(1, 1, 1));
-            collider = new Collider(dimensions.x, dimensions.y, dimensions.z, transform);
+            collider = new Collider(Math.abs(dimensions.x), Math.abs(dimensions.y), Math.abs(dimensions.z), transform);
             colliderEntities[i] = new Entity(scene, transform, collider);
         }
         return colliderEntities;

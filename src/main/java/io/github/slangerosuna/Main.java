@@ -84,16 +84,15 @@ public class Main {
         rect.create();
 
         RoomPrefab[] prefabs = DungeonGenerator.defaultRoomPrefabs();
-        RoomPrefab[] prefab2 = {prefabs[1]};
-        DungeonGenerator dungeonGenerator = new DungeonGenerator(scene, prefabs[1], prefabs);
+        DungeonGenerator dungeonGenerator = new DungeonGenerator(scene, prefabs[0], prefabs);
         dungeonGenerator.startDungeon(new Vector3(0f, 10f, 0f));
-        int pathLen = 50;
+        /*int pathLen = 50;
         ArrayList<Room> path = new ArrayList<Room>();
         while (path.size() < pathLen) {
             dungeonGenerator.clear(1);
             path = dungeonGenerator.genRoomSequenceFromRoom(dungeonGenerator.getGeneratedRooms().get(0), pathLen);
         }
-        dungeonGenerator.genSidePaths(path, 5, 3f, 1f);
+        dungeonGenerator.genSidePaths(path, 5, 3f, 1f);*/
         dungeonGenerator.create();
 
         var mesh = ObjLoader.loadObj(modelPath);
