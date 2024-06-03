@@ -10,10 +10,11 @@ out vec2 passUV;
 uniform mat4 model;
 uniform mat4 projection;
 uniform mat4 view;
+uniform float tile;
 
 void main() {
 	gl_Position = (vec4(position, 1.0) * model * view * projection);
 	mat3 normalMatrix = transpose(inverse(mat3(model)));
 	passNormal = normalize(normalMatrix * normal);
-	passUV = UV;
+	passUV = UV * tile;
 }

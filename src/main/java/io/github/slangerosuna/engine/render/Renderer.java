@@ -113,6 +113,10 @@ public class Renderer extends System {
 
 		var model = Matrix4.transform(transform.position, transform.rotation, transform.scale);
 		shader.setUniform("model", model);
+
+		var tile = material.getTile();
+		shader.setUniform("tile", tile);
+		
 		err = GL11.glGetError();
 		if (err != GL11.GL_NO_ERROR)
 			java.lang.System.out.println("OpenGL Error on uniform setting: " + err);

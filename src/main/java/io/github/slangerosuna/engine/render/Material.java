@@ -9,6 +9,7 @@ public class Material implements Component {
 
 	private Texture texture;
 	private float width, height;
+	private float tile = 1.0f;
 	private int textureID;
 
 	public Material(String path) {
@@ -17,6 +18,11 @@ public class Material implements Component {
 		  { System.err.println("could not find file at " + path); }
 
 		create();
+	}
+
+	public Material(String path, float tile) {
+		this(path);
+		this.tile = tile;
 	}
 
 	public void create() {
@@ -28,5 +34,6 @@ public class Material implements Component {
 	public void destroy() { texture.kill(); }
 	public float getWidth() { return width; }
 	public float getHeight() { return height; }
+	public float getTile() { return tile; }
 	public int getTextureID() { return textureID; }
 }

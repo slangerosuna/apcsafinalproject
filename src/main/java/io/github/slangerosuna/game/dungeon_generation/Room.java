@@ -58,6 +58,7 @@ public abstract class Room {
     public void create() {
         transform.scale = new Vector3(.5f, .5f, .5f);
         colliders = prefab.genColliders(scene, transform.position);
-        roomEntity = new Entity(scene, transform, ObjLoader.loadObj(modelPath), new Material(texturePath));
+        roomEntity = new Entity(scene, transform, ObjLoader.loadObj(modelPath), new Material(texturePath, 10.0f));
+        new Entity(scene, new Transform(transform.position.sub(new Vector3(0, 4.95f, 0)), Vector3.zero(), new Vector3(1, 1, 1)), ObjLoader.loadObj("/io/github/slangerosuna/resources/models/quad.obj"), new Material("/io/github/slangerosuna/resources/textures/floor.png", 1.0f));
     }
 }
