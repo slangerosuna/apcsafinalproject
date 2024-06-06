@@ -82,7 +82,7 @@ public class Main {
         });
 
         var window = new Window(windowWidth, windowHeight, windowTitle);
-        window.setBackgroundColor(0.05f, 0.045f, 0.06f);
+        window.setBackgroundColor(0.0f, 0.0f, 0.0f);
 
         var windowUpdate = new WindowUpdate();
         scene.addSystem(windowUpdate);
